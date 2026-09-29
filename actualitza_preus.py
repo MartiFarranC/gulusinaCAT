@@ -1,15 +1,18 @@
 """Descarrega els preus oficials del Ministeri per a Catalunya i desa
 la mitjana de cada marca a preus.json. L'executa GitHub Actions."""
-import json, unicodedata, urllib.request
+import json, re, sys, unicodedata, urllib.request
 
 API = ("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/"
        "PreciosCarburantes/EstacionesTerrestres/FiltroCCAA/09")
-MARQUES = {"bonarea": ["BONAREA"], "esclatoil": ["ESCLATOIL", "ESCLAT OIL"],
+# Es compara el rètol sense accents, espais ni signes: "BON ÀREA", "bonÀrea",
+# "ESCLAT OIL" o "Esclatoil" donen el mateix resultat.
+MARQUES = {"bonarea": ["BONAREA"], "esclatoil": ["ESCLATOIL"],
            "petrocat": ["PETROCAT"], "repsol": ["REPSOL"]}
 
 def norm(t):
     t = unicodedata.normalize("NFD", t or "")
-    return "".join(c for c in t if unicodedata.category(c) != "Mn").upper()
+    t = "".join(c for c in t if unicodedata.category(c) != "Mn").upper()
+    return re.sub(r"[^A-Z0-9]", "", t)
 
 def num(v):
     try:
@@ -38,6 +41,12 @@ sortida = {
     "marques": {k: {"g95": mitjana(v["g"]), "dsl": mitjana(v["d"]),
                     "n": max(len(v["g"]), len(v["d"]))} for k, v in acc.items()},
 }
+if not any(m["n"] for m in sortida["marques"].values()):
+    sys.exit(f"Cap estació reconeguda entre {len(dades.get('ListaEESSPrecio', []))}: no es desa preus.json")
+for k, m in sortida["marques"].items():
+    if not m["n"]:
+        print(f"Avís: cap estació de {k}", file=sys.stderr)
+
 with open("preus.json", "w", encoding="utf-8") as f:
     json.dump(sortida, f, ensure_ascii=False, indent=2)
 print(json.dumps(sortida, ensure_ascii=False, indent=2))
