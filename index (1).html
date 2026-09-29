@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>On omplo el dipòsit? · Preus de benzineres a Catalunya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#0E3B5C; --bg2:#0A2C45; --road:#23282e; --ink:#F4F7FA; --muted:#A9C1D4;
+  --led:#FFB000; --panel:#123F63; --line:#2A5A80;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){ --bg:#DCEBF5; --bg2:#C7DDEC; --road:#3a4048; --ink:#0B2A40; --muted:#3F627C; --panel:#FFFFFF; --line:#A9C6DB; }
+}
+:root[data-theme="light"]{ --bg:#DCEBF5; --bg2:#C7DDEC; --road:#3a4048; --ink:#0B2A40; --muted:#3F627C; --panel:#FFFFFF; --line:#A9C6DB; }
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,sans-serif;line-height:1.5;overflow-x:hidden}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+/* HERO */
+header{position:relative;padding:48px 0 0;text-align:center;overflow:hidden}
+h1{font-family:"Bungee",Impact,sans-serif;font-weight:400;font-size:clamp(2.2rem,7vw,4.6rem);line-height:1;margin:0 0 12px;letter-spacing:.01em}
+h1 span{display:inline-block;animation:drop .7s cubic-bezier(.3,1.6,.5,1) both}
+.sub{max-width:34em;margin:0 auto 28px;color:var(--muted);font-size:1.05rem}
+.road{position:relative;height:110px;background:var(--road);margin-top:10px}
+.road::before{content:"";position:absolute;left:0;right:0;top:52px;height:6px;
+  background:repeating-linear-gradient(90deg,#fff 0 40px,transparent 40px 80px);animation:lines .6s linear infinite;opacity:.8}
+.car{position:absolute;bottom:22px;left:-140px;width:120px;animation:drive 7s linear infinite}
+.car .body{animation:bounce .35s ease-in-out infinite alternate}
+.car .wheel{transform-box:fill-box;transform-origin:center;animation:spin .4s linear infinite}
+.puff{position:absolute;bottom:30px;width:14px;height:14px;border-radius:50%;background:#9aa4ad;opacity:0}
+.pump{position:absolute;right:6%;bottom:18px;width:54px;animation:sway 3s ease-in-out infinite}
+@keyframes drop{from{transform:translateY(-80px) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes lines{to{background-position:-80px 0}}
+@keyframes drive{0%{left:-140px}100%{left:calc(100% + 20px)}}
+@keyframes bounce{to{transform:translateY(-3px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes sway{50%{transform:rotate(-4deg)}}
+
+/* CONTROLS */
+.status{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:.95rem;margin:-12px 0 26px;text-align:center}
+.dot{width:10px;height:10px;border-radius:50%;background:#888;flex:none}
+.status[data-s="live"] .dot{background:#3ddc6b;box-shadow:0 0 0 0 rgba(61,220,107,.7);animation:ping 1.6s infinite}
+.status[data-s="loading"] .dot{background:var(--led);animation:blink .6s infinite alternate}
+.status[data-s="cache"] .dot{background:var(--led)}
+@keyframes ping{70%{box-shadow:0 0 0 10px rgba(61,220,107,0)}100%{box-shadow:0 0 0 0 rgba(61,220,107,0)}}
+@keyframes blink{to{opacity:.2}}
+.controls{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center;margin:36px 0 28px}
+.toggle{position:relative;display:inline-flex;background:var(--bg2);border:2px solid var(--line);border-radius:999px;padding:5px}
+.toggle button{position:relative;z-index:1;border:0;background:none;color:var(--ink);font:800 1rem "Figtree",sans-serif;padding:10px 22px;border-radius:999px;cursor:pointer;transition:color .3s}
+.toggle button[aria-pressed="true"]{color:#1a1200}
+.toggle .pill{position:absolute;top:5px;bottom:5px;left:5px;border-radius:999px;background:var(--led);transition:transform .45s cubic-bezier(.5,1.6,.4,1),width .45s;box-shadow:0 0 18px rgba(255,176,0,.6)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--led);outline-offset:3px}
+
+/* TOTEMS */
+.totems{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;position:relative}
+.totem{position:relative;background:var(--panel);border:2px solid var(--line);border-radius:14px 14px 4px 4px;padding:0 0 16px;overflow:hidden;opacity:0;transform:translateY(40px) scale(.9)}
+.totem.in{animation:pop .7s cubic-bezier(.3,1.5,.5,1) forwards}
+@keyframes pop{to{opacity:1;transform:none}}
+.brand{padding:14px 16px 12px;color:#fff;font-family:"Bungee",Impact,sans-serif;font-size:1.35rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rank{font-family:"Bungee",sans-serif;background:rgba(0,0,0,.25);border-radius:8px;min-width:38px;text-align:center;padding:2px 6px;font-size:1rem}
+.board{margin:14px 14px 8px;background:#0b0b0b;border-radius:8px;padding:12px 10px;display:flex;justify-content:center;align-items:baseline;box-shadow:inset 0 0 0 2px #222,inset 0 0 22px rgba(255,176,0,.12)}
+.digits{display:flex;font-family:"Bungee",Impact,sans-serif;font-size:2.4rem;color:var(--led);text-shadow:0 0 10px rgba(255,176,0,.75);height:1.15em;line-height:1.15em;overflow:hidden}
+.col{display:flex;flex-direction:column;transition:transform 1.1s cubic-bezier(.2,1.3,.4,1)}
+.col span{height:1.15em;text-align:center;width:.72em}
+.sep{width:.35em;text-align:center}
+.eur{color:var(--led);font-family:"Bungee",sans-serif;font-size:1rem;margin-left:6px;opacity:.8}
+.meta{padding:0 16px;color:var(--muted);font-size:.85rem}
+.crown{position:absolute;top:-6px;right:10px;font-size:2rem;opacity:0;transform:translateY(-30px) rotate(-20deg);transition:all .6s cubic-bezier(.3,1.8,.5,1)}
+.totem.best{border-color:var(--led);box-shadow:0 0 0 3px rgba(255,176,0,.35),0 0 30px rgba(255,176,0,.35)}
+.totem.best .crown{opacity:1;transform:none;animation:wiggle 1.6s ease-in-out .6s infinite}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+.totem.best .brand{padding-right:52px}
+
+/* TANKS */
+section{margin:56px 0}
+h2{font-family:"Bungee",Impact,sans-serif;font-weight:400;font-size:clamp(1.4rem,3.5vw,2rem);margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 22px;max-width:44em}
+.tank-row{display:grid;grid-template-columns:110px 1fr 80px;gap:12px;align-items:center;margin-bottom:14px}
+.tank-row b{font-weight:800}
+.tank{position:relative;height:38px;background:var(--bg2);border:2px solid var(--line);border-radius:20px;overflow:hidden}
+.fluid{position:absolute;inset:0 auto 0 0;width:0;border-radius:18px;transition:width 1.4s cubic-bezier(.3,1.2,.4,1);overflow:hidden}
+.fluid::after{content:"";position:absolute;top:-10px;right:-20px;width:40px;height:60px;background:rgba(255,255,255,.35);border-radius:45%;animation:wave 1.4s linear infinite}
+@keyframes wave{to{transform:rotate(360deg)}}
+.bubble{position:absolute;bottom:-10px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);animation:rise 2.4s ease-in infinite}
+@keyframes rise{to{transform:translateY(-50px);opacity:0}}
+.tank-row .val{font-family:"Bungee",sans-serif;text-align:right}
+
+/* CALC */
+.calc{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:22px}
+.slider{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.slider label{font-weight:800}
+input[type=range]{flex:1;min-width:180px;accent-color:var(--led);height:6px}
+.litres{font-family:"Bungee",sans-serif;font-size:1.6rem;color:var(--led);min-width:4.5em}
+.bill{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.ticket{background:var(--bg2);border-radius:10px;padding:14px 16px;border-left:6px solid;position:relative;overflow:hidden}
+.ticket .n{font-weight:800}
+.ticket .tot{font-family:"Bungee",sans-serif;font-size:1.7rem}
+.ticket .save{font-size:.9rem;color:var(--muted)}
+.ticket.best .save{color:var(--led);font-weight:800}
+.coin{position:absolute;font-size:1.3rem;pointer-events:none;animation:coin 1s ease-out forwards}
+@keyframes coin{0%{transform:translateY(0) scale(.5);opacity:1}100%{transform:translateY(-70px) scale(1.2) rotate(200deg);opacity:0}}
+.verdict{margin-top:20px;font-size:1.1rem;font-weight:600}
+.verdict strong{color:var(--led)}
+
+footer{color:var(--muted);font-size:.85rem;padding:20px 0 40px;border-top:2px dashed var(--line)}
+footer a{color:var(--ink)}
+
+@media (max-width:560px){ .tank-row{grid-template-columns:84px 1fr 64px} .digits{font-size:2rem} }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .totem{opacity:1;transform:none}
+  .car{left:40%}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1 id="title" aria-label="On omplo el dipòsit?"></h1>
+    <p class="sub">Comparem què costa el litre a bonÀrea, Esclatoil, Petrocat i Repsol a Catalunya. Tria el combustible i mira qui guanya.</p>
+  </div>
+  <div class="road" aria-hidden="true">
+    <svg class="pump" viewBox="0 0 54 80"><rect x="4" y="10" width="34" height="66" rx="5" fill="#FFB000"/><rect x="10" y="18" width="22" height="16" rx="2" fill="#0b0b0b"/><path d="M38 28 h8 v30 q0 6 -5 6" stroke="#FFB000" stroke-width="4" fill="none"/><rect x="0" y="74" width="42" height="6" fill="#555"/></svg>
+    <svg class="car" viewBox="0 0 120 56">
+      <g class="body"><path d="M8 38 L14 22 Q18 14 30 14 L70 14 Q80 14 88 24 L104 28 Q114 30 114 40 L114 44 L8 44 Z" fill="#E4312B"/>
+      <path d="M32 18 L66 18 Q74 18 80 26 L28 26 Z" fill="#bfe3ff"/></g>
+      <g class="wheel"><circle cx="32" cy="46" r="9" fill="#111"/><rect x="30" y="38" width="4" height="16" fill="#777"/></g>
+      <g class="wheel"><circle cx="92" cy="46" r="9" fill="#111"/><rect x="90" y="38" width="4" height="16" fill="#777"/></g>
+    </svg>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="controls">
+    <div class="toggle" role="group" aria-label="Combustible">
+      <span class="pill" aria-hidden="true"></span>
+      <button type="button" data-fuel="g95" aria-pressed="true">Gasolina 95</button>
+      <button type="button" data-fuel="dsl" aria-pressed="false">Dièsel</button>
+    </div>
+  </div>
+  <p class="status" id="status" data-s="loading" role="status"><span class="dot" aria-hidden="true"></span><span id="statusText">Demanant els preus d'avui al Ministeri…</span></p>
+
+  <div class="totems" id="totems"></div>
+
+  <section>
+    <h2>Qui buida més la cartera</h2>
+    <p class="lead">Com més ple el dipòsit, més car és el litre. La barra mostra la diferència respecte a la més barata.</p>
+    <div id="tanks"></div>
+  </section>
+
+  <section class="calc">
+    <h2>Omple el dipòsit</h2>
+    <p class="lead">Arrossega per triar quants litres poses i mira quant pagaries a cada lloc.</p>
+    <div class="slider">
+      <label for="l">Litres</label>
+      <input id="l" type="range" min="10" max="90" step="5" value="50">
+      <span class="litres" id="lv">50 L</span>
+    </div>
+    <div class="bill" id="bill"></div>
+    <p class="verdict" id="verdict"></p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Preu mitjà (€/litre) de totes les benzineres de cada marca a Catalunya, calculat amb les dades oficials del Ministeri per a la Transició Ecològica, que s'actualitzen cada mitja hora. Cada benzinera té el seu preu i canvien cada dia: abans de sortir, consulta la benzinera concreta al <a href="https://geoportalgasolineras.es" target="_blank" rel="noopener">Geoportal de gasolineres</a>.</p>
+</footer>
+
+<script>
+const BRANDS=[
+  {id:"bonarea",  nom:"bonÀrea",  color:"#5DA92E", g95:1.748, dsl:1.742, data:"dada del 26-27 set."},
+  {id:"esclatoil",nom:"Esclatoil",color:"#E4312B", g95:1.667, dsl:1.683, data:"dada del 6 set."},
+  {id:"petrocat", nom:"Petrocat", color:"#1C6FB8", g95:1.935, dsl:1.952, data:"dada del 14 set."},
+  {id:"repsol",   nom:"Repsol",   color:"#F07D00", g95:2.019, dsl:2.017, data:"dada del 26 set."}
+];
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let fuel="g95";
+const fmt=n=>n.toFixed(3).replace(".",",");
+const eur=n=>n.toLocaleString("ca-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+
+/* Title letters drop in */
+const t=document.getElementById("title");
+"On omplo el dipòsit?".split("").forEach((c,i)=>{const s=document.createElement("span");s.textContent=c===" "?"\u00A0":c;s.style.animationDelay=(i*45)+"ms";s.setAttribute("aria-hidden","true");t.appendChild(s)});
+
+/* Exhaust puffs */
+const road=document.querySelector(".road"), car=document.querySelector(".car");
+if(!reduce) setInterval(()=>{const p=document.createElement("div");p.className="puff";const r=car.getBoundingClientRect(),rr=road.getBoundingClientRect();p.style.left=(r.left-rr.left)+"px";road.appendChild(p);p.animate([{opacity:.7,transform:"scale(.6)"},{opacity:0,transform:"translate(-30px,-20px) scale(2)"}],{duration:900,easing:"ease-out"}).onfinish=()=>p.remove()},180);
+
+/* Build totems */
+const wrap=document.getElementById("totems");
+BRANDS.forEach((b,i)=>{
+  const el=document.createElement("article");el.className="totem";el.id="t-"+b.id;
+  el.innerHTML=`<div class="crown" aria-hidden="true">👑</div>
+  <div class="brand" style="background:${b.color}"><span>${b.nom}</span><span class="rank"></span></div>
+  <div class="board"><div class="digits" aria-hidden="true"></div><span class="eur">€/L</span></div>
+  <p class="meta"></p>`;
+  wrap.appendChild(el);
+  setTimeout(()=>el.classList.add("in"),reduce?0:600+i*160);
+});
+
+function setDigits(el,str){
+  const d=el.querySelector(".digits");
+  if(!d.children.length){
+    [...str].forEach(ch=>{
+      if(/\d/.test(ch)){const c=document.createElement("div");c.className="col";for(let k=0;k<10;k++){const s=document.createElement("span");s.textContent=k;c.appendChild(s)}d.appendChild(c)}
+      else{const s=document.createElement("span");s.className="sep";s.textContent=ch;d.appendChild(s)}
+    });
+  }
+  let i=0;[...str].forEach(ch=>{const node=d.children[i++];if(/\d/.test(ch))node.style.transform=`translateY(-${ch*1.15}em)`});
+}
+
+/* Tanks */
+const tanks=document.getElementById("tanks");
+BRANDS.forEach(b=>{
+  const r=document.createElement("div");r.className="tank-row";r.id="k-"+b.id;
+  r.innerHTML=`<b>${b.nom}</b><div class="tank"><div class="fluid" style="background:${b.color}"></div></div><span class="val"></span>`;
+  const f=r.querySelector(".fluid");
+  for(let j=0;j<6;j++){const bb=document.createElement("span");bb.className="bubble";bb.style.left=(10+j*15)+"%";bb.style.animationDelay=(j*.4)+"s";f.appendChild(bb)}
+  tanks.appendChild(r);
+});
+
+/* Bill */
+const bill=document.getElementById("bill");
+BRANDS.forEach(b=>{const d=document.createElement("div");d.className="ticket";d.id="b-"+b.id;d.style.borderColor=b.color;d.innerHTML=`<div class="n">${b.nom}</div><div class="tot">0 €</div><div class="save"></div>`;bill.appendChild(d)});
+
+function countTo(el,to){
+  const from=parseFloat(el.dataset.v||0);el.dataset.v=to;
+  if(reduce){el.textContent=eur(to);return}
+  const t0=performance.now(),dur=700;
+  (function step(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=eur(from+(to-from)*e);if(p<1)requestAnimationFrame(step)})(t0);
+}
+
+function flip(container,sorted,prefix){
+  const first=new Map();sorted.forEach(b=>first.set(b.id,document.getElementById(prefix+b.id).getBoundingClientRect()));
+  sorted.forEach(b=>container.appendChild(document.getElementById(prefix+b.id)));
+  if(reduce)return;
+  sorted.forEach(b=>{const el=document.getElementById(prefix+b.id),a=first.get(b.id),z=el.getBoundingClientRect(),dx=a.left-z.left,dy=a.top-z.top;
+    if(dx||dy)el.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:"none"}],{duration:700,easing:"cubic-bezier(.3,1.3,.5,1)"})});
+}
+
+function render(){
+  const sorted=[...BRANDS].sort((a,b)=>a[fuel]-b[fuel]);
+  const min=sorted[0][fuel],max=sorted.at(-1)[fuel];
+  flip(wrap,sorted,"t-");flip(tanks,sorted,"k-");flip(bill,sorted,"b-");
+  sorted.forEach((b,i)=>{
+    const el=document.getElementById("t-"+b.id);
+    setDigits(el,fmt(b[fuel]));
+    el.querySelector(".rank").textContent=(i+1)+"r";
+    el.querySelector(".meta").textContent=i===0?`La més barata · ${b.data}`:`+${((b[fuel]-min)*100).toFixed(1).replace(".",",")} cèntims/L · ${b.data}`;
+    el.setAttribute("aria-label",`${b.nom}: ${fmt(b[fuel])} euros el litre, posició ${i+1}`);
+    el.classList.toggle("best",i===0);
+    const k=document.getElementById("k-"+b.id);
+    const pct=18+82*((b[fuel]-min)/((max-min)||1));
+    k.querySelector(".fluid").style.width=pct+"%";
+    k.querySelector(".val").textContent=fmt(b[fuel]);
+  });
+  updateBill(sorted);
+}
+
+function updateBill(sorted){
+  sorted=sorted||[...BRANDS].sort((a,b)=>a[fuel]-b[fuel]);
+  const L=+document.getElementById("l").value;
+  document.getElementById("lv").textContent=L+" L";
+  const worst=sorted.at(-1)[fuel]*L;
+  sorted.forEach((b,i)=>{
+    const d=document.getElementById("b-"+b.id),tot=b[fuel]*L;
+    countTo(d.querySelector(".tot"),tot);
+    d.querySelector(".save").textContent=i===sorted.length-1?"La més cara":`T'estalvies ${eur(worst-tot)}`;
+    d.classList.toggle("best",i===0);
+    if(i===0&&!reduce){const c=document.createElement("span");c.className="coin";c.textContent="🪙";c.style.right=(10+Math.random()*40)+"px";c.style.top="40px";d.appendChild(c);setTimeout(()=>c.remove(),1000)}
+  });
+  const b=sorted[0],w=sorted.at(-1),diff=(w[fuel]-b[fuel])*L;
+  document.getElementById("verdict").innerHTML=`Amb ${L} litres, anar a <strong>${b.nom}</strong> en lloc de ${w.nom} et deixa <strong>${eur(diff)}</strong> a la butxaca. En un any omplint cada setmana, són uns ${eur(diff*52)}.`;
+}
+
+/* Toggle */
+const pill=document.querySelector(".pill"),btns=document.querySelectorAll(".toggle button");
+function movePill(btn){pill.style.width=btn.offsetWidth+"px";pill.style.transform=`translateX(${btn.offsetLeft-5}px)`}
+btns.forEach(btn=>btn.addEventListener("click",()=>{
+  btns.forEach(x=>x.setAttribute("aria-pressed",x===btn));movePill(btn);fuel=btn.dataset.fuel;render();
+}));
+addEventListener("resize",()=>movePill(document.querySelector('.toggle [aria-pressed="true"]')));
+document.getElementById("l").addEventListener("input",()=>updateBill());
+
+document.fonts.ready.then(()=>movePill(btns[0]));
+movePill(btns[0]);
+setTimeout(render,reduce?0:900);
+/* ---------- PREUS EN DIRECTE ---------- */
+const API="https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroCCAA/09";
+const MATCH={bonarea:["BONAREA"],esclatoil:["ESCLATOIL","ESCLAT OIL"],petrocat:["PETROCAT"],repsol:["REPSOL"]};
+const norm=t=>(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase();
+const num=v=>{const n=parseFloat(String(v||"").replace(",","."));return n>0?n:null};
+
+function average(list){
+  const acc={};BRANDS.forEach(b=>acc[b.id]={g:[],d:[]});
+  list.forEach(e=>{
+    const r=norm(e["Rótulo"]);
+    const id=Object.keys(MATCH).find(k=>MATCH[k].some(m=>r.includes(m)));
+    if(!id)return;
+    const g=num(e["Precio Gasolina 95 E5"]),d=num(e["Precio Gasoleo A"]);
+    if(g)acc[id].g.push(g); if(d)acc[id].d.push(d);
+  });
+  const avg=a=>a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length*1000)/1000:null;
+  const out={};for(const k in acc)out[k]={g95:avg(acc[k].g),dsl:avg(acc[k].d),n:Math.max(acc[k].g.length,acc[k].d.length)};
+  return out;
+}
+
+async function getJSON(url,ms){
+  const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);
+  try{const r=await fetch(url,{signal:c.signal,cache:"no-store"});if(!r.ok)throw new Error(r.status);return await r.json()}
+  finally{clearTimeout(t)}
+}
+
+function apply(avgs,label){
+  let ok=false;
+  BRANDS.forEach(b=>{const a=avgs[b.id];if(a&&a.g95&&a.dsl){b.g95=a.g95;b.dsl=a.dsl;b.data=`${a.n} benzineres · ${label}`;ok=true}});
+  return ok;
+}
+
+function setStatus(s,txt){const el=document.getElementById("status");el.dataset.s=s;document.getElementById("statusText").textContent=txt}
+
+async function loadPrices(){
+  // 1. Directe del Ministeri
+  try{
+    const j=await getJSON(API,15000);
+    const when=(j.Fecha||"").slice(0,16);
+    if(apply(average(j.ListaEESSPrecio||[]),"avui")){setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
+  }catch(e){console.warn("Ministeri no disponible:",e)}
+  // 2. Còpia que actualitza GitHub Actions (preus.json)
+  try{
+    const j=await getJSON("preus.json?"+Date.now(),8000);
+    if(apply(j.marques,j.fecha.slice(0,10))){setStatus("cache",`Preus oficials del ${j.fecha} (còpia automàtica)`);render();return}
+  }catch(e){console.warn("preus.json no disponible:",e)}
+  // 3. Preus desats dins la pàgina
+  setStatus("off","No s'han pogut carregar els preus d'avui. Es mostren preus de finals de setembre.");
+}
+
+setTimeout(loadPrices,reduce?0:1200);
+</script>
+</body>
+</html>
