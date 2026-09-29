@@ -32,3 +32,11 @@ Run workflow**, posa a *dies_enrere* quants dies vols recuperar (per exemple, 30
 4. A la pestanya **Actions**, obre *Actualitza preus* i prem **Run workflow** perquè es creï el primer `preus.json`.
 
 La pàgina quedarà a `https://<el-teu-usuari>.github.io/<nom-del-repositori>/`.
+
+## Deu anys de preus
+
+`historic_anual.py` (workflow *Històric de 10 anys*, cada dia a les 3:17 UTC) omple
+`anual.json` amb el preu mitjà de cada marca i de tot Catalunya des de fa 10 anys.
+Per a cada mes agafa el dia 15 de l'històric del Ministeri, i la mitjana de l'any és
+la dels seus mesos. Cada execució demana com a màxim 30 mesos que faltin, perquè el
+servidor del Ministeri talla sovint la connexió: en pocs dies queda complet.

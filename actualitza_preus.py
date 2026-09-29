@@ -94,46 +94,51 @@ def detall(llista):
 def dia_historic(data, marques):
     return {"data": data, "marques": {k: {"g95": m["g95"], "dsl": m["dsl"]} for k, m in marques.items()}}
 
-dades = baixa(API)
-llista = dades.get("ListaEESSPrecio", [])
-marques = mitjanes(llista)
-if not any(m["n"] for m in marques.values()):
-    sys.exit(f"Cap estació reconeguda entre {len(llista)}: no es desa preus.json")
-for k, m in marques.items():
-    if not m["n"]:
-        print(f"Avís: cap estació de {k}", file=sys.stderr)
+def main():
+    dades = baixa(API)
+    llista = dades.get("ListaEESSPrecio", [])
+    marques = mitjanes(llista)
+    if not any(m["n"] for m in marques.values()):
+        sys.exit(f"Cap estació reconeguda entre {len(llista)}: no es desa preus.json")
+    for k, m in marques.items():
+        if not m["n"]:
+            print(f"Avís: cap estació de {k}", file=sys.stderr)
 
-catalunya, extra = detall(llista)
-sortida = {"fecha": dades.get("Fecha", ""), "catalunya": catalunya,
-           "marques": {k: {**m, **extra[k]} for k, m in marques.items()}}
-with open("preus.json", "w", encoding="utf-8") as f:
-    json.dump(sortida, f, ensure_ascii=False, indent=2)
-print(json.dumps(sortida, ensure_ascii=False, indent=2))
+    catalunya, extra = detall(llista)
+    sortida = {"fecha": dades.get("Fecha", ""), "catalunya": catalunya,
+               "marques": {k: {**m, **extra[k]} for k, m in marques.items()}}
+    with open("preus.json", "w", encoding="utf-8") as f:
+        json.dump(sortida, f, ensure_ascii=False, indent=2)
+    print(json.dumps(sortida, ensure_ascii=False, indent=2))
 
-# Històric: un registre per dia, amb l'última mitjana del dia
-avui = datetime.datetime.strptime(sortida["fecha"][:10], "%d/%m/%Y").date()
-try:
-    with open("historic.json", encoding="utf-8") as f:
-        dies = {d["data"]: d for d in json.load(f).get("dies", [])}
-except (FileNotFoundError, ValueError):
-    dies = {}
-dies[avui.isoformat()] = dia_historic(avui.isoformat(), marques)
-
-for i in range(1, int(os.environ.get("DIES_ENRERE") or 0) + 1):
-    dia = avui - datetime.timedelta(days=i)
-    if dia.isoformat() in dies:
-        continue
+    # Històric: un registre per dia, amb l'última mitjana del dia
+    avui = datetime.datetime.strptime(sortida["fecha"][:10], "%d/%m/%Y").date()
     try:
-        m = mitjanes(baixa(API_HIST.format(dia.strftime("%d-%m-%Y")), intents=2).get("ListaEESSPrecio", []))
-    except Exception as e:
-        print(f"Avís: no s'ha pogut baixar l'històric del {dia}: {e}", file=sys.stderr)
-        continue
-    if any(v["n"] for v in m.values()):
-        dies[dia.isoformat()] = dia_historic(dia.isoformat(), m)
-        print(f"Històric {dia}: " + ", ".join(f"{k} {v['g95']}/{v['dsl']}" for k, v in m.items()))
+        with open("historic.json", encoding="utf-8") as f:
+            dies = {d["data"]: d for d in json.load(f).get("dies", [])}
+    except (FileNotFoundError, ValueError):
+        dies = {}
+    dies[avui.isoformat()] = dia_historic(avui.isoformat(), marques)
 
-ordenats = [dies[k] for k in sorted(dies)][-DIES_HISTORIC:]
-with open("historic.json", "w", encoding="utf-8") as f:
-    # Un dia per línia perquè els diffs siguin llegibles
-    f.write('{"dies": [\n' + ",\n".join(json.dumps(d, ensure_ascii=False) for d in ordenats) + "\n]}\n")
-print(f"historic.json: {len(ordenats)} dies")
+    for i in range(1, int(os.environ.get("DIES_ENRERE") or 0) + 1):
+        dia = avui - datetime.timedelta(days=i)
+        if dia.isoformat() in dies:
+            continue
+        try:
+            m = mitjanes(baixa(API_HIST.format(dia.strftime("%d-%m-%Y")), intents=2).get("ListaEESSPrecio", []))
+        except Exception as e:
+            print(f"Avís: no s'ha pogut baixar l'històric del {dia}: {e}", file=sys.stderr)
+            continue
+        if any(v["n"] for v in m.values()):
+            dies[dia.isoformat()] = dia_historic(dia.isoformat(), m)
+            print(f"Històric {dia}: " + ", ".join(f"{k} {v['g95']}/{v['dsl']}" for k, v in m.items()))
+
+    ordenats = [dies[k] for k in sorted(dies)][-DIES_HISTORIC:]
+    with open("historic.json", "w", encoding="utf-8") as f:
+        # Un dia per línia perquè els diffs siguin llegibles
+        f.write('{"dies": [\n' + ",\n".join(json.dumps(d, ensure_ascii=False) for d in ordenats) + "\n]}\n")
+    print(f"historic.json: {len(ordenats)} dies")
+
+
+if __name__ == "__main__":
+    main()
