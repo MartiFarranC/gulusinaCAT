@@ -156,6 +156,8 @@ h3{font-family:var(--head);font-weight:800;font-size:1.2rem;margin:0 0 4px}
 .chip[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
 .chip[aria-pressed="true"] .bd{opacity:1}
 .chip[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.chip-mes{border-style:dashed}
+.cr[hidden]{display:none}
 .chips-note{color:var(--muted);font-size:.82rem;margin:8px 0 0}
 .totem[hidden]{display:none}
 .totem.swap .brand{animation:fade .6s var(--ease)}
@@ -274,6 +276,7 @@ footer a{color:var(--ink)}
     <p class="lead" id="compLead">De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres de Catalunya.</p>
     <div class="caxis" aria-hidden="true"><span></span><div class="sc" id="cscale"></div><span></span></div>
     <div id="comp"></div>
+    <button type="button" class="btn more" id="compMore" hidden></button>
   </section>
 
   <section id="evoSec" hidden>
@@ -320,15 +323,15 @@ footer a{color:var(--ink)}
 const COLORS={bonarea:"#5DA92E",esclatoil:"#E4312B",petrocat:"#1C6FB8",repsol:"#F07D00",campsa:"#C8102E",moeve:"#00A19A",
   galp:"#FF6A13",bp:"#2E9E44",shell:"#F2C500",petronor:"#B5121B",avia:"#D52B1E",ballenoil:"#1FA3DC",plenoil:"#E6B800",
   petroprix:"#7A3FC4",petromiralles:"#0F8A6A",meroil:"#8A6D3B",autonet:"#8D8F93",staroil:"#3D5AFE",gasexpress:"#EC407A",
-  valcarce:"#4E7D32",carrefour:"#0055A5",alcampo:"#E2001A",eroski:"#D71920",leclerc:"#005BAB",altres:"#6B7280"};
+  valcarce:"#4E7D32",q8:"#1E4FA0",tamoil:"#E0701B",eni:"#F5C400",lowcostfuel:"#5C9E3A",petrolisind:"#8C6BB1",carrefour:"#0055A5",alcampo:"#E2001A",eroski:"#D71920",leclerc:"#005BAB",altres:"#6B7280"};
 const PALETA=["#8E7CC3","#4FB3BF","#C98F5A","#9CCC65","#E57373","#64B5F6","#F06292","#A1887F"];
 const colorDe=id=>COLORS[id]||PALETA[[...id].reduce((a,c)=>a+c.charCodeAt(0),0)%PALETA.length];
 // Mateixa detecció que actualitza_preus.py (per quan el navegador llegeix el Ministeri directament)
 const CONEGUDES=[["bonarea","bonÀrea",/\bBON ?AREA\b/],["esclatoil","Esclatoil",/\bESCLAT ?OIL\b/],["petrocat","Petrocat",/\bPETROCAT\b/],
   ["repsol","Repsol",/\bREPSOL\b/],["campsa","Campsa",/\bCAMPSA\b/],["moeve","Moeve (Cepsa)",/\b(MOEVE|CEPSA)\b/],["galp","Galp",/\bGALP\b/],
   ["bp","BP",/\bBP\b/],["shell","Shell",/\bSHELL\b/],["petronor","Petronor",/\bPETRONOR\b/],["avia","Avia",/\bAVIA\b/],
-  ["ballenoil","Ballenoil",/\bBALLENOIL\b/],["plenoil","Plenoil",/\bPLENOIL\b/],["petroprix","Petroprix",/\bPETROPRIX\b/],
-  ["petromiralles","Petromiralles",/\bPETRO ?MIRALLES\b/],["meroil","Meroil",/\bMEROIL\b/],["autonet","Autonet & Oil",/\bAUTONET\b/],
+  ["ballenoil","Ballenoil",/\bBALLENOIL\b/],["plenoil","Plenergy (Plenoil)",/\b(PLENOIL|PLENERGY)\b/],["petroprix","Petroprix",/\bPETROPRIX\b/],
+  ["petromiralles","Petromiralles",/\bPETRO ?MIRALLES\b/],["meroil","Meroil",/\bMEROIL\b/],["autonet","Autonet & Oil",/\bAUTONET/],["lowcostfuel","Low Cost Fuel",/\bLOW ?COST ?FUEL\b/],["petrolisind","Petrolis Independents",/\bPETROLIS INDEPENDENTS\b/],["q8","Q8",/\bQ8\b/],["tamoil","Tamoil",/\bTAMOIL\b/],["eni","Eni",/\bENI\b/],
   ["staroil","Star Oil",/\bSTAR ?OIL\b/],["gasexpress","GasExpress",/\bGAS ?EXPRESS\b/],["valcarce","Valcarce",/\bVALCARCE\b/],
   ["carrefour","Carrefour",/\bCARREFOUR\b/],["alcampo","Alcampo",/\bALCAMPO\b/],["eroski","Eroski",/\bEROSKI\b/],["leclerc","E.Leclerc",/\bLECLERC\b/]];
 const GENERICS=/^(|SIN ROTULO|SENSE ROTUL|NO ROTULO|SIN MARCA|GASOLINERA|ESTACION DE SERVICIO|E ?S|ES|BLANCA|INDEPENDIENTE|(N|NO|NUM)?( ?\d+)+)$/;
@@ -409,6 +412,8 @@ function renderTotems(top){
 
 /* Totes les marques, respecte a la mitjana de Catalunya */
 const comp=$("comp");
+let COMP_TOTES=false;
+$("compMore").addEventListener("click",()=>{COMP_TOTES=!COMP_TOTES;render();if(!COMP_TOTES)$("compSec").scrollIntoView({block:"start"})});
 function fila(b){
   let r=$("k-"+b.id);if(r)return r;
   r=el("div","cr");r.id="k-"+b.id;if(b.id===ALTRES)r.classList.add("grup");
@@ -443,6 +448,10 @@ function renderComp(llista){
     const [sLo,sHi,sCat]=sc.children,W=sc.clientWidth,cx=(cat-lo)/(hi-lo)*W,half=sCat.offsetWidth/2+8;
     sLo.hidden=cx-half<sLo.offsetWidth;sHi.hidden=cx+half>W-sHi.offsetWidth;
   }
+  const VISIBLES=20,sobren=llista.length-VISIBLES;
+  llista.forEach((b,i)=>{$("k-"+b.id).hidden=!COMP_TOTES&&i>=VISIBLES});
+  const mb=$("compMore");mb.hidden=sobren<=0;
+  mb.textContent=COMP_TOTES?"Mostra'n menys":`Mostra les ${sobren} marques restants`;
   let rank=0;
   llista.forEach(b=>{
     const r=$("k-"+b.id),grup=b.id===ALTRES;if(!grup)rank++;
@@ -599,6 +608,7 @@ function lineChart(o){
 
 /* ---------- MARQUES ALS GRÀFICS ---------- */
 const MAX_TRIADES=5;
+let CHIPS_TOTES=false;
 let TRIADES=null; // ids triats; null = encara per decidir (les 4 més barates)
 let ANUAL=[],NOMS_ANUAL={},modeAnys="preu";
 const SERIE_CAT={id:"catalunya",nom:"Catalunya",color:"#8B949E",dash:true};
@@ -613,7 +623,10 @@ function renderChips(){
     .forEach(k=>{if(!["catalunya","any","mesos","v",ALTRES].includes(k))ids.add(k)});
   if(!TRIADES)TRIADES=[...ids].slice(0,4);
   box.replaceChildren();
-  ids.forEach(id=>{
+  const nDe=id=>(BRANDS.find(b=>b.id===id)||{}).n||0;
+  const principals=[...ids].filter(id=>TRIADES.includes(id)||nDe(id)>=10);
+  const amagades=[...ids].length-principals.length;
+  (CHIPS_TOTES?[...ids]:principals).forEach(id=>{
     const on=TRIADES.includes(id),full=!on&&TRIADES.length>=MAX_TRIADES;
     const btn=el("button","chip");btn.type="button";btn.setAttribute("aria-pressed",on);
     if(full){btn.setAttribute("aria-disabled","true");btn.title=`Com a màxim ${MAX_TRIADES} marques`}
@@ -626,6 +639,8 @@ function renderChips(){
     };
     box.appendChild(btn);
   });
+  if(amagades>0){const mes=el("button","chip chip-mes",CHIPS_TOTES?"Menys marques":`+ ${amagades} marques més`);mes.type="button";
+    mes.onclick=()=>{CHIPS_TOTES=!CHIPS_TOTES;renderChips()};box.appendChild(mes)}
   $("chipsNote").textContent=`${TRIADES.length} de ${MAX_TRIADES} marques triades. La línia discontínua és la mitjana de Catalunya.`;
 }
 
