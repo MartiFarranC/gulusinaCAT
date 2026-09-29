@@ -6,44 +6,49 @@
 <title>On omplo el dipòsit? · Preus de benzineres a Catalunya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Bungee&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-  --bg:#0E3B5C; --bg2:#0A2C45; --road:#23282e; --ink:#F4F7FA; --muted:#A9C1D4;
+  --bg:#0E3B5C; --bg2:#0A2C45; --road:#161a1f; --ink:#F4F7FA; --muted:#A9C1D4;
   --led:#FFB000; --panel:#123F63; --line:#2A5A80;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --head:"Archivo","Figtree",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: light){
-  :root:not([data-theme="dark"]){ --bg:#DCEBF5; --bg2:#C7DDEC; --road:#3a4048; --ink:#0B2A40; --muted:#3F627C; --panel:#FFFFFF; --line:#A9C6DB; }
+  :root:not([data-theme="dark"]){ --bg:#DCEBF5; --bg2:#C7DDEC; --road:#1d2228; --ink:#0B2A40; --muted:#3F627C; --panel:#FFFFFF; --line:#A9C6DB; }
 }
-:root[data-theme="light"]{ --bg:#DCEBF5; --bg2:#C7DDEC; --road:#3a4048; --ink:#0B2A40; --muted:#3F627C; --panel:#FFFFFF; --line:#A9C6DB; }
+:root[data-theme="light"]{ --bg:#DCEBF5; --bg2:#C7DDEC; --road:#1d2228; --ink:#0B2A40; --muted:#3F627C; --panel:#FFFFFF; --line:#A9C6DB; }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,sans-serif;line-height:1.5;overflow-x:hidden}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
 
 /* HERO */
-header{position:relative;padding:48px 0 0;text-align:center;overflow:hidden}
-h1{font-family:"Bungee",Impact,sans-serif;font-weight:400;font-size:clamp(2.2rem,7vw,4.6rem);line-height:1;margin:0 0 12px;letter-spacing:.01em}
-h1 span{display:inline-block;animation:drop .7s cubic-bezier(.3,1.6,.5,1) both}
-h1 .w{animation:none;white-space:nowrap}
-.sub{max-width:34em;margin:0 auto 28px;color:var(--muted);font-size:1.05rem}
-.road{position:relative;height:110px;background:var(--road);margin-top:10px}
-.road::before{content:"";position:absolute;left:0;right:0;top:52px;height:6px;
-  background:repeating-linear-gradient(90deg,#fff 0 40px,transparent 40px 80px);animation:lines .6s linear infinite;opacity:.8}
-.car{position:absolute;bottom:22px;left:-140px;width:120px;animation:drive 7s linear infinite}
-.car .body{animation:bounce .35s ease-in-out infinite alternate}
-.car .wheel{transform-box:fill-box;transform-origin:center;animation:spin .4s linear infinite}
-.puff{position:absolute;bottom:30px;width:14px;height:14px;border-radius:50%;background:#9aa4ad;opacity:0}
-.pump{position:absolute;right:6%;bottom:18px;width:54px;animation:sway 3s ease-in-out infinite}
-@keyframes drop{from{transform:translateY(-80px) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
-@keyframes lines{to{background-position:-80px 0}}
-@keyframes drive{0%{left:-140px}100%{left:calc(100% + 20px)}}
-@keyframes bounce{to{transform:translateY(-3px)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes sway{50%{transform:rotate(-4deg)}}
+header{position:relative;padding:52px 0 0;text-align:center;overflow:hidden}
+h1{font-family:var(--head);font-weight:900;font-stretch:112%;font-size:clamp(2.3rem,7.4vw,5rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 14px}
+h1 .w{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:top;padding-bottom:.06em}
+h1 .w span{display:inline-block;animation:rise .9s var(--ease) both}
+.sub{max-width:34em;margin:0 auto 30px;color:var(--muted);font-size:1.05rem;animation:fade .8s var(--ease) .5s both}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* TICKER: rètol de carretera amb els preus que llisquen */
+.ticker{position:relative;background:var(--road);color:#e9eef2;overflow:hidden;padding:14px 0;margin-top:8px}
+.ticker::before,.ticker::after{content:"";position:absolute;left:0;right:0;height:3px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 36px,transparent 36px 72px);animation:lanes 1.1s linear infinite}
+.ticker::before{top:0}.ticker::after{bottom:0;animation-direction:reverse}
+.track{display:flex;width:max-content;animation:scroll 38s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.tk{display:flex;align-items:baseline;gap:10px;padding:0 28px;white-space:nowrap;border-right:1px solid rgba(255,255,255,.12)}
+.tk b{font-family:var(--head);font-weight:800;font-stretch:110%;text-transform:uppercase;letter-spacing:.04em;font-size:.95rem}
+.tk .p{font-family:"Bungee",Impact,sans-serif;color:var(--led);text-shadow:0 0 8px rgba(255,176,0,.55);font-size:1.25rem}
+.tk .t{font-size:.85rem;color:#b7c2cc}
+.tk .sw{width:10px;height:10px;border-radius:2px;align-self:center}
+@keyframes lanes{to{background-position:-72px 0}}
+@keyframes scroll{to{transform:translateX(-50%)}}
 
 /* CONTROLS */
 .status{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:.95rem;margin:-12px 0 26px;text-align:center}
@@ -57,42 +62,71 @@ h1 .w{animation:none;white-space:nowrap}
 .toggle{position:relative;display:inline-flex;background:var(--bg2);border:2px solid var(--line);border-radius:999px;padding:5px}
 .toggle button{position:relative;z-index:1;border:0;background:none;color:var(--ink);font:800 1rem "Figtree",sans-serif;padding:10px 22px;border-radius:999px;cursor:pointer;transition:color .3s}
 .toggle button[aria-pressed="true"]{color:#1a1200}
-.toggle .pill{position:absolute;top:5px;bottom:5px;left:5px;border-radius:999px;background:var(--led);transition:transform .45s cubic-bezier(.5,1.6,.4,1),width .45s;box-shadow:0 0 18px rgba(255,176,0,.6)}
-button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--led);outline-offset:3px}
+.toggle .pill{position:absolute;top:5px;bottom:5px;left:5px;border-radius:999px;background:var(--led);transition:transform .5s var(--ease),width .5s var(--ease);box-shadow:0 0 18px rgba(255,176,0,.45)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--led);outline-offset:3px}
 
 /* TOTEMS */
 .totems{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;position:relative}
-.totem{position:relative;background:var(--panel);border:2px solid var(--line);border-radius:14px 14px 4px 4px;padding:0 0 16px;overflow:hidden;opacity:0;transform:translateY(40px) scale(.9)}
-.totem.in{animation:pop .7s cubic-bezier(.3,1.5,.5,1) forwards}
-@keyframes pop{to{opacity:1;transform:none}}
-.brand{padding:14px 16px 12px;color:#fff;font-family:"Bungee",Impact,sans-serif;font-size:1.35rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.rank{font-family:"Bungee",sans-serif;background:rgba(0,0,0,.25);border-radius:8px;min-width:38px;text-align:center;padding:2px 6px;font-size:1rem}
-.board{margin:14px 14px 8px;background:#0b0b0b;border-radius:8px;padding:12px 10px;display:flex;justify-content:center;align-items:baseline;box-shadow:inset 0 0 0 2px #222,inset 0 0 22px rgba(255,176,0,.12)}
+.totem{position:relative;background:var(--panel);border:2px solid var(--line);border-radius:14px 14px 4px 4px;padding:0 0 14px;overflow:hidden;opacity:0;transform:translateY(24px);transition:box-shadow .4s,border-color .4s,translate .4s var(--ease)}
+.totem.in{animation:enter .9s var(--ease) forwards}
+.totem:hover{translate:0 -4px}
+@keyframes enter{to{opacity:1;transform:none}}
+.brand{padding:14px 16px 12px;color:#fff;font-family:var(--head);font-weight:800;font-stretch:110%;font-size:1.3rem;letter-spacing:.01em;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rank{font-family:var(--head);font-weight:800;background:rgba(0,0,0,.28);border-radius:8px;min-width:38px;text-align:center;padding:2px 6px;font-size:.95rem}
+.board{position:relative;margin:14px 14px 8px;background:#0b0b0b;border-radius:8px;padding:12px 10px;display:flex;justify-content:center;align-items:baseline;box-shadow:inset 0 0 0 2px #222,inset 0 0 22px rgba(255,176,0,.12)}
 .digits{display:flex;font-family:"Bungee",Impact,sans-serif;font-size:2.4rem;color:var(--led);text-shadow:0 0 10px rgba(255,176,0,.75);height:1.15em;line-height:1.15em;overflow:hidden}
-.col{display:flex;flex-direction:column;transition:transform 1.1s cubic-bezier(.2,1.3,.4,1)}
+.col{display:flex;flex-direction:column;transition:transform 1.2s var(--ease)}
 .col span{height:1.15em;text-align:center;width:.72em}
 .sep{width:.35em;text-align:center}
 .eur{color:var(--led);font-family:"Bungee",sans-serif;font-size:1rem;margin-left:6px;opacity:.8}
-.meta{padding:0 16px;color:var(--muted);font-size:.85rem}
-.crown{position:absolute;top:-6px;right:10px;font-size:2rem;opacity:0;transform:translateY(-30px) rotate(-20deg);transition:all .6s cubic-bezier(.3,1.8,.5,1)}
-.totem.best{border-color:var(--led);box-shadow:0 0 0 3px rgba(255,176,0,.35),0 0 30px rgba(255,176,0,.35)}
-.totem.best .crown{opacity:1;transform:none;animation:wiggle 1.6s ease-in-out .6s infinite}
-@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
-.totem.best .brand{padding-right:52px}
+.meta{padding:0 16px;margin:0;color:var(--muted);font-size:.85rem}
+.trend{padding:0 16px;margin:4px 0 0;font-size:.85rem;font-weight:600;color:var(--ink)}
+.trend[hidden]{display:none}
+.badge{position:absolute;z-index:1;left:50%;top:-10px;translate:-50% 0;background:var(--led);color:#1a1200;font:800 .68rem/1 var(--head);letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;border-radius:999px;opacity:0;scale:.8;transition:opacity .4s,scale .5s var(--ease);white-space:nowrap}
+.totem.best{border-color:var(--led);box-shadow:0 0 0 3px rgba(255,176,0,.3),0 12px 36px rgba(255,176,0,.18)}
+.totem.best .badge{opacity:1;scale:1}
+.totem.best .board::after{content:"";position:absolute;inset:0;border-radius:8px;background:linear-gradient(100deg,transparent 30%,rgba(255,176,0,.16) 50%,transparent 70%);background-size:250% 100%;animation:sheen 3.2s ease-in-out 1s infinite;pointer-events:none}
+@keyframes sheen{0%{background-position:120% 0}60%,100%{background-position:-120% 0}}
 
 /* TANKS */
 section{margin:56px 0}
-h2{font-family:"Bungee",Impact,sans-serif;font-weight:400;font-size:clamp(1.4rem,3.5vw,2rem);margin:0 0 6px}
+h2{font-family:var(--head);font-weight:800;font-stretch:108%;letter-spacing:-.01em;font-size:clamp(1.5rem,3.6vw,2.2rem);margin:0 0 6px}
 .lead{color:var(--muted);margin:0 0 22px;max-width:44em}
 .tank-row{display:grid;grid-template-columns:110px 1fr 80px;gap:12px;align-items:center;margin-bottom:14px}
 .tank-row b{font-weight:800}
-.tank{position:relative;height:38px;background:var(--bg2);border:2px solid var(--line);border-radius:20px;overflow:hidden}
-.fluid{position:absolute;inset:0 auto 0 0;width:0;border-radius:18px;transition:width 1.4s cubic-bezier(.3,1.2,.4,1);overflow:hidden}
-.fluid::after{content:"";position:absolute;top:-10px;right:-20px;width:40px;height:60px;background:rgba(255,255,255,.35);border-radius:45%;animation:wave 1.4s linear infinite}
-@keyframes wave{to{transform:rotate(360deg)}}
-.bubble{position:absolute;bottom:-10px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);animation:rise 2.4s ease-in infinite}
-@keyframes rise{to{transform:translateY(-50px);opacity:0}}
+.tank{position:relative;height:30px;background:var(--bg2);border:2px solid var(--line);border-radius:8px;overflow:hidden}
+.fluid{position:absolute;inset:0 auto 0 0;width:0;border-radius:6px;transition:width 1.4s var(--ease);overflow:hidden}
+.fluid::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.35) 50%,transparent 80%);transform:translateX(-100%)}
+.fluid.shine::after{animation:shine 1.3s var(--ease) .3s}
+@keyframes shine{to{transform:translateX(100%)}}
 .tank-row .val{font-family:"Bungee",sans-serif;text-align:right}
+
+/* HISTÒRIC */
+.chart{position:relative;background:#0b0b0b;border-radius:12px;padding:10px 6px 4px;box-shadow:inset 0 0 0 2px #222}
+.chart svg{display:block;width:100%;height:auto;border-radius:8px;touch-action:pan-y}
+.chart svg:focus{outline:none}
+.chart svg.kb:focus-visible{outline:3px solid var(--led);outline-offset:3px}
+.chart .grid{stroke:#262a2e;stroke-width:1}
+.chart .ax{fill:#8f9aa3;font:600 11px "Figtree",sans-serif}
+.chart .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .ln.draw{animation:draw 1.4s var(--ease) both}
+@keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.chart .lbl{fill:#e9eef2;font:700 12px "Figtree",sans-serif}
+.chart .cross{stroke:#FFB000;stroke-width:1;opacity:.75}
+.tip{position:absolute;top:10px;pointer-events:none;background:rgba(18,20,22,.96);border:1px solid #33383d;border-radius:8px;padding:8px 10px;color:#e9eef2;font-size:.85rem;min-width:150px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.tip[hidden]{display:none}
+.tip .d{color:#8f9aa3;font-size:.78rem;margin-bottom:4px}
+.tip .r{display:flex;align-items:center;gap:8px;line-height:1.6}
+.tip .k{width:14px;height:2px;border-radius:1px;flex:none}
+.tip .r b{font-variant-numeric:tabular-nums;min-width:3.4em}
+.tip .r span:last-child{color:#b7c2cc}
+.hist-table{margin-top:12px;color:var(--muted)}
+.hist-table summary{cursor:pointer;font-weight:600}
+.tbl-wrap{overflow-x:auto}
+.hist-table table{border-collapse:collapse;margin-top:8px;font-size:.9rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.hist-table caption{text-align:left;color:var(--muted);padding-bottom:4px}
+.hist-table th,.hist-table td{padding:4px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+.hist-table th:first-child,.hist-table td:first-child{text-align:left}
 
 /* CALC */
 .calc{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:22px}
@@ -101,13 +135,12 @@ h2{font-family:"Bungee",Impact,sans-serif;font-weight:400;font-size:clamp(1.4rem
 input[type=range]{flex:1;min-width:180px;accent-color:var(--led);height:6px}
 .litres{font-family:"Bungee",sans-serif;font-size:1.6rem;color:var(--led);min-width:4.5em}
 .bill{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.ticket{background:var(--bg2);border-radius:10px;padding:14px 16px;border-left:6px solid;position:relative;overflow:hidden}
+.ticket{background:var(--bg2);border-radius:10px;padding:14px 16px;border-left:6px solid;position:relative;overflow:hidden;transition:box-shadow .4s}
 .ticket .n{font-weight:800}
-.ticket .tot{font-family:"Bungee",sans-serif;font-size:1.7rem}
+.ticket .tot{font-family:var(--head);font-weight:800;font-stretch:105%;font-size:1.8rem;font-variant-numeric:tabular-nums}
 .ticket .save{font-size:.9rem;color:var(--muted)}
+.ticket.best{box-shadow:inset 0 0 0 2px rgba(255,176,0,.55)}
 .ticket.best .save{color:var(--led);font-weight:800}
-.coin{position:absolute;font-size:1.3rem;pointer-events:none;animation:coin 1s ease-out forwards}
-@keyframes coin{0%{transform:translateY(0) scale(.5);opacity:1}100%{transform:translateY(-70px) scale(1.2) rotate(200deg);opacity:0}}
 .verdict{margin-top:20px;font-size:1.1rem;font-weight:600}
 .verdict strong{color:var(--led)}
 
@@ -118,7 +151,8 @@ footer a{color:var(--ink)}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .totem{opacity:1;transform:none}
-  .car{left:40%}
+  .track{flex-wrap:wrap;justify-content:center;width:auto;row-gap:8px}
+  .track [data-copy]{display:none}
 }
 </style>
 </head>
@@ -128,15 +162,7 @@ footer a{color:var(--ink)}
     <h1 id="title" aria-label="On omplo el dipòsit?"></h1>
     <p class="sub">Comparem què costa el litre a bonÀrea, Esclatoil, Petrocat i Repsol a Catalunya. Tria el combustible i mira qui guanya.</p>
   </div>
-  <div class="road" aria-hidden="true">
-    <svg class="pump" viewBox="0 0 54 80"><rect x="4" y="10" width="34" height="66" rx="5" fill="#FFB000"/><rect x="10" y="18" width="22" height="16" rx="2" fill="#0b0b0b"/><path d="M38 28 h8 v30 q0 6 -5 6" stroke="#FFB000" stroke-width="4" fill="none"/><rect x="0" y="74" width="42" height="6" fill="#555"/></svg>
-    <svg class="car" viewBox="0 0 120 56">
-      <g class="body"><path d="M8 38 L14 22 Q18 14 30 14 L70 14 Q80 14 88 24 L104 28 Q114 30 114 40 L114 44 L8 44 Z" fill="#E4312B"/>
-      <path d="M32 18 L66 18 Q74 18 80 26 L28 26 Z" fill="#bfe3ff"/></g>
-      <g class="wheel"><circle cx="32" cy="46" r="9" fill="#111"/><rect x="30" y="38" width="4" height="16" fill="#777"/></g>
-      <g class="wheel"><circle cx="92" cy="46" r="9" fill="#111"/><rect x="90" y="38" width="4" height="16" fill="#777"/></g>
-    </svg>
-  </div>
+  <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
 </header>
 
 <main class="wrap">
@@ -155,6 +181,13 @@ footer a{color:var(--ink)}
     <h2>Qui buida més la cartera</h2>
     <p class="lead">Com més ple el dipòsit, més car és el litre. La barra mostra la diferència respecte a la més barata.</p>
     <div id="tanks"></div>
+  </section>
+
+  <section id="histSec" hidden>
+    <h2>Com han anat els preus</h2>
+    <p class="lead" id="histLead">Preu mitjà de cada dia, en €/litre. Passa el dit o el ratolí per sobre per veure cada dia.</p>
+    <div class="chart" id="chart"><svg id="chartSvg" role="img" tabindex="0"></svg><div class="tip" id="tip" hidden></div></div>
+    <details class="hist-table"><summary>Veure les dades en una taula</summary><div class="tbl-wrap"><table id="histTable"></table></div></details>
   </section>
 
   <section class="calc">
@@ -181,34 +214,30 @@ const BRANDS=[
   {id:"petrocat", nom:"Petrocat", color:"#1C6FB8", g95:1.935, dsl:1.952, data:"dada del 14 set."},
   {id:"repsol",   nom:"Repsol",   color:"#F07D00", g95:2.019, dsl:2.017, data:"dada del 26 set."}
 ];
+const FUEL_NOM={g95:"Gasolina 95",dsl:"Dièsel"};
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let fuel="g95";
 const fmt=n=>n.toFixed(3).replace(".",",");
 const eur=n=>n.toLocaleString("ca-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
 
-/* Title letters drop in */
+/* Títol: cada lletra puja des de sota */
 const t=document.getElementById("title");
 let li=0;"On omplo el dipòsit?".split(" ").forEach((w,wi)=>{
-  if(wi)t.appendChild(document.createTextNode(" "));li+=wi?1:0;
+  if(wi){t.appendChild(document.createTextNode(" "));li+=2}
   const ws=document.createElement("span");ws.className="w";ws.setAttribute("aria-hidden","true");
-  [...w].forEach(c=>{const s=document.createElement("span");s.textContent=c;s.style.animationDelay=(li++*45)+"ms";ws.appendChild(s)});
+  [...w].forEach(c=>{const s=document.createElement("span");s.textContent=c;s.style.animationDelay=(li++*28)+"ms";ws.appendChild(s)});
   t.appendChild(ws);
 });
-
-/* Exhaust puffs */
-const road=document.querySelector(".road"), car=document.querySelector(".car");
-if(!reduce) setInterval(()=>{const p=document.createElement("div");p.className="puff";const r=car.getBoundingClientRect(),rr=road.getBoundingClientRect();p.style.left=(r.left-rr.left)+"px";road.appendChild(p);p.animate([{opacity:.7,transform:"scale(.6)"},{opacity:0,transform:"translate(-30px,-20px) scale(2)"}],{duration:900,easing:"ease-out"}).onfinish=()=>p.remove()},180);
 
 /* Build totems */
 const wrap=document.getElementById("totems");
 BRANDS.forEach((b,i)=>{
   const el=document.createElement("article");el.className="totem";el.id="t-"+b.id;
-  el.innerHTML=`<div class="crown" aria-hidden="true">👑</div>
-  <div class="brand" style="background:${b.color}"><span>${b.nom}</span><span class="rank"></span></div>
-  <div class="board"><div class="digits" aria-hidden="true"></div><span class="eur">€/L</span></div>
-  <p class="meta"></p>`;
+  el.innerHTML=`<div class="brand" style="background:${b.color}"><span>${b.nom}</span><span class="rank"></span></div>
+  <div class="board"><div class="badge" aria-hidden="true">Més barata</div><div class="digits" aria-hidden="true"></div><span class="eur">€/L</span></div>
+  <p class="meta"></p><p class="trend" hidden></p>`;
   wrap.appendChild(el);
-  setTimeout(()=>el.classList.add("in"),reduce?0:600+i*160);
+  setTimeout(()=>el.classList.add("in"),reduce?0:450+i*110);
 });
 
 function setDigits(el,str){
@@ -227,8 +256,6 @@ const tanks=document.getElementById("tanks");
 BRANDS.forEach(b=>{
   const r=document.createElement("div");r.className="tank-row";r.id="k-"+b.id;
   r.innerHTML=`<b>${b.nom}</b><div class="tank"><div class="fluid" style="background:${b.color}"></div></div><span class="val"></span>`;
-  const f=r.querySelector(".fluid");
-  for(let j=0;j<6;j++){const bb=document.createElement("span");bb.className="bubble";bb.style.left=(10+j*15)+"%";bb.style.animationDelay=(j*.4)+"s";f.appendChild(bb)}
   tanks.appendChild(r);
 });
 
@@ -248,7 +275,111 @@ function flip(container,sorted,prefix){
   sorted.forEach(b=>container.appendChild(document.getElementById(prefix+b.id)));
   if(reduce)return;
   sorted.forEach(b=>{const el=document.getElementById(prefix+b.id),a=first.get(b.id),z=el.getBoundingClientRect(),dx=a.left-z.left,dy=a.top-z.top;
-    if(dx||dy)el.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:"none"}],{duration:700,easing:"cubic-bezier(.3,1.3,.5,1)"})});
+    if(dx||dy)el.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:"none"}],{duration:750,easing:"cubic-bezier(.16,1,.3,1)"})});
+}
+
+/* ---------- HISTÒRIC ---------- */
+let HIST=[],NOW=null; // NOW: dia (aaaa-mm-dd) dels preus que es mostren
+const isoDe=f=>{const m=/^(\d{2})\/(\d{2})\/(\d{4})/.exec(f||"");return m?`${m[3]}-${m[2]}-${m[1]}`:null};
+const dm=iso=>{const [,m,d]=iso.split("-");return `${+d}/${+m}`};
+const diaAnterior=iso=>{const d=new Date(iso+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-1);return d.toISOString().slice(0,10)};
+
+function trend(b){
+  if(!NOW||!HIST.length)return null;
+  const prev=[...HIST].reverse().find(d=>d.data<NOW&&d.marques[b.id]&&d.marques[b.id][fuel]>0);
+  if(!prev)return null;
+  const diff=Math.round((b[fuel]-prev.marques[b.id][fuel])*1000)/10;
+  const n=new Date(),avui=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`;
+  const quan=NOW===avui&&prev.data===diaAnterior(NOW)?"des d'ahir":`des del ${dm(prev.data)}`;
+  if(Math.abs(diff)<0.1)return {txt:`= Igual ${quan}`,diff:0,quan};
+  return {txt:`${diff>0?"▲":"▼"} ${Math.abs(diff).toFixed(1).replace(".",",")} cèntims ${quan}`,diff,quan};
+}
+
+const svgNS="http://www.w3.org/2000/svg";
+function mk(tag,attrs,parent){const e=document.createElementNS(svgNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+
+function drawChart(animate){
+  const sec=document.getElementById("histSec"),days=HIST.slice(-30);
+  if(days.length<2){sec.hidden=true;return}
+  sec.hidden=false;
+  const svg=document.getElementById("chartSvg"),tip=document.getElementById("tip"),box=svg.parentNode;
+  const W=Math.max(280,Math.round(box.clientWidth-12)),narrow=W<520,H=narrow?230:290;
+  const m={t:14,r:narrow?78:96,b:26,l:44};
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.replaceChildren();tip.hidden=true;
+  svg.setAttribute("aria-label",`${FUEL_NOM[fuel]}: preu mitjà de cada marca els últims ${days.length} dies. Les dades són a la taula de sota.`);
+  const vals=days.flatMap(d=>BRANDS.map(b=>d.marques[b.id]&&d.marques[b.id][fuel])).filter(v=>v>0);
+  let lo=Math.floor(Math.min(...vals)*50)/50,hi=Math.ceil(Math.max(...vals)*50)/50;
+  if(hi-lo<0.04){const c=(hi+lo)/2;lo=c-0.02;hi=c+0.02}
+  const X=i=>m.l+i*(W-m.l-m.r)/(days.length-1),Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+  for(let k=0;k<=4;k++){const v=lo+(hi-lo)*k/4,y=Y(v);mk("line",{x1:m.l,x2:W-m.r+8,y1:y,y2:y,class:"grid"},svg);mk("text",{x:m.l-6,y:y+4,"text-anchor":"end",class:"ax"},svg).textContent=v.toFixed(2).replace(".",",")}
+  const last=days.length-1;
+  [...new Set([0,Math.round(last/2),last])].forEach(i=>{mk("text",{x:X(i),y:H-8,"text-anchor":i===0?"start":i===last?"end":"middle",class:"ax"},svg).textContent=dm(days[i].data)});
+  const ends=[];
+  BRANDS.forEach((b,bi)=>{
+    let d="",pen=false,end=null;
+    days.forEach((day,i)=>{const v=day.marques[b.id]&&day.marques[b.id][fuel];if(v>0){d+=(pen?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1);pen=true;end=[X(i),Y(v)]}else pen=false});
+    if(!end)return;
+    const p=mk("path",{d,class:"ln",stroke:b.color},svg);
+    if(animate&&!reduce){const L=Math.ceil(p.getTotalLength());p.style.strokeDasharray=L;p.style.setProperty("--len",L);p.style.animationDelay=(bi*90)+"ms";p.classList.add("draw")}
+    mk("circle",{cx:end[0],cy:end[1],r:4,fill:b.color,stroke:"#0b0b0b","stroke-width":2},svg);
+    ends.push({b,x:end[0],y:end[1]});
+  });
+  // Etiquetes directes al final de cada línia, sense que es trepitgin
+  ends.sort((a,c)=>a.y-c.y);
+  ends.forEach((e,i)=>e.ly=i?Math.max(e.y,ends[i-1].ly+15):e.y);
+  const over=ends.length?ends.at(-1).ly-(H-m.b):0;if(over>0)ends.forEach(e=>e.ly-=over);
+  ends.forEach(e=>{mk("text",{x:e.x+9,y:e.ly+4,class:"lbl"},svg).textContent=e.b.nom});
+  // Creu i tooltip
+  const cross=mk("line",{y1:m.t,y2:H-m.b,class:"cross",visibility:"hidden"},svg);
+  const dots=BRANDS.map(b=>mk("circle",{r:4.5,fill:b.color,stroke:"#0b0b0b","stroke-width":2,visibility:"hidden"},svg));
+  let cur=null;
+  const show=i=>{
+    cur=i;const day=days[i],x=X(i);
+    cross.setAttribute("x1",x);cross.setAttribute("x2",x);cross.setAttribute("visibility","visible");
+    BRANDS.forEach((b,bi)=>{const v=day.marques[b.id]&&day.marques[b.id][fuel];if(v>0){dots[bi].setAttribute("cx",x);dots[bi].setAttribute("cy",Y(v));dots[bi].setAttribute("visibility","visible")}else dots[bi].setAttribute("visibility","hidden")});
+    tip.replaceChildren();
+    const h=document.createElement("div");h.className="d";h.textContent=new Date(day.data+"T12:00:00Z").toLocaleDateString("ca-ES",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"});tip.appendChild(h);
+    BRANDS.filter(b=>day.marques[b.id]&&day.marques[b.id][fuel]>0).sort((a,c)=>day.marques[a.id][fuel]-day.marques[c.id][fuel]).forEach(b=>{
+      const r=document.createElement("div");r.className="r";
+      const k=document.createElement("span");k.className="k";k.style.background=b.color;
+      const v=document.createElement("b");v.textContent=fmt(day.marques[b.id][fuel]);
+      const n=document.createElement("span");n.textContent=b.nom;
+      r.append(k,v,n);tip.appendChild(r);
+    });
+    tip.hidden=false;
+    const scale=svg.getBoundingClientRect().width/W,px=x*scale+6,tw=tip.offsetWidth;
+    tip.style.left=(px+12+tw<box.clientWidth?px+12:px-12-tw)+"px";
+  };
+  const hide=()=>{cur=null;cross.setAttribute("visibility","hidden");dots.forEach(d=>d.setAttribute("visibility","hidden"));tip.hidden=true};
+  const idxAt=e=>{const r=svg.getBoundingClientRect(),x=(e.clientX-r.left)*W/r.width;return Math.max(0,Math.min(last,Math.round((x-m.l)/((W-m.l-m.r)/last))))};
+  svg.onpointermove=e=>show(idxAt(e));svg.onpointerdown=e=>{svg.classList.remove("kb");show(idxAt(e))};
+  svg.onpointerleave=e=>{if(e.pointerType==="mouse")hide()};svg.onblur=hide;svg.onfocus=()=>show(cur??last);
+  svg.onkeydown=e=>{svg.classList.add("kb");if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();show(Math.max(0,Math.min(last,(cur??last)+(e.key==="ArrowLeft"?-1:1))))}else if(e.key==="Escape")hide()};
+  // Taula
+  const tb=document.getElementById("histTable");tb.replaceChildren();
+  tb.createCaption().textContent=`${FUEL_NOM[fuel]} (€/L)`;
+  const hr=tb.createTHead().insertRow();["Dia",...BRANDS.map(b=>b.nom)].forEach(tx=>{const th=document.createElement("th");th.textContent=tx;hr.appendChild(th)});
+  const body=tb.createTBody();
+  [...days].reverse().forEach(d=>{const r=body.insertRow();r.insertCell().textContent=dm(d.data);BRANDS.forEach(b=>{const v=d.marques[b.id]&&d.marques[b.id][fuel];r.insertCell().textContent=v>0?fmt(v):"–"})});
+}
+
+/* Rètol que llisca */
+function updateTicker(sorted){
+  const track=document.getElementById("track");track.replaceChildren();
+  for(let copy=0;copy<2;copy++){
+    const g=document.createElement("div");g.style.display="flex";if(copy)g.dataset.copy="";
+    for(let rep=0;rep<2;rep++)sorted.forEach(b=>{
+      const it=document.createElement("div");it.className="tk";
+      const sw=document.createElement("span");sw.className="sw";sw.style.background=b.color;
+      const n=document.createElement("b");n.textContent=b.nom;
+      const f=document.createElement("span");f.className="t";f.textContent=FUEL_NOM[fuel];
+      const p=document.createElement("span");p.className="p";p.textContent=fmt(b[fuel]);
+      it.append(sw,n,f,p);
+      const tr=trend(b);if(tr){const s=document.createElement("span");s.className="t";s.textContent=tr.diff?tr.txt.split(" cèntims")[0]:"=";it.appendChild(s)}
+      g.appendChild(it);
+    });
+    track.appendChild(g);
+  }
 }
 
 function render(){
@@ -260,13 +391,15 @@ function render(){
     setDigits(el,fmt(b[fuel]));
     el.querySelector(".rank").textContent=(i+1)+(["r","n","r","t"][i]||"è");
     el.querySelector(".meta").textContent=i===0?`La més barata · ${b.data}`:`+${((b[fuel]-min)*100).toFixed(1).replace(".",",")} cèntims/L · ${b.data}`;
+    const tr=trend(b),te=el.querySelector(".trend");te.hidden=!tr;te.textContent=tr?tr.txt:"";
     el.setAttribute("aria-label",`${b.nom}: ${fmt(b[fuel])} euros el litre, posició ${i+1}`);
     el.classList.toggle("best",i===0);
-    const k=document.getElementById("k-"+b.id);
+    const k=document.getElementById("k-"+b.id),f=k.querySelector(".fluid");
     const pct=18+82*((b[fuel]-min)/((max-min)||1));
-    k.querySelector(".fluid").style.width=pct+"%";
+    if(f.style.width!==pct+"%"){f.style.width=pct+"%";if(!reduce){f.classList.remove("shine");void f.offsetWidth;f.classList.add("shine")}}
     k.querySelector(".val").textContent=fmt(b[fuel]);
   });
+  updateTicker(sorted);
   updateBill(sorted);
 }
 
@@ -280,7 +413,6 @@ function updateBill(sorted){
     countTo(d.querySelector(".tot"),tot);
     d.querySelector(".save").textContent=i===sorted.length-1?"La més cara":`T'estalvies ${eur(worst-tot)}`;
     d.classList.toggle("best",i===0);
-    if(i===0&&!reduce){const c=document.createElement("span");c.className="coin";c.textContent="🪙";c.style.right=(10+Math.random()*40)+"px";c.style.top="40px";d.appendChild(c);setTimeout(()=>c.remove(),1000)}
   });
   const b=sorted[0],w=sorted.at(-1),diff=(w[fuel]-b[fuel])*L;
   document.getElementById("verdict").innerHTML=`Amb ${L} litres, anar a <strong>${b.nom}</strong> en lloc de ${w.nom} et deixa <strong>${eur(diff)}</strong> a la butxaca. En un any omplint cada setmana, són uns ${eur(diff*52)}.`;
@@ -290,18 +422,18 @@ function updateBill(sorted){
 const pill=document.querySelector(".pill"),btns=document.querySelectorAll(".toggle button");
 function movePill(btn){pill.style.width=btn.offsetWidth+"px";pill.style.transform=`translateX(${btn.offsetLeft-5}px)`}
 btns.forEach(btn=>btn.addEventListener("click",()=>{
-  btns.forEach(x=>x.setAttribute("aria-pressed",x===btn));movePill(btn);fuel=btn.dataset.fuel;render();
+  btns.forEach(x=>x.setAttribute("aria-pressed",x===btn));movePill(btn);fuel=btn.dataset.fuel;render();drawChart(true);
 }));
-addEventListener("resize",()=>movePill(document.querySelector('.toggle [aria-pressed="true"]')));
+let rz;addEventListener("resize",()=>{movePill(document.querySelector('.toggle [aria-pressed="true"]'));clearTimeout(rz);rz=setTimeout(()=>drawChart(false),150)});
 document.getElementById("l").addEventListener("input",()=>updateBill());
 
 document.fonts.ready.then(()=>movePill(btns[0]));
 movePill(btns[0]);
-setTimeout(render,reduce?0:900);
+setTimeout(render,reduce?0:700);
 /* ---------- PREUS EN DIRECTE ---------- */
 const API="https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroCCAA/09";
 const MATCH={bonarea:["BONAREA"],esclatoil:["ESCLATOIL"],petrocat:["PETROCAT"],repsol:["REPSOL"]};
-const norm=t=>(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+const norm=t=>(t||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().replace(/[^A-Z0-9]/g,"");
 const num=v=>{const n=parseFloat(String(v||"").replace(",","."));return n>0?n:null};
 
 function average(list){
@@ -337,26 +469,47 @@ const markDirect=ok=>{try{ok?localStorage.removeItem(SKIP):localStorage.setItem(
 
 function setStatus(s,txt){const el=document.getElementById("status");el.dataset.s=s;document.getElementById("statusText").textContent=txt}
 
+/* Text d'estat per a preus.json, amb avís suau si fa més d'un dia que no s'actualitza */
+function cacheStatus(fecha){
+  const d=isoDe(fecha),hm=/(\d{1,2}):(\d{2})/.exec(fecha.slice(10));
+  const when=d?new Date(`${d}T${hm?hm[1].padStart(2,"0")+":"+hm[2]:"12:00"}:00`):null;
+  const hores=when?(Date.now()-when)/36e5:0;
+  if(hores>24){const dies=Math.floor(hores/24);return `Últimes dades oficials: ${fecha.slice(0,16)} (fa ${dies} ${dies===1?"dia":"dies"}). Els preus d'avui poden ser diferents.`}
+  return `Preus oficials del Ministeri del ${fecha.slice(0,16)} · s'actualitzen cada mitja hora`;
+}
+
 async function loadPrices(){
   // 1. Directe del Ministeri
   if(!skipDirect()){
     try{
       const j=await getJSON(API,10000);
       const when=String(j.Fecha||"").slice(0,16);
-      if(apply(average(Array.isArray(j.ListaEESSPrecio)?j.ListaEESSPrecio:[]),"avui")){markDirect(true);setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
+      if(apply(average(Array.isArray(j.ListaEESSPrecio)?j.ListaEESSPrecio:[]),"avui")){markDirect(true);NOW=isoDe(j.Fecha);setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
     }catch(e){markDirect(false);console.info("El navegador no pot llegir el Ministeri directament; es fa servir preus.json.")}
   }
   // 2. Còpia que actualitza GitHub Actions (preus.json)
   try{
     const j=await getJSON("preus.json?"+Date.now(),8000);
     const fecha=String(j.fecha||"");
-    if(apply(j.marques||{},fecha.slice(0,10))){setStatus("cache",`Preus oficials del Ministeri del ${fecha.slice(0,16)} · s'actualitzen cada mitja hora`);render();return}
+    if(apply(j.marques||{},fecha.slice(0,10))){NOW=isoDe(fecha);setStatus("cache",cacheStatus(fecha));render();return}
   }catch(e){console.info("preus.json no disponible; es mostren els preus desats a la pàgina.")}
   // 3. Preus desats dins la pàgina
   setStatus("off","No s'han pogut carregar els preus d'avui. Es mostren preus de finals de setembre.");
 }
 
-setTimeout(loadPrices,reduce?0:1200);
+async function loadHistory(){
+  try{
+    const j=await getJSON("historic.json?"+Date.now(),8000);
+    HIST=(Array.isArray(j.dies)?j.dies:[]).filter(d=>d&&/^\d{4}-\d{2}-\d{2}$/.test(d.data)&&d.marques).sort((a,b)=>a.data<b.data?-1:1);
+  }catch(e){HIST=[]}
+}
+
+const histReady=loadHistory();
+setTimeout(async()=>{
+  await loadPrices();
+  await histReady;
+  if(HIST.length){render();drawChart(true)}
+},reduce?0:1000);
 </script>
 </body>
 </html>
