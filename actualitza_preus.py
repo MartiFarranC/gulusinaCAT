@@ -155,8 +155,29 @@ def detall(llista):
             if llistat:
                 v, e = min(llistat, key=lambda x: x[0])
                 extra[k]["barata"][c] = {"preu": v, "municipi": (e.get("Municipio") or "").strip(),
-                                         "lat": num(e.get("Latitud")), "lon": num(e.get("Longitud (WGS84)"))}
+                                         "lat": coord(e.get("Latitud")), "lon": coord(e.get("Longitud (WGS84)"))}
     return cat, extra
+
+def estacions(llista):
+    """Totes les estacions amb coordenades, per al mode "les més properes".
+    Cada estació és [marca, lat, lon, g95, dsl, municipi, adreça] per ocupar poc."""
+    classificades, noms = classifica(llista)
+    files = []
+    for marca, e in classificades:
+        lat, lon = coord(e.get("Latitud")), coord(e.get("Longitud (WGS84)"))
+        g, d = num(e.get(CAMPS["g95"])), num(e.get(CAMPS["dsl"]))
+        if lat is None or lon is None or not (g or d):
+            continue
+        files.append([marca, round(lat, 5), round(lon, 5), g, d, (e.get("Municipio") or "").strip(),
+                      bonic((e.get("Dirección") or "").strip())])
+    return {"marques": noms, "e": files}
+
+def coord(v):
+    """Coordenades amb coma decimal i, a vegades, negatives."""
+    try:
+        return float(str(v).replace(",", "."))
+    except ValueError:
+        return None
 
 def dia_historic(data, marques, cat=None):
     d = {"data": data, "marques": {k: {"g95": m["g95"], "dsl": m["dsl"]} for k, m in marques.items()}}
@@ -178,6 +199,10 @@ def main():
                "marques": {k: {**marques[k], **extra[k]} for k in ordre}}
     with open("preus.json", "w", encoding="utf-8") as f:
         json.dump(sortida, f, ensure_ascii=False, indent=2)
+    est = estacions(llista)
+    est["fecha"] = sortida["fecha"]
+    with open("estacions.json", "w", encoding="utf-8") as f:
+        json.dump(est, f, ensure_ascii=False, separators=(",", ":"))
     print(f"{len(llista)} estacions, {len(marques)} marques: " +
           ", ".join(f"{m['nom']} ({m['n']}) {m['g95']}" for m in sortida["marques"].values()))
 
