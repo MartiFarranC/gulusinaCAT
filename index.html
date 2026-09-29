@@ -123,6 +123,10 @@ h2{font-family:var(--head);font-weight:800;font-stretch:108%;letter-spacing:-.01
 .chart .ln.draw{animation:draw 1.4s var(--ease) both}
 @keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
 .chart .lbl{fill:#e9eef2;font:700 12px "Figtree",sans-serif}
+.chart .ln.dash{stroke-dasharray:5 4;stroke-width:1.75}
+.chart .ln.fadein{animation:fade .9s ease both}
+.chart .lbl-cat{fill:#8f9aa3;font-weight:600}
+.tip .k.kd{background:repeating-linear-gradient(90deg,currentColor 0 4px,transparent 4px 6px)!important;color:#8B949E}
 .chart .cross{stroke:#FFB000;stroke-width:1;opacity:.75}
 .tip{position:absolute;top:10px;pointer-events:none;background:rgba(18,20,22,.96);border:1px solid #33383d;border-radius:8px;padding:8px 10px;color:#e9eef2;font-size:.85rem;min-width:150px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
 .tip[hidden]{display:none}
@@ -135,6 +139,13 @@ h2{font-family:var(--head);font-weight:800;font-stretch:108%;letter-spacing:-.01
 .hist-table summary{cursor:pointer;font-weight:600}
 .tbl-wrap{overflow-x:auto}
 .hist-table table{border-collapse:collapse;margin-top:8px;font-size:.9rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.sechead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:6px}
+.sechead h2{margin:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--bg2)}
+.seg button{border:0;background:none;color:var(--muted);font:600 .85rem "Figtree",sans-serif;padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chart .grid.zero{stroke:#5a636d;stroke-dasharray:none}
+.hist-table .nota{font-size:.8rem;margin:6px 0 0}
 .hist-table caption{text-align:left;color:var(--muted);padding-bottom:4px}
 .hist-table th,.hist-table td{padding:4px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
 .hist-table th:first-child,.hist-table td:first-child{text-align:left}
@@ -199,6 +210,14 @@ footer a{color:var(--ink)}
     <p class="lead" id="histLead">Preu mitjà de cada dia, en €/litre. Passa el dit o el ratolí per sobre per veure cada dia.</p>
     <div class="chart" id="chart"><svg id="chartSvg" role="img" tabindex="0"></svg><div class="tip" id="tip" hidden></div></div>
     <details class="hist-table"><summary>Veure les dades en una taula</summary><div class="tbl-wrap"><table id="histTable"></table></div></details>
+  </section>
+
+  <section id="anysSec" hidden>
+    <div class="sechead"><h2>Deu anys de preus</h2>
+      <div class="seg" id="anysMode" role="group" aria-label="Què es mostra"><button type="button" data-mode="preu" aria-pressed="true">Preu</button><button type="button" data-mode="dif" aria-pressed="false">Respecte a Catalunya</button></div></div>
+    <p class="lead" id="anysLead"></p>
+    <div class="chart"><svg id="anysSvg" role="img" tabindex="0"></svg><div class="tip" id="anysTip" hidden></div></div>
+    <details class="hist-table"><summary>Veure les dades en una taula</summary><div class="tbl-wrap"><table id="anysTable"></table></div><p class="nota">* Any amb dades parcials.</p></details>
   </section>
 
   <section class="calc">
@@ -347,57 +366,60 @@ function trend(b){
 const svgNS="http://www.w3.org/2000/svg";
 function mk(tag,attrs,parent){const e=document.createElementNS(svgNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
 
-function drawChart(animate){
-  const sec=document.getElementById("histSec"),days=HIST.slice(-30);
-  if(days.length<2){sec.hidden=true;return}
-  sec.hidden=false;
-  const svg=document.getElementById("chartSvg"),tip=document.getElementById("tip"),box=svg.parentNode;
+/* Gràfic de línies genèric: punts [{eix,capcal,fila,vals:{id:preu}}] i sèries [{id,nom,color,dash}] */
+function lineChart(o){
+  const {svg,tip,table,points,series,animate}=o,box=svg.parentNode,n=points.length;
   const W=Math.max(280,Math.round(box.clientWidth-12)),narrow=W<520,H=narrow?230:290;
   const m={t:14,r:narrow?78:96,b:26,l:44};
   svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.replaceChildren();tip.hidden=true;
-  svg.setAttribute("aria-label",`${FUEL_NOM[fuel]}: preu mitjà de cada marca els últims ${days.length} dies. Les dades són a la taula de sota.`);
-  const vals=days.flatMap(d=>BRANDS.map(b=>d.marques[b.id]&&d.marques[b.id][fuel])).filter(v=>v>0);
-  let lo=Math.floor(Math.min(...vals)*50)/50,hi=Math.ceil(Math.max(...vals)*50)/50;
-  if(hi-lo<0.04){const c=(hi+lo)/2;lo=c-0.02;hi=c+0.02}
-  const X=i=>m.l+i*(W-m.l-m.r)/(days.length-1),Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
-  for(let k=0;k<=4;k++){const v=lo+(hi-lo)*k/4,y=Y(v);mk("line",{x1:m.l,x2:W-m.r+8,y1:y,y2:y,class:"grid"},svg);mk("text",{x:m.l-6,y:y+4,"text-anchor":"end",class:"ax"},svg).textContent=v.toFixed(2).replace(".",",")}
-  const last=days.length-1;
-  [...new Set([0,Math.round(last/2),last])].forEach(i=>{mk("text",{x:X(i),y:H-8,"text-anchor":i===0?"start":i===last?"end":"middle",class:"ax"},svg).textContent=dm(days[i].data)});
+  svg.setAttribute("aria-label",o.aria);
+  const val=(p,s)=>{const v=p.vals[s.id];return typeof v==="number"&&isFinite(v)?v:null};
+  const fV=o.fmtV||fmt,fA=o.fmtAx||(v=>v.toFixed(2).replace(".",","));
+  const vals=points.flatMap(p=>series.map(s=>val(p,s))).filter(v=>v!==null);
+  // Eix amb passos rodons (1, 2, 2,5 o 5 × 10^n), unes 4 divisions
+  let mn=Math.min(...vals),mx=Math.max(...vals);if(mx-mn<(o.minSpan||0.02)){const c=(mx+mn)/2,h=(o.minSpan||0.02)/2;mn=c-h;mx=c+h}
+  const raw=(mx-mn)/4,pw=10**Math.floor(Math.log10(raw)),st=[1,2,2.5,5,10].map(f=>f*pw).find(x=>x>=raw);
+  const lo=Math.floor(mn/st+1e-9)*st,hi=Math.ceil(mx/st-1e-9)*st,nt=Math.round((hi-lo)/st);
+  const X=i=>m.l+i*(W-m.l-m.r)/(n-1),Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+  for(let k=0;k<=nt;k++){const v=lo+st*k,y=Y(v);mk("line",{x1:m.l,x2:W-m.r+8,y1:y,y2:y,class:"grid"+(o.zero&&Math.abs(v)<1e-9?" zero":"")},svg);mk("text",{x:m.l-6,y:y+4,"text-anchor":"end",class:"ax"},svg).textContent=fA(v)}
+  const last=n-1;
+  o.xTicks(n,narrow).forEach(i=>{mk("text",{x:X(i),y:H-8,"text-anchor":i===0?"start":i===last?"end":"middle",class:"ax"},svg).textContent=points[i].eix});
   const ends=[];
-  BRANDS.forEach((b,bi)=>{
+  series.forEach((s,si)=>{
     let d="",pen=false,end=null;
-    days.forEach((day,i)=>{const v=day.marques[b.id]&&day.marques[b.id][fuel];if(v>0){d+=(pen?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1);pen=true;end=[X(i),Y(v)]}else pen=false});
+    points.forEach((p,i)=>{const v=val(p,s);if(v!==null){d+=(pen?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1);pen=true;end=[X(i),Y(v)]}else pen=false});
     if(!end)return;
-    const p=mk("path",{d,class:"ln",stroke:b.color},svg);
-    if(animate&&!reduce){const L=Math.ceil(p.getTotalLength());p.style.strokeDasharray=L;p.style.setProperty("--len",L);p.style.animationDelay=(bi*90)+"ms";p.classList.add("draw")}
-    mk("circle",{cx:end[0],cy:end[1],r:4,fill:b.color,stroke:"#0b0b0b","stroke-width":2},svg);
-    ends.push({b,x:end[0],y:end[1]});
+    const path=mk("path",{d,class:"ln"+(s.dash?" dash":""),stroke:s.color},svg);
+    if(animate&&!reduce){path.style.animationDelay=(si*90)+"ms";
+      if(s.dash)path.classList.add("fadein");else{const L=Math.ceil(path.getTotalLength());path.style.strokeDasharray=L;path.style.setProperty("--len",L);path.classList.add("draw")}}
+    mk("circle",{cx:end[0],cy:end[1],r:4,fill:s.color,stroke:"#0b0b0b","stroke-width":2},svg);
+    ends.push({s,x:end[0],y:end[1]});
   });
   // Etiquetes directes al final de cada línia, sense que es trepitgin
   ends.sort((a,c)=>a.y-c.y);
   ends.forEach((e,i)=>e.ly=i?Math.max(e.y,ends[i-1].ly+15):e.y);
   const over=ends.length?ends.at(-1).ly-(H-m.b):0;if(over>0)ends.forEach(e=>e.ly-=over);
-  ends.forEach(e=>{mk("text",{x:e.x+9,y:e.ly+4,class:"lbl"},svg).textContent=e.b.nom});
+  ends.forEach(e=>{mk("text",{x:e.x+9,y:e.ly+4,class:"lbl"+(e.s.dash?" lbl-cat":"")},svg).textContent=e.s.nom});
   // Creu i tooltip
   const cross=mk("line",{y1:m.t,y2:H-m.b,class:"cross",visibility:"hidden"},svg);
-  const dots=BRANDS.map(b=>mk("circle",{r:4.5,fill:b.color,stroke:"#0b0b0b","stroke-width":2,visibility:"hidden"},svg));
+  const dots=series.map(s=>mk("circle",{r:4.5,fill:s.color,stroke:"#0b0b0b","stroke-width":2,visibility:"hidden"},svg));
   let cur=null;
   const show=i=>{
-    cur=i;const day=days[i],x=X(i);
+    cur=i;const p=points[i],x=X(i);
     cross.setAttribute("x1",x);cross.setAttribute("x2",x);cross.setAttribute("visibility","visible");
-    BRANDS.forEach((b,bi)=>{const v=day.marques[b.id]&&day.marques[b.id][fuel];if(v>0){dots[bi].setAttribute("cx",x);dots[bi].setAttribute("cy",Y(v));dots[bi].setAttribute("visibility","visible")}else dots[bi].setAttribute("visibility","hidden")});
+    series.forEach((s,si)=>{const v=val(p,s);if(v!==null){dots[si].setAttribute("cx",x);dots[si].setAttribute("cy",Y(v));dots[si].setAttribute("visibility","visible")}else dots[si].setAttribute("visibility","hidden")});
     tip.replaceChildren();
-    const h=document.createElement("div");h.className="d";h.textContent=new Date(day.data+"T12:00:00Z").toLocaleDateString("ca-ES",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"});tip.appendChild(h);
-    BRANDS.filter(b=>day.marques[b.id]&&day.marques[b.id][fuel]>0).sort((a,c)=>day.marques[a.id][fuel]-day.marques[c.id][fuel]).forEach(b=>{
+    const h=document.createElement("div");h.className="d";h.textContent=p.capcal;tip.appendChild(h);
+    series.filter(s=>val(p,s)!==null).sort((a,c)=>val(p,a)-val(p,c)).forEach(s=>{
       const r=document.createElement("div");r.className="r";
-      const k=document.createElement("span");k.className="k";k.style.background=b.color;
-      const v=document.createElement("b");v.textContent=fmt(day.marques[b.id][fuel]);
-      const n=document.createElement("span");n.textContent=b.nom;
-      r.append(k,v,n);tip.appendChild(r);
+      const k=document.createElement("span");k.className="k"+(s.dash?" kd":"");k.style.background=s.color;
+      const v=document.createElement("b");v.textContent=fV(val(p,s));
+      const nm=document.createElement("span");nm.textContent=s.nom;
+      r.append(k,v,nm);tip.appendChild(r);
     });
     tip.hidden=false;
     const scale=svg.getBoundingClientRect().width/W,px=x*scale+6,tw=tip.offsetWidth;
-    tip.style.left=(px+12+tw<box.clientWidth?px+12:px-12-tw)+"px";
+    tip.style.left=Math.max(4,Math.min(box.clientWidth-tw-4,px+12+tw<box.clientWidth?px+12:px-12-tw))+"px";
   };
   const hide=()=>{cur=null;cross.setAttribute("visibility","hidden");dots.forEach(d=>d.setAttribute("visibility","hidden"));tip.hidden=true};
   const idxAt=e=>{const r=svg.getBoundingClientRect(),x=(e.clientX-r.left)*W/r.width;return Math.max(0,Math.min(last,Math.round((x-m.l)/((W-m.l-m.r)/last))))};
@@ -405,12 +427,54 @@ function drawChart(animate){
   svg.onpointerleave=e=>{if(e.pointerType==="mouse")hide()};svg.onblur=hide;svg.onfocus=()=>show(cur??last);
   svg.onkeydown=e=>{svg.classList.add("kb");if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();show(Math.max(0,Math.min(last,(cur??last)+(e.key==="ArrowLeft"?-1:1))))}else if(e.key==="Escape")hide()};
   // Taula
-  const tb=document.getElementById("histTable");tb.replaceChildren();
-  tb.createCaption().textContent=`${FUEL_NOM[fuel]} (€/L)`;
-  const hr=tb.createTHead().insertRow();["Dia",...BRANDS.map(b=>b.nom)].forEach(tx=>{const th=document.createElement("th");th.textContent=tx;hr.appendChild(th)});
-  const body=tb.createTBody();
-  [...days].reverse().forEach(d=>{const r=body.insertRow();r.insertCell().textContent=dm(d.data);BRANDS.forEach(b=>{const v=d.marques[b.id]&&d.marques[b.id][fuel];r.insertCell().textContent=v>0?fmt(v):"–"})});
+  table.replaceChildren();
+  table.createCaption().textContent=o.caption||`${FUEL_NOM[fuel]} (€/L)`;
+  const hr=table.createTHead().insertRow();[o.colName,...series.map(s=>s.nom)].forEach(tx=>{const th=document.createElement("th");th.textContent=tx;hr.appendChild(th)});
+  const body=table.createTBody();
+  [...points].reverse().forEach(p=>{const r=body.insertRow();r.insertCell().textContent=p.fila;series.forEach(s=>{const v=val(p,s);r.insertCell().textContent=v!==null?fV(v):"–"})});
 }
+const $=id=>document.getElementById(id);
+
+function drawChart(animate){
+  const sec=$("histSec"),days=HIST.slice(-30);
+  if(days.length<2){sec.hidden=true;return}
+  sec.hidden=false;
+  lineChart({svg:$("chartSvg"),tip:$("tip"),table:$("histTable"),animate,series:BRANDS,colName:"Dia",
+    aria:`${FUEL_NOM[fuel]}: preu mitjà de cada marca els últims ${days.length} dies. Les dades són a la taula de sota.`,
+    points:days.map(d=>({eix:dm(d.data),fila:dm(d.data),
+      capcal:new Date(d.data+"T12:00:00Z").toLocaleDateString("ca-ES",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}),
+      vals:Object.fromEntries(BRANDS.map(b=>[b.id,d.marques[b.id]&&d.marques[b.id][fuel]]))})),
+    xTicks:n=>[...new Set([0,Math.round((n-1)/2),n-1])]});
+}
+
+/* ---------- 10 ANYS ---------- */
+let ANUAL=[],modeAnys="preu";
+const SERIE_CAT={id:"catalunya",nom:"Catalunya",color:"#8B949E",dash:true};
+const signe=(v,d=1)=>(v>0?"+":v<0?"−":"")+Math.abs(v).toFixed(d).replace(".",",");
+function drawYears(animate){
+  const sec=$("anysSec"),anys=ANUAL;
+  if(anys.length<2){sec.hidden=true;return}
+  sec.hidden=false;
+  const avui=new Date().getFullYear(),dif=modeAnys==="dif",series=[SERIE_CAT,...BRANDS];
+  $("anysLead").textContent=dif
+    ?"Quants cèntims per litre ha estat cada marca per sobre (+) o per sota (−) de la mitjana de totes les benzineres de Catalunya, any per any. Com més avall, més barata."
+    :"Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. La línia discontínua és la mitjana de totes les benzineres de Catalunya. L'any en curs compta fins ara.";
+  const preu=(a,id)=>a[id]&&a[id][fuel]>0?a[id][fuel]:null;
+  lineChart({svg:$("anysSvg"),tip:$("anysTip"),table:$("anysTable"),animate,series,colName:"Any",
+    aria:dif?`${FUEL_NOM[fuel]}: diferència en cèntims de cada marca respecte a la mitjana de Catalunya, any per any des del ${anys[0].any}. Les dades són a la taula de sota.`
+            :`${FUEL_NOM[fuel]}: preu mitjà de cada any des del ${anys[0].any}, per marca i per a tot Catalunya. Les dades són a la taula de sota.`,
+    caption:dif?`${FUEL_NOM[fuel]} (cèntims respecte a Catalunya)`:null,
+    fmtV:dif?(v=>signe(v)+" c"):null,fmtAx:dif?(v=>signe(v,Number.isInteger(Math.round(v*100)/100)?0:1)):null,minSpan:dif?2:0.02,zero:dif,
+    points:anys.map(a=>{const parcial=a.any===avui||a.mesos<12,cat=preu(a,"catalunya");
+      return {eix:String(a.any),fila:parcial?`${a.any}*`:String(a.any),
+        capcal:parcial?`${a.any} · ${a.any===avui?"fins ara":"dades parcials"} (${a.mesos} ${a.mesos===1?"mes":"mesos"})`:`${a.any} · mitjana de l'any`,
+        vals:Object.fromEntries(series.map(s=>{const v=preu(a,s.id);return [s.id,dif?(v!==null&&cat!==null?Math.round((v-cat)*1000)/10:null):v]}))}}),
+    xTicks:(n,narrow)=>[...Array(n).keys()].filter(i=>!narrow||i%2===(n-1)%2)});
+}
+document.querySelectorAll("#anysMode button").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll("#anysMode button").forEach(x=>x.setAttribute("aria-pressed",x===btn));
+  modeAnys=btn.dataset.mode;drawYears(true);
+}));
 
 /* Rètol que llisca */
 function updateTicker(sorted){
@@ -469,9 +533,9 @@ function updateBill(sorted){
 const pill=document.querySelector(".pill"),btns=document.querySelectorAll(".toggle button");
 function movePill(btn){pill.style.width=btn.offsetWidth+"px";pill.style.transform=`translateX(${btn.offsetLeft-5}px)`}
 btns.forEach(btn=>btn.addEventListener("click",()=>{
-  btns.forEach(x=>x.setAttribute("aria-pressed",x===btn));movePill(btn);fuel=btn.dataset.fuel;render();drawChart(true);
+  btns.forEach(x=>x.setAttribute("aria-pressed",x===btn));movePill(btn);fuel=btn.dataset.fuel;render();drawChart(true);drawYears(true);
 }));
-let rz;addEventListener("resize",()=>{movePill(document.querySelector('.toggle [aria-pressed="true"]'));clearTimeout(rz);rz=setTimeout(()=>drawChart(false),150)});
+let rz;addEventListener("resize",()=>{movePill(document.querySelector('.toggle [aria-pressed="true"]'));clearTimeout(rz);rz=setTimeout(()=>{drawChart(false);drawYears(false)},150)});
 document.getElementById("l").addEventListener("input",()=>updateBill());
 
 document.fonts.ready.then(()=>movePill(btns[0]));
@@ -563,12 +627,27 @@ async function loadHistory(){
   }catch(e){HIST=[]}
 }
 
+async function loadYears(){
+  try{
+    const j=await getJSON("anual.json?"+Date.now(),8000);
+    ANUAL=(Array.isArray(j.anys)?j.anys:[]).filter(a=>a&&Number.isInteger(a.any)).sort((a,b)=>a.any-b.any);
+  }catch(e){ANUAL=[]}
+}
+
 const histReady=loadHistory();
 setTimeout(async()=>{
   await loadPrices();
   await histReady;
   if(HIST.length){render();drawChart(true)}
 },reduce?0:1000);
+
+/* El gràfic de 10 anys es dibuixa amb animació quan apareix a la pantalla */
+loadYears().then(()=>{
+  drawYears(false);
+  const sec=$("anysSec");if(sec.hidden||!("IntersectionObserver" in window))return;
+  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();drawYears(true)}},{threshold:.35});
+  io.observe(sec);
+});
 </script>
 </body>
 </html>
