@@ -6,6 +6,10 @@ on:
     - cron: "0,30 5-20 * * *"
     - cron: "0 21 * * *"
   workflow_dispatch:
+    inputs:
+      dies_enrere:
+        description: "Dies anteriors que cal omplir a historic.json (0 = cap)"
+        default: "0"
 
 permissions:
   contents: write
@@ -23,13 +27,15 @@ jobs:
         with:
           python-version: "3.12"
       - run: python actualitza_preus.py
-      - name: Desa preus.json si ha canviat
+        env:
+          DIES_ENRERE: ${{ inputs.dies_enrere || '0' }}
+      - name: Desa els preus si han canviat
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add preus.json
+          git add preus.json historic.json
           if git diff --staged --quiet; then
-            echo "preus.json no ha canviat"
+            echo "Els preus no han canviat"
             exit 0
           fi
           git commit -m "Preus actualitzats"

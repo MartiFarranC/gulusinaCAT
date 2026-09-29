@@ -13,6 +13,16 @@ Cada vegada que algú obre la pàgina:
 3. Si tampoc hi és, mostra els preus que porta la pàgina de fàbrica.
 
 A sota del selector de combustible s'indica quina de les tres fonts s'està fent servir.
+Si les dades tenen més d'un dia, també ho diu.
+
+## Històric
+
+Cada vegada que s'executa, el workflow desa l'última mitjana del dia a `historic.json`
+(un any com a màxim). La pàgina en treu la tendència de cada marca respecte al dia
+anterior i un gràfic dels últims 30 dies.
+
+Per omplir dies passats amb l'històric del Ministeri: a **Actions → Actualitza preus →
+Run workflow**, posa a *dies_enrere* quants dies vols recuperar (per exemple, 30).
 
 ## Com penjar-la a GitHub Pages
 
