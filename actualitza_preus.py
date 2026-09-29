@@ -4,7 +4,7 @@ L'executa GitHub Actions.
 
 Amb la variable DIES_ENRERE=N també omple els N dies anteriors que faltin
 a historic.json, amb l'històric del Ministeri."""
-import datetime, json, os, re, sys, unicodedata, urllib.request
+import datetime, json, os, re, sys, time, unicodedata, urllib.request
 
 BASE = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/"
 API = BASE + "EstacionesTerrestres/FiltroCCAA/09"
@@ -27,10 +27,18 @@ def num(v):
     except ValueError:
         return None
 
-def baixa(url):
+def baixa(url, intents=3):
+    """El servidor del Ministeri a vegades talla la connexió: es torna a provar."""
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return json.load(r)
+    for i in range(intents):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return json.load(r)
+        except (OSError, ValueError) as e:
+            if i == intents - 1:
+                raise
+            print(f"Intent {i + 1} fallit ({e}); es torna a provar", file=sys.stderr)
+            time.sleep(15 * (i + 1))
 
 def mitjanes(llista):
     acc = {k: {"g": [], "d": []} for k in MARQUES}
@@ -77,7 +85,7 @@ for i in range(1, int(os.environ.get("DIES_ENRERE") or 0) + 1):
     if dia.isoformat() in dies:
         continue
     try:
-        m = mitjanes(baixa(API_HIST.format(dia.strftime("%d-%m-%Y"))).get("ListaEESSPrecio", []))
+        m = mitjanes(baixa(API_HIST.format(dia.strftime("%d-%m-%Y")), intents=2).get("ListaEESSPrecio", []))
     except Exception as e:
         print(f"Avís: no s'ha pogut baixar l'històric del {dia}: {e}", file=sys.stderr)
         continue
