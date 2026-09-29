@@ -6,11 +6,12 @@ Com que el servidor del Ministeri talla sovint la connexió, cada execució
 només demana els mesos que falten (com a màxim MAX_PETICIONS) i desa el que
 aconsegueix. Amb unes quantes execucions queda complet."""
 import datetime, json, os, sys
-from actualitza_preus import API_HIST, MARQUES, baixa, detall, mitjanes
+from actualitza_preus import API_HIST, baixa, detall, mitjanes
 
 ANYS = 10
 MAX_PETICIONS = int(os.environ.get("MAX_PETICIONS") or 30)
 FITXER = "anual.json"
+VERSIO = 2  # v2: totes les marques (v1 només en tenia 4)
 
 avui = datetime.date.today()
 # El mes en curs només compta quan ja ha passat el dia 15
@@ -19,11 +20,17 @@ mesos = [(a, m) for a in range(avui.year - ANYS, avui.year + 1) for m in range(1
 
 try:
     with open(FITXER, encoding="utf-8") as f:
-        mostres = json.load(f).get("mesos", {})
+        guardat = json.load(f)
+    mostres, noms = guardat.get("mesos", {}), guardat.get("noms", {})
 except (FileNotFoundError, ValueError):
-    mostres = {}
+    mostres, noms = {}, {}
 
-pendents = [(a, m) for a, m in reversed(mesos) if f"{a}-{m:02d}" not in mostres]
+# Primer els mesos que no hi són; després els de versions antigues (es mantenen fins
+# que se'n baixa la versió nova)
+falten = [(a, m) for a, m in reversed(mesos) if f"{a}-{m:02d}" not in mostres]
+vells = [(a, m) for a, m in reversed(mesos) if mostres.get(f"{a}-{m:02d}", {}).get("v", 1) < VERSIO
+         and (a, m) not in falten]
+pendents = falten + vells
 print(f"{len(mesos) - len(pendents)} mesos desats, {len(pendents)} pendents")
 fallades = 0
 for a, m in pendents[:MAX_PETICIONS]:
@@ -43,9 +50,10 @@ for a, m in pendents[:MAX_PETICIONS]:
         continue
     marques = mitjanes(llista)
     cat, _ = detall(llista)
-    mostres[clau] = {"catalunya": {"g95": cat["g95"], "dsl": cat["dsl"]},
+    noms.update({k: v["nom"] for k, v in marques.items()})
+    mostres[clau] = {"v": VERSIO, "catalunya": {"g95": cat["g95"], "dsl": cat["dsl"]},
                      **{k: {"g95": v["g95"], "dsl": v["dsl"]} for k, v in marques.items()}}
-    print(f"{clau}: " + ", ".join(f"{k} {v['g95']}" for k, v in marques.items()) + f", Catalunya {cat['g95']}")
+    print(f"{clau}: {len(marques)} marques, Catalunya {cat['g95']}")
 
 # Mitjana de cada any a partir dels seus mesos
 anys = []
@@ -54,7 +62,8 @@ for a in range(avui.year - ANYS, avui.year + 1):
     if not del_any:
         continue
     fila = {"any": a, "mesos": len(del_any)}
-    for k in ["catalunya", *MARQUES]:
+    claus = sorted({k for v in del_any for k in v if k != "v"})
+    for k in claus:
         fila[k] = {}
         for c in ("g95", "dsl"):
             vals = [v[k][c] for v in del_any if v.get(k, {}).get(c)]
@@ -62,7 +71,8 @@ for a in range(avui.year - ANYS, avui.year + 1):
     anys.append(fila)
 
 with open(FITXER, "w", encoding="utf-8") as f:
-    f.write('{"anys": [\n' + ",\n".join(json.dumps(x, ensure_ascii=False) for x in anys) + "\n],\n"
+    f.write('{"noms": ' + json.dumps(noms, ensure_ascii=False) + ',\n"anys": [\n'
+            + ",\n".join(json.dumps(x, ensure_ascii=False) for x in anys) + "\n],\n"
             '"mesos": {\n' + ",\n".join(f'"{k}": ' + json.dumps(mostres[k], ensure_ascii=False) for k in sorted(mostres))
             + "\n}}\n")
 print(f"{FITXER}: {len(anys)} anys, {len(mostres)} mesos de {len(mesos)}")

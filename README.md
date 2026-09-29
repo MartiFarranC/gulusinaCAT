@@ -1,7 +1,7 @@
 # On omplo el dipòsit?
 
-Compara el preu mitjà de la gasolina 95 i el dièsel a bonÀrea, Esclatoil,
-Petrocat i Repsol a Catalunya, amb dades oficials del Ministeri.
+Compara el preu mitjà de la gasolina 95 i el dièsel de totes les marques de
+benzineres de Catalunya, amb dades oficials del Ministeri.
 
 ## Com obté els preus
 
@@ -40,3 +40,12 @@ La pàgina quedarà a `https://<el-teu-usuari>.github.io/<nom-del-repositori>/`.
 Per a cada mes agafa el dia 15 de l'històric del Ministeri, i la mitjana de l'any és
 la dels seus mesos. Cada execució demana com a màxim 30 mesos que faltin, perquè el
 servidor del Ministeri talla sovint la connexió: en pocs dies queda complet.
+
+## Com es reconeixen les marques
+
+`actualitza_preus.py` (llista `CONEGUDES`) reconeix les cadenes habituals pel rètol:
+Repsol, Moeve (Cepsa), Galp, BP, Shell, Plenoil, Ballenoil, Petroprix, bonÀrea,
+Esclatoil, Petrocat, Petromiralles, supermercats… Qualsevol altre rètol que es repeteixi
+en 3 o més benzineres també compta com a marca. La resta (independents i marques amb
+menys de 3 benzineres) s'agrupa a «Independents i altres». El registre del workflow
+mostra els rètols més repetits que han anat a aquest grup, per si cal afegir-ne cap.
