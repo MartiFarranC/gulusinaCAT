@@ -187,6 +187,31 @@ input[type=range]{flex:1;min-width:180px;accent-color:var(--led);height:6px}
 footer{color:var(--muted);font-size:.85rem;padding:20px 0 40px;border-top:1px solid var(--line)}
 footer a{color:var(--ink)}
 
+/* LES MÉS PROPERES */
+.near{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:-8px 0 26px}
+.near-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.near-row+.near-row{margin-top:12px}
+.near-row label{font-weight:700}
+.near .or{color:var(--muted);font-size:.9rem}
+.near input[type=text],#muni{flex:1;min-width:180px;font:500 1rem "Figtree",sans-serif;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+#radi{flex:1;min-width:160px;accent-color:var(--led)}
+#radiv{font-family:"Bungee",sans-serif;color:var(--led);min-width:4.2em;text-align:right}
+.near-msg{margin:10px 0 0;color:var(--muted);font-size:.9rem;min-height:1.2em}
+.btn{border:1px solid var(--line);background:var(--bg2);color:var(--ink);font:700 .92rem "Figtree",sans-serif;padding:9px 14px;border-radius:999px;cursor:pointer;transition:background .25s,border-color .25s}
+.btn:hover{border-color:var(--ink)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st{list-style:none;margin:0;padding:0}
+.sti{display:grid;grid-template-columns:auto 1fr auto;gap:4px 16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);animation:fade .5s var(--ease) both}
+.stp{font-family:"Bungee",sans-serif;font-size:1.25rem;color:var(--ink);min-width:4.2em}
+.sti.best .stp{color:var(--led)}
+.stm b{display:block;font-weight:800}
+.stm span{color:var(--muted);font-size:.88rem}
+.std{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.std a{display:block;font-weight:600;font-size:.85rem;color:var(--ink)}
+.more{margin-top:14px}
+.more[hidden]{display:none}
+.scope button{font-size:.9rem}
+
 @media (max-width:560px){ .cr,#compSec.simple .cr{grid-template-columns:1fr auto;grid-template-areas:"n v" "t t" "c c";row-gap:8px} .caxis{grid-template-columns:1fr} .caxis>span{display:none} .digits{font-size:2rem} }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -211,22 +236,49 @@ footer a{color:var(--ink)}
       <button type="button" data-fuel="g95" aria-pressed="true">Gasolina 95</button>
       <button type="button" data-fuel="dsl" aria-pressed="false">Dièsel</button>
     </div>
+    <div class="seg scope" id="scope" role="group" aria-label="Quines benzineres es comparen">
+      <button type="button" data-scope="totes" aria-pressed="true">Totes les gasolineres</button>
+      <button type="button" data-scope="properes" aria-pressed="false">Les més properes</button>
+    </div>
+  </div>
+  <div class="near" id="near" hidden>
+    <div class="near-row">
+      <button type="button" class="btn" id="gps">Fes servir la meva ubicació</button>
+      <span class="or">o bé</span>
+      <label class="vh" for="muni">Municipi</label>
+      <input id="muni" list="munis" placeholder="Escriu un municipi" autocomplete="off" enterkeyhint="search">
+      <datalist id="munis"></datalist>
+    </div>
+    <div class="near-row">
+      <label for="radi">Radi</label>
+      <input id="radi" type="range" min="5" max="150" step="5" value="50">
+      <output id="radiv" for="radi">50 km</output>
+    </div>
+    <p class="near-msg" id="nearMsg" role="status"></p>
   </div>
   <p class="status" id="status" data-s="loading" role="status"><span class="dot" aria-hidden="true"></span><span id="statusText">Demanant els preus d'avui al Ministeri…</span></p>
 
   <p class="kicker">Les quatre marques més barates</p>
   <div class="totems" id="totems"></div>
 
+  <section id="aprop" hidden>
+    <div class="sechead"><h2>Les benzineres més barates a prop</h2>
+      <div class="seg" id="aOrdre" role="group" aria-label="Ordre"><button type="button" data-o="preu" aria-pressed="true">Més barates</button><button type="button" data-o="dist" aria-pressed="false">Més a prop</button></div></div>
+    <p class="lead" id="apropLead"></p>
+    <ol class="st" id="stList"></ol>
+    <button type="button" class="btn more" id="stMore">Mostra'n més</button>
+  </section>
+
   <section id="compSec" hidden>
     <h2>Totes les marques</h2>
-    <p class="lead">De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres de Catalunya.</p>
+    <p class="lead" id="compLead">De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres de Catalunya.</p>
     <div class="caxis" aria-hidden="true"><span></span><div class="sc" id="cscale"></div><span></span></div>
     <div id="comp"></div>
   </section>
 
   <section id="evoSec" hidden>
     <h2>Com han anat els preus</h2>
-    <p class="lead">Tria les marques que vols comparar als gràfics. Passa el dit o el ratolí per sobre per veure'n els valors.</p>
+    <p class="lead" id="evoLead">Tria les marques que vols comparar als gràfics. Passa el dit o el ratolí per sobre per veure'n els valors.</p>
     <div class="chips" id="chips" role="group" aria-label="Marques als gràfics"></div>
     <p class="chips-note" id="chipsNote"></p>
   <div id="histSec" class="sub-sec" hidden>
@@ -302,6 +354,8 @@ const cents=v=>(v*100).toFixed(1).replace(".",",");
 const el=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
 const dot=color=>{const i=el("i","bd");i.style.background=color;return i};
 // Marques amb preu del combustible triat, de més barata a més cara (sense el grup d'independents)
+const prop=()=>SCOPE==="properes"&&LOC&&STATIONS&&BASE&&BRANDS!==BASE.brands;
+const refNom=()=>prop()?"la zona":"Catalunya";
 const ordenades=()=>BRANDS.filter(b=>b[fuel]>0).sort((a,b)=>a[fuel]-b[fuel]);
 const marques=()=>ordenades().filter(b=>b.id!==ALTRES);
 
@@ -383,7 +437,7 @@ function renderComp(llista){
   const sc=$("cscale");sc.replaceChildren();
   if(cat){
     [[lo,"0%",""],[hi,"100%",""],[cat,P(cat),"cl"]].forEach(([v,left,cls],i)=>{
-      const s=el("span",cls||null,cls?`Catalunya ${fmt(v)}`:v.toFixed(2).replace(".",","));s.style.left=left;if(i===1)s.style.translate="-100% 0";sc.appendChild(s);
+      const s=el("span",cls||null,cls?`${prop()?"Zona":"Catalunya"} ${fmt(v)}`:v.toFixed(2).replace(".",","));s.style.left=left;if(i===1)s.style.translate="-100% 0";sc.appendChild(s);
     });
     // Amaga els extrems de l'eix si trepitgen l'etiqueta de Catalunya
     const [sLo,sHi,sCat]=sc.children,W=sc.clientWidth,cx=(cat-lo)/(hi-lo)*W,half=sCat.offsetWidth/2+8;
@@ -403,7 +457,7 @@ function renderComp(llista){
     let txt=`${b.nom}: ${fmt(b[fuel])} euros el litre`;
     if(cat){const d=b[fuel]-cat,igual=Math.abs(d)<0.0005;
       cv.appendChild(el("small",null,igual?"= mitjana":`${d<0?"−":"+"}${cents(Math.abs(d))} c ${d<0?"per sota":"per sobre"}`));
-      txt+=`, ${igual?"igual que":cents(Math.abs(d))+" cèntims "+(d<0?"per sota de":"per sobre de")} la mitjana de Catalunya`}
+      txt+=`, ${igual?"igual que":cents(Math.abs(d))+" cèntims "+(d<0?"per sota de":"per sobre de")} la mitjana de ${refNom()}`}
     r.setAttribute("aria-label",txt);
     const ch=r.querySelector(".cheap"),bb=b.barata&&b.barata[fuel];ch.replaceChildren();
     if(b.n)ch.append(`${b.n} ${b.n===1?"benzinera":"benzineres"}`);
@@ -446,7 +500,7 @@ function updateBill(){
   const S=(txt)=>el("strong",null,txt);
   if(cat){
     const dif=(cat-b[fuel])*L;
-    v.append(`Amb ${L} litres, a `,S(b.nom),` pagues `,S(eur(dif)),` menys que la mitjana de Catalunya`);
+    v.append(`Amb ${L} litres, a `,S(b.nom),` pagues `,S(eur(dif)),` menys que la mitjana de ${refNom()}`);
     if(gran&&gran.id!==b.id&&gran.n>1)v.append(` i ${eur((gran[fuel]-b[fuel])*L)} menys que a ${gran.nom}, la marca amb més benzineres`);
     v.append(`. En un any omplint cada setmana, són uns ${eur(dif*52)}.`);
   }else{
@@ -462,7 +516,7 @@ const dm=iso=>{const [,m,d]=iso.split("-");return `${+d}/${+m}`};
 const diaAnterior=iso=>{const d=new Date(iso+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-1);return d.toISOString().slice(0,10)};
 
 function trend(b){
-  if(!NOW||!HIST.length)return null;
+  if(!NOW||!HIST.length||prop())return null; // l'històric és de tot Catalunya
   const prev=[...HIST].reverse().find(d=>d.data<NOW&&d.marques[b.id]&&d.marques[b.id][fuel]>0);
   if(!prev)return null;
   const diff=Math.round((b[fuel]-prev.marques[b.id][fuel])*1000)/10;
@@ -641,7 +695,7 @@ function render(){
 const pill=document.querySelector(".pill"),btns=document.querySelectorAll(".toggle button");
 function movePill(btn){pill.style.width=btn.offsetWidth+"px";pill.style.transform=`translateX(${btn.offsetLeft-5}px)`}
 btns.forEach(btn=>btn.addEventListener("click",()=>{
-  btns.forEach(x=>x.setAttribute("aria-pressed",x===btn));movePill(btn);fuel=btn.dataset.fuel;render();drawChart(true);drawYears(true);
+  btns.forEach(x=>x.setAttribute("aria-pressed",x===btn));movePill(btn);fuel=btn.dataset.fuel;aplicaAmbit();drawChart(true);drawYears(true);
 }));
 let rz;addEventListener("resize",()=>{movePill(document.querySelector('.toggle [aria-pressed="true"]'));clearTimeout(rz);rz=setTimeout(()=>{drawChart(false);drawYears(false)},150)});
 $("l").addEventListener("input",()=>updateBill());
@@ -650,9 +704,129 @@ document.fonts.ready.then(()=>movePill(btns[0]));
 movePill(btns[0]);
 setTimeout(render,reduce?0:700);
 
+
+/* ---------- LES MÉS PROPERES ---------- */
+let STATIONS=null,BASE=null,SCOPE="totes",LOC=null,RADI=50,ORDRE="preu",SHOWN=10;
+const dist=(a,b)=>{const r=Math.PI/180,dl=(b.lat-a.lat)*r,dn=(b.lon-a.lon)*r,
+  x=Math.sin(dl/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dn/2)**2;return 12742*Math.asin(Math.sqrt(x))};
+const km=d=>(d<10?d.toFixed(1).replace(".",","):Math.round(d))+" km";
+const mapa=(lat,lon)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+const nearMsg=t=>{$("nearMsg").textContent=t||""};
+let MUNIS=new Map();
+
+function setStations(d){
+  if(!d||!Array.isArray(d.e))return;
+  const noms=d.marques||{};
+  STATIONS=d.e.map(([m,lat,lon,g95,dsl,mun,adr])=>({m,nom:noms[m]||NOMS[m]||m,lat,lon,g95:g95||null,dsl:dsl||null,mun:mun||"",adr:adr||""}))
+    .filter(x=>isFinite(x.lat)&&isFinite(x.lon));
+  // Municipis per al cercador: el centre de les seves benzineres
+  const acc=new Map();
+  STATIONS.forEach(x=>{if(!x.mun)return;const k=norm(x.mun);const a=acc.get(k)||{nom:x.mun,lat:0,lon:0,n:0};a.lat+=x.lat;a.lon+=x.lon;a.n++;acc.set(k,a)});
+  MUNIS=new Map([...acc].map(([k,a])=>[k,{nom:a.nom,lat:a.lat/a.n,lon:a.lon/a.n}]));
+  const dl=$("munis");dl.replaceChildren();
+  [...MUNIS.values()].sort((a,b)=>a.nom.localeCompare(b.nom,"ca")).forEach(m=>{const o=el("option");o.value=m.nom;dl.appendChild(o)});
+}
+async function loadStations(){
+  try{const j=await getJSON("estacions.json?"+Date.now(),10000);if(!STATIONS)setStations(j)}catch(e){}
+}
+
+// Mitjanes de les benzineres que queden dins del radi (mateix format que apply)
+function agrega(dins){
+  const acc={},tots={g95:[],dsl:[]};
+  dins.forEach(x=>{const a=acc[x.m]=acc[x.m]||{nom:x.nom,g95:[],dsl:[]};["g95","dsl"].forEach(c=>{if(x[c]){a[c].push(x);tots[c].push(x[c])}})});
+  const avg=a=>a.length?Math.round(a.reduce((p,q)=>p+q,0)/a.length*1000)/1000:null;
+  const pc=(a,q)=>{a=[...a].sort((p,q)=>p-q);return a[Math.round(q*(a.length-1))]};
+  const brands=Object.entries(acc).map(([id,a])=>{
+    const b={id,nom:a.nom,color:colorDe(id),rang:{},barata:{},n:Math.max(a.g95.length,a.dsl.length)};
+    ["g95","dsl"].forEach(c=>{const vs=a[c].map(x=>x[c]);b[c]=avg(vs);
+      if(vs.length){b.rang[c]=[pc(vs,.1),pc(vs,.9)];const x=a[c].reduce((p,q)=>q[c]<p[c]?q:p);b.barata[c]={preu:x[c],municipi:x.mun,lat:x.lat,lon:x.lon}}});
+    b.data=`${b.n} a menys de ${RADI} km`;
+    return b;
+  });
+  return {brands,cat:{g95:avg(tots.g95),dsl:avg(tots.dsl),n:dins.length}};
+}
+
+// Aplica l'àmbit triat i torna a pintar la pàgina
+function aplicaAmbit(){
+  const near=SCOPE==="properes";
+  $("near").hidden=!near;
+  let dins=[];
+  if(near&&LOC&&STATIONS){
+    STATIONS.forEach(x=>x.d=dist(LOC,x));
+    dins=STATIONS.filter(x=>x.d<=RADI);
+  }
+  if(dins.length&&BASE){const a=agrega(dins);BRANDS=a.brands;CAT=a.cat.g95>0||a.cat.dsl>0?a.cat:null}
+  else if(BASE){BRANDS=BASE.brands;CAT=BASE.cat}
+  if(near&&LOC&&STATIONS&&!dins.length)nearMsg(`No hi ha cap benzinera a menys de ${RADI} km de ${LOC.nom}. Augmenta el radi.`);
+  else if(near&&LOC&&dins.length)nearMsg(`${dins.length} ${dins.length===1?"benzinera":"benzineres"} a menys de ${RADI} km de ${LOC.nom}.`);
+  $("compLead").textContent=`De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de ${prop()?`totes les benzineres a menys de ${RADI} km`:"totes les benzineres de Catalunya"}.`;
+  $("evoLead").textContent=`Tria les marques que vols comparar als gràfics${prop()?" (les dades històriques són de tot Catalunya)":""}. Passa el dit o el ratolí per sobre per veure'n els valors.`;
+  document.querySelector(".kicker").textContent=prop()?`Les quatre marques més barates a menys de ${RADI} km`:"Les quatre marques més barates";
+  render();renderAprop(dins);
+}
+
+function renderAprop(dins){
+  const sec=$("aprop");
+  const llista=(dins||[]).filter(x=>x[fuel]>0).sort(ORDRE==="dist"?(a,b)=>a.d-b.d:(a,b)=>a[fuel]-b[fuel]||a.d-b.d);
+  if(!prop()||!llista.length){sec.hidden=true;return}
+  sec.hidden=false;
+  const barata=llista.reduce((p,q)=>q[fuel]<p[fuel]?q:p);
+  $("apropLead").textContent=`${llista.length} ${llista.length===1?"benzinera":"benzineres"} amb ${FUEL_NOM[fuel].toLowerCase()} a menys de ${RADI} km de ${LOC.nom}. La més barata és ${barata.nom} de ${barata.mun}, a ${fmt(barata[fuel])} €/L i ${km(barata.d)}.`;
+  const ol=$("stList");ol.replaceChildren();
+  llista.slice(0,SHOWN).forEach(x=>{
+    const li=el("li","sti");if(x===barata)li.classList.add("best");
+    const info=el("div","stm"),nm=el("b");nm.append(dot(colorDe(x.m)),x.nom);
+    info.append(nm,el("span",null,[x.mun,x.adr].filter(Boolean).join(" · ")));
+    const dd=el("span","std",km(x.d)),a=el("a",null,"Mapa ↗");a.href=mapa(x.lat,x.lon);a.target="_blank";a.rel="noopener";
+    a.setAttribute("aria-label",`Veure ${x.nom} de ${x.mun} al mapa`);dd.append(a);
+    li.append(el("span","stp",fmt(x[fuel])),info,dd);ol.appendChild(li);
+  });
+  $("stMore").hidden=llista.length<=SHOWN;
+}
+
+// Demana el GPS (el navegador mostra el permís) i, si no, deixa escriure un municipi
+function localitza(demanaGPS){
+  if(!STATIONS){nearMsg("Encara no hi ha les dades de cada benzinera. Es mostren les de tot Catalunya; torna-ho a provar d'aquí a una estona.");aplicaAmbit();return}
+  if(LOC||!demanaGPS){aplicaAmbit();return}
+  if(!("geolocation" in navigator)){nearMsg("Aquest navegador no pot donar la ubicació. Escriu un municipi.");aplicaAmbit();return}
+  nearMsg("Demanant la teva ubicació…");
+  navigator.geolocation.getCurrentPosition(p=>{
+    LOC={lat:p.coords.latitude,lon:p.coords.longitude,nom:"la teva ubicació"};
+    const prop1=Math.min(...STATIONS.map(x=>dist(LOC,x)));
+    aplicaAmbit();
+    if(prop1>RADI)nearMsg(`La benzinera més propera és a ${km(prop1)}. Les dades són només de Catalunya: augmenta el radi o escriu un municipi.`);
+  },err=>{
+    nearMsg(err.code===1?"No has donat permís per fer servir la ubicació. Pots escriure un municipi.":"No s'ha pogut obtenir la ubicació. Escriu un municipi.");
+    aplicaAmbit();$("muni").focus();
+  },{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
+}
+
+function triaMunicipi(){
+  const v=$("muni").value.trim();if(!v)return;
+  const k=norm(v);let m=MUNIS.get(k);
+  if(!m){const opts=[...MUNIS].filter(([kk])=>kk.startsWith(k));if(opts.length===1)m=opts[0][1]}
+  if(!m){nearMsg(`No trobo «${v}» entre els municipis amb benzinera. Tria'n un de la llista.`);return}
+  $("muni").value=m.nom;LOC={lat:m.lat,lon:m.lon,nom:m.nom};SHOWN=10;aplicaAmbit();
+}
+
+document.querySelectorAll("#scope button").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll("#scope button").forEach(x=>x.setAttribute("aria-pressed",x===btn));
+  SCOPE=btn.dataset.scope;SHOWN=10;
+  if(SCOPE==="properes"){$("near").hidden=false;localitza(true)}else{nearMsg("");aplicaAmbit()}
+}));
+$("gps").addEventListener("click",()=>{LOC=null;$("muni").value="";localitza(true)});
+$("muni").addEventListener("change",triaMunicipi);
+$("muni").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();triaMunicipi()}});
+let rt;$("radi").addEventListener("input",()=>{RADI=+$("radi").value;$("radiv").textContent=RADI+" km";clearTimeout(rt);rt=setTimeout(aplicaAmbit,150)});
+document.querySelectorAll("#aOrdre button").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll("#aOrdre button").forEach(x=>x.setAttribute("aria-pressed",x===btn));ORDRE=btn.dataset.o;aplicaAmbit();
+}));
+$("stMore").addEventListener("click",()=>{SHOWN+=10;aplicaAmbit()});
+
 /* ---------- PREUS EN DIRECTE ---------- */
 const API="https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroCCAA/09";
 const norm=t=>(t||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().replace(/[^A-Z0-9]+/g," ").trim();
+const coord=v=>{const n=parseFloat(String(v??"").replace(",","."));return isFinite(n)?n:null};
 const num=v=>{const n=parseFloat(String(v||"").replace(",","."));return n>0?n:null};
 const bonic=r=>r.split(/\s+/).map(w=>/[AEIOUÀÈÉÍÒÓÚaeiouàèéíòóú]/.test(w)?w[0].toUpperCase()+w.slice(1).toLowerCase():w).join(" ");
 
@@ -676,11 +850,14 @@ function average(list){
     for(const c in CAMPS){
       const vs=acc[k][c].map(x=>x[0]);o[c]=avg(vs);
       if(vs.length){o.rang[c]=[pc(vs,.1),pc(vs,.9)];const [v,e]=acc[k][c].reduce((a,x)=>x[0]<a[0]?x:a);
-        o.barata[c]={preu:v,municipi:String(e["Municipio"]||"").trim(),lat:num(e["Latitud"]),lon:num(e["Longitud (WGS84)"])}}
+        o.barata[c]={preu:v,municipi:String(e["Municipio"]||"").trim(),lat:coord(e["Latitud"]),lon:coord(e["Longitud (WGS84)"])}}
     }
     o.n=Math.max(acc[k].g95.length,acc[k].dsl.length);
   }
-  return {marques:out,catalunya:{g95:avg(tots.g95),dsl:avg(tots.dsl),n:Math.max(tots.g95.length,tots.dsl.length)}};
+  const est=classif.map(([id,e])=>[id,coord(e["Latitud"]),coord(e["Longitud (WGS84)"]),num(e[CAMPS.g95]),num(e[CAMPS.dsl]),String(e["Municipio"]||"").trim(),bonic(String(e["Dirección"]||"").trim())])
+    .filter(x=>x[1]!==null&&x[2]!==null&&(x[3]||x[4]));
+  return {marques:out,catalunya:{g95:avg(tots.g95),dsl:avg(tots.dsl),n:Math.max(tots.g95.length,tots.dsl.length)},
+    estacions:{marques:Object.fromEntries(Object.keys(acc).map(k=>[k,noms[k]||k])),e:est}};
 }
 
 async function getJSON(url,ms){
@@ -711,6 +888,8 @@ function apply(avgs,label,cat){
     rang:a.rang||null,barata:a.barata||null,data:`${a.n} ${a.n===1?"benzinera":"benzineres"} · ${label}`}));
   if(!noves.some(b=>b.id!==ALTRES))return false;
   BRANDS=noves;CAT=cat&&cat.g95>0&&cat.dsl>0?cat:null;
+  BASE={brands:BRANDS,cat:CAT};
+  if(SCOPE==="properes")localitza(false);
   return true;
 }
 
@@ -721,7 +900,7 @@ async function loadPrices(){
       const j=await getJSON(API,10000);
       const when=String(j.Fecha||"").slice(0,16);
       const a=average(Array.isArray(j.ListaEESSPrecio)?j.ListaEESSPrecio:[]);
-      if(apply(a.marques,"avui",a.catalunya)){markDirect(true);NOW=isoDe(j.Fecha);setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
+      if(apply(a.marques,"avui",a.catalunya)){setStations(a.estacions);markDirect(true);NOW=isoDe(j.Fecha);setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
     }catch(e){markDirect(false);console.info("El navegador no pot llegir el Ministeri directament; es fa servir preus.json.")}
   }
   // 2. Còpia que actualitza GitHub Actions (preus.json)
@@ -748,6 +927,7 @@ async function loadYears(){
   }catch(e){ANUAL=[]}
 }
 
+loadStations();
 const histReady=loadHistory(),yearsReady=loadYears();
 setTimeout(async()=>{
   await loadPrices();

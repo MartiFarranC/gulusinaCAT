@@ -49,3 +49,11 @@ Esclatoil, Petrocat, Petromiralles, supermercats… Qualsevol altre rètol que e
 en 3 o més benzineres també compta com a marca. La resta (independents i marques amb
 menys de 3 benzineres) s'agrupa a «Independents i altres». El registre del workflow
 mostra els rètols més repetits que han anat a aquest grup, per si cal afegir-ne cap.
+
+## Les més properes
+
+L'interruptor «Les més properes» compara només les benzineres que hi ha dins d'un radi
+(50 km per defecte, de 5 a 150 km). La ubicació surt del GPS del mòbil (el navegador en
+demana permís) o d'un municipi escrit a mà. La llista de municipis surt de les mateixes
+dades del Ministeri, així que no cal cap servei extern. Les dades de cada benzinera són
+a `estacions.json`, que genera el mateix workflow.
