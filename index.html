@@ -28,6 +28,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system
 header{position:relative;padding:48px 0 0;text-align:center;overflow:hidden}
 h1{font-family:"Bungee",Impact,sans-serif;font-weight:400;font-size:clamp(2.2rem,7vw,4.6rem);line-height:1;margin:0 0 12px;letter-spacing:.01em}
 h1 span{display:inline-block;animation:drop .7s cubic-bezier(.3,1.6,.5,1) both}
+h1 .w{animation:none;white-space:nowrap}
 .sub{max-width:34em;margin:0 auto 28px;color:var(--muted);font-size:1.05rem}
 .road{position:relative;height:110px;background:var(--road);margin-top:10px}
 .road::before{content:"";position:absolute;left:0;right:0;top:52px;height:6px;
@@ -187,7 +188,12 @@ const eur=n=>n.toLocaleString("ca-ES",{minimumFractionDigits:2,maximumFractionDi
 
 /* Title letters drop in */
 const t=document.getElementById("title");
-"On omplo el dipòsit?".split("").forEach((c,i)=>{const s=document.createElement("span");s.textContent=c===" "?"\u00A0":c;s.style.animationDelay=(i*45)+"ms";s.setAttribute("aria-hidden","true");t.appendChild(s)});
+let li=0;"On omplo el dipòsit?".split(" ").forEach((w,wi)=>{
+  if(wi)t.appendChild(document.createTextNode(" "));li+=wi?1:0;
+  const ws=document.createElement("span");ws.className="w";ws.setAttribute("aria-hidden","true");
+  [...w].forEach(c=>{const s=document.createElement("span");s.textContent=c;s.style.animationDelay=(li++*45)+"ms";ws.appendChild(s)});
+  t.appendChild(ws);
+});
 
 /* Exhaust puffs */
 const road=document.querySelector(".road"), car=document.querySelector(".car");
@@ -252,7 +258,7 @@ function render(){
   sorted.forEach((b,i)=>{
     const el=document.getElementById("t-"+b.id);
     setDigits(el,fmt(b[fuel]));
-    el.querySelector(".rank").textContent=(i+1)+"r";
+    el.querySelector(".rank").textContent=(i+1)+(["r","n","r","t"][i]||"è");
     el.querySelector(".meta").textContent=i===0?`La més barata · ${b.data}`:`+${((b[fuel]-min)*100).toFixed(1).replace(".",",")} cèntims/L · ${b.data}`;
     el.setAttribute("aria-label",`${b.nom}: ${fmt(b[fuel])} euros el litre, posició ${i+1}`);
     el.classList.toggle("best",i===0);
@@ -294,8 +300,8 @@ movePill(btns[0]);
 setTimeout(render,reduce?0:900);
 /* ---------- PREUS EN DIRECTE ---------- */
 const API="https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroCCAA/09";
-const MATCH={bonarea:["BONAREA"],esclatoil:["ESCLATOIL","ESCLAT OIL"],petrocat:["PETROCAT"],repsol:["REPSOL"]};
-const norm=t=>(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase();
+const MATCH={bonarea:["BONAREA"],esclatoil:["ESCLATOIL"],petrocat:["PETROCAT"],repsol:["REPSOL"]};
+const norm=t=>(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9]/g,"");
 const num=v=>{const n=parseFloat(String(v||"").replace(",","."));return n>0?n:null};
 
 function average(list){
@@ -320,24 +326,32 @@ async function getJSON(url,ms){
 
 function apply(avgs,label){
   let ok=false;
-  BRANDS.forEach(b=>{const a=avgs[b.id];if(a&&a.g95&&a.dsl){b.g95=a.g95;b.dsl=a.dsl;b.data=`${a.n} benzineres · ${label}`;ok=true}});
+  BRANDS.forEach(b=>{const a=avgs[b.id];if(a&&a.g95>0&&a.dsl>0){b.g95=a.g95;b.dsl=a.dsl;b.data=`${a.n} benzineres · ${label}`;ok=true}});
   return ok;
 }
+
+/* Si el navegador no pot llegir el Ministeri (sense CORS), no ho reintenta en 6 h */
+const SKIP="ministeri-no-disponible";
+const skipDirect=()=>{try{return Date.now()-(+localStorage.getItem(SKIP)||0)<6*3600e3}catch(e){return false}};
+const markDirect=ok=>{try{ok?localStorage.removeItem(SKIP):localStorage.setItem(SKIP,Date.now())}catch(e){}};
 
 function setStatus(s,txt){const el=document.getElementById("status");el.dataset.s=s;document.getElementById("statusText").textContent=txt}
 
 async function loadPrices(){
   // 1. Directe del Ministeri
-  try{
-    const j=await getJSON(API,15000);
-    const when=(j.Fecha||"").slice(0,16);
-    if(apply(average(j.ListaEESSPrecio||[]),"avui")){setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
-  }catch(e){console.warn("Ministeri no disponible:",e)}
+  if(!skipDirect()){
+    try{
+      const j=await getJSON(API,10000);
+      const when=String(j.Fecha||"").slice(0,16);
+      if(apply(average(Array.isArray(j.ListaEESSPrecio)?j.ListaEESSPrecio:[]),"avui")){markDirect(true);setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
+    }catch(e){markDirect(false);console.info("El navegador no pot llegir el Ministeri directament; es fa servir preus.json.")}
+  }
   // 2. Còpia que actualitza GitHub Actions (preus.json)
   try{
     const j=await getJSON("preus.json?"+Date.now(),8000);
-    if(apply(j.marques,j.fecha.slice(0,10))){setStatus("cache",`Preus oficials del ${j.fecha} (còpia automàtica)`);render();return}
-  }catch(e){console.warn("preus.json no disponible:",e)}
+    const fecha=String(j.fecha||"");
+    if(apply(j.marques||{},fecha.slice(0,10))){setStatus("cache",`Preus oficials del Ministeri del ${fecha.slice(0,16)} · s'actualitzen cada mitja hora`);render();return}
+  }catch(e){console.info("preus.json no disponible; es mostren els preus desats a la pàgina.")}
   // 3. Preus desats dins la pàgina
   setStatus("off","No s'han pogut carregar els preus d'avui. Es mostren preus de finals de setembre.");
 }
