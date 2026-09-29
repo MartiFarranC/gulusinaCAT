@@ -93,16 +93,24 @@ button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{o
 section{margin:56px 0}
 h2{font-family:var(--head);font-weight:800;font-stretch:108%;letter-spacing:-.01em;font-size:clamp(1.5rem,3.6vw,2.2rem);margin:0 0 6px}
 .lead{color:var(--muted);margin:0 0 22px;max-width:44em}
-.tank-row{display:grid;grid-template-columns:110px 1fr 84px;gap:12px;align-items:center;margin-bottom:14px}
-.tank-row b{font-weight:800;white-space:nowrap}
-.tank{position:relative;height:10px;background:var(--bg2);border-radius:999px;overflow:hidden}
-.fluid{position:absolute;inset:0 auto 0 0;width:0;border-radius:999px;background:var(--muted);opacity:.55;transition:width 1.4s var(--ease);overflow:hidden}
-.fluid::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.35) 50%,transparent 80%);transform:translateX(-100%)}
-.fluid.shine::after{animation:shine 1.3s var(--ease) .3s}
-@keyframes shine{to{transform:translateX(100%)}}
-.tank-row.best .fluid{background:var(--led);opacity:1}
-.tank-row .val{font-family:"Bungee",sans-serif;text-align:right;line-height:1.15}
-.tank-row .val small{display:block;white-space:nowrap;font:600 .75rem "Figtree",sans-serif;color:var(--muted)}
+.cr{display:grid;grid-template-columns:110px 1fr 104px;grid-template-areas:"n t v" "c c c";gap:4px 14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.cr b{grid-area:n;font-weight:800;white-space:nowrap}
+.ctrack{grid-area:t}.cv{grid-area:v}.cheap{grid-area:c}
+.ctrack{position:relative;height:18px}
+.ctrack::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--line)}
+.band{position:absolute;top:5px;height:8px;border-radius:999px;background:var(--muted);opacity:.35;transition:left 1.2s var(--ease),width 1.2s var(--ease)}
+.pt{position:absolute;top:2px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--ink);border:3px solid var(--bg);transition:left 1.2s var(--ease)}
+.cr.best .pt{background:var(--led)}
+.cat{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px dashed var(--muted);opacity:.8;transition:left 1.2s var(--ease)}
+.cv{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.15}
+.cv small{display:block;white-space:nowrap;font-weight:600;font-size:.75rem;color:var(--muted)}
+.cheap{grid-column:1/-1;margin:0;color:var(--muted);font-size:.88rem}
+.cheap strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.cheap a{color:var(--ink);white-space:nowrap}
+.caxis{display:grid;grid-template-columns:110px 1fr 104px;gap:0 14px;color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;margin-bottom:2px}
+.caxis .sc{position:relative;height:20px}
+.caxis .sc span{position:absolute;top:0;white-space:nowrap;transition:left 1.2s var(--ease)}
+.caxis .sc .cl{translate:-50% 0;color:var(--ink);font-weight:700}
 
 /* HISTÒRIC */
 .chart{position:relative;background:#0b0b0b;border-radius:12px;padding:10px 6px 4px;box-shadow:inset 0 0 0 1px #222}
@@ -150,7 +158,7 @@ input[type=range]{flex:1;min-width:180px;accent-color:var(--led);height:6px}
 footer{color:var(--muted);font-size:.85rem;padding:20px 0 40px;border-top:1px solid var(--line)}
 footer a{color:var(--ink)}
 
-@media (max-width:560px){ .tank-row{grid-template-columns:96px 1fr 64px;gap:10px} .digits{font-size:2rem} }
+@media (max-width:560px){ .cr{grid-template-columns:1fr auto;grid-template-areas:"n v" "t t" "c c";row-gap:8px} .caxis{grid-template-columns:1fr} .caxis>span{display:none} .digits{font-size:2rem} }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .totem{opacity:1;transform:none}
@@ -179,10 +187,11 @@ footer a{color:var(--ink)}
 
   <div class="totems" id="totems"></div>
 
-  <section>
-    <h2>Qui buida més la cartera</h2>
-    <p class="lead">Cada barra és el preu del litre, començant de zero. Al costat, quant més car és que la més barata.</p>
-    <div id="tanks"></div>
+  <section id="compSec" hidden>
+    <h2>Respecte a la mitjana de Catalunya</h2>
+    <p class="lead">El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres de Catalunya, de qualsevol marca.</p>
+    <div class="caxis" aria-hidden="true"><span></span><div class="sc" id="cscale"></div><span></span></div>
+    <div id="comp"></div>
   </section>
 
   <section id="histSec" hidden>
@@ -253,13 +262,51 @@ function setDigits(el,str){
   let i=0;[...str].forEach(ch=>{const node=d.children[i++];if(/\d/.test(ch))node.style.transform=`translateY(-${ch*1.15}em)`});
 }
 
-/* Tanks */
-const tanks=document.getElementById("tanks");
+/* Comparació amb Catalunya */
+let CAT=null; // mitjana de totes les benzineres de Catalunya {g95,dsl,n}
+const comp=document.getElementById("comp");
 BRANDS.forEach(b=>{
-  const r=document.createElement("div");r.className="tank-row";r.id="k-"+b.id;
-  r.innerHTML=`<b><i class="bd" style="background:${b.color}"></i>${b.nom}</b><div class="tank"><div class="fluid"></div></div><span class="val"></span>`;
-  tanks.appendChild(r);
+  const r=document.createElement("div");r.className="cr";r.id="k-"+b.id;
+  r.innerHTML=`<b><i class="bd" style="background:${b.color}"></i>${b.nom}</b><div class="ctrack"><span class="band"></span><span class="cat"></span><span class="pt"></span></div><span class="cv"></span><p class="cheap"></p>`;
+  comp.appendChild(r);
 });
+const cents=v=>(v*100).toFixed(1).replace(".",",");
+
+function renderComp(sorted){
+  const sec=document.getElementById("compSec"),cat=CAT&&CAT[fuel];
+  const withRange=sorted.filter(b=>b.rang&&b.rang[fuel]);
+  if(!cat||!withRange.length){sec.hidden=true;return}
+  sec.hidden=false;
+  const vals=[cat,...sorted.map(b=>b[fuel]),...withRange.flatMap(b=>b.rang[fuel])];
+  const lo=Math.floor(Math.min(...vals)*50)/50,hi=Math.ceil(Math.max(...vals)*50)/50;
+  const P=v=>((v-lo)/(hi-lo)*100).toFixed(2)+"%";
+  const sc=document.getElementById("cscale");sc.replaceChildren();
+  [[lo,"0%",""],[hi,"100%",""],[cat,P(cat),"cl"]].forEach(([v,left,cls],i)=>{
+    const s=document.createElement("span");s.style.left=left;if(i===1)s.style.translate="-100% 0";if(cls)s.className=cls;
+    s.textContent=cls?`Catalunya ${fmt(v)}`:v.toFixed(2).replace(".",",");sc.appendChild(s);
+  });
+  // Amaga els extrems de l'eix si trepitgen l'etiqueta de Catalunya
+  const [sLo,sHi,sCat]=sc.children,W=sc.clientWidth,cx=(cat-lo)/(hi-lo)*W,half=sCat.offsetWidth/2+8;
+  sLo.hidden=cx-half<sLo.offsetWidth;sHi.hidden=cx+half>W-sHi.offsetWidth;
+  sorted.forEach((b,i)=>{
+    const r=document.getElementById("k-"+b.id);r.classList.toggle("best",i===0);
+    const band=r.querySelector(".band"),rg=b.rang&&b.rang[fuel];
+    band.style.visibility=rg?"visible":"hidden";
+    if(rg){band.style.left=P(rg[0]);band.style.width=((rg[1]-rg[0])/(hi-lo)*100).toFixed(2)+"%"}
+    r.querySelector(".cat").style.left=P(cat);
+    r.querySelector(".pt").style.left=P(b[fuel]);
+    const d=b[fuel]-cat,cv=r.querySelector(".cv");
+    cv.textContent=Math.abs(d)<0.0005?"= igual":`${d<0?"−":"+"}${cents(Math.abs(d))} cènt.`;
+    const sm=document.createElement("small");sm.textContent=Math.abs(d)<0.0005?"que la mitjana":d<0?"per sota":"per sobre";cv.appendChild(sm);
+    r.setAttribute("aria-label",`${b.nom}: ${fmt(b[fuel])} euros, ${Math.abs(d)<0.0005?"igual que":cents(Math.abs(d))+" cèntims "+(d<0?"per sota de":"per sobre de")} la mitjana de Catalunya`);
+    const ch=r.querySelector(".cheap"),bb=b.barata&&b.barata[fuel];ch.replaceChildren();
+    if(bb&&bb.preu){
+      ch.append("La més barata: ");const st=document.createElement("strong");st.textContent=fmt(bb.preu)+" €";ch.append(st);
+      if(bb.municipi)ch.append(` a ${bb.municipi}`);
+      if(bb.lat&&bb.lon){ch.append(" · ");const a=document.createElement("a");a.href=`https://www.google.com/maps/search/?api=1&query=${bb.lat},${bb.lon}`;a.target="_blank";a.rel="noopener";a.textContent="Veure al mapa ↗";ch.append(a)}
+    }
+  });
+}
 
 /* Bill */
 const bill=document.getElementById("bill");
@@ -387,8 +434,8 @@ function updateTicker(sorted){
 
 function render(){
   const sorted=[...BRANDS].sort((a,b)=>a[fuel]-b[fuel]);
-  const min=sorted[0][fuel],max=sorted.at(-1)[fuel];
-  flip(wrap,sorted,"t-");flip(tanks,sorted,"k-");flip(bill,sorted,"b-");
+  const min=sorted[0][fuel];
+  flip(wrap,sorted,"t-");flip(comp,sorted,"k-");flip(bill,sorted,"b-");
   sorted.forEach((b,i)=>{
     const el=document.getElementById("t-"+b.id);
     setDigits(el,fmt(b[fuel]));
@@ -397,13 +444,8 @@ function render(){
     const tr=trend(b),te=el.querySelector(".trend");te.hidden=!tr;te.textContent=tr?tr.txt:"";
     el.setAttribute("aria-label",`${b.nom}: ${fmt(b[fuel])} euros el litre, posició ${i+1}`);
     el.classList.toggle("best",i===0);
-    const k=document.getElementById("k-"+b.id),f=k.querySelector(".fluid");k.classList.toggle("best",i===0);
-    // Barra proporcional al preu real (des de zero), perquè no exageri les diferències
-    const pct=Math.round(b[fuel]/max*1000)/10;
-    if(f.style.width!==pct+"%"){f.style.width=pct+"%";if(!reduce){f.classList.remove("shine");void f.offsetWidth;f.classList.add("shine")}}
-    const v=k.querySelector(".val");v.textContent=fmt(b[fuel]);
-    const sm=document.createElement("small");sm.textContent=i===0?"més barata":`+${((b[fuel]-min)*100).toFixed(1).replace(".",",")} cènt.`;v.appendChild(sm);
   });
+  renderComp(sorted);
   updateTicker(sorted);
   updateBill(sorted);
 }
@@ -441,18 +483,28 @@ const MATCH={bonarea:["BONAREA"],esclatoil:["ESCLATOIL"],petrocat:["PETROCAT"],r
 const norm=t=>(t||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().replace(/[^A-Z0-9]/g,"");
 const num=v=>{const n=parseFloat(String(v||"").replace(",","."));return n>0?n:null};
 
+/* Mateix càlcul que actualitza_preus.py: mitjana, franja 10-90 % i estació més barata */
 function average(list){
-  const acc={};BRANDS.forEach(b=>acc[b.id]={g:[],d:[]});
+  const CAMPS={g95:"Precio Gasolina 95 E5",dsl:"Precio Gasoleo A"};
+  const acc={},tots={g95:[],dsl:[]};BRANDS.forEach(b=>acc[b.id]={g95:[],dsl:[]});
   list.forEach(e=>{
     const r=norm(e["Rótulo"]);
     const id=Object.keys(MATCH).find(k=>MATCH[k].some(m=>r.includes(m)));
-    if(!id)return;
-    const g=num(e["Precio Gasolina 95 E5"]),d=num(e["Precio Gasoleo A"]);
-    if(g)acc[id].g.push(g); if(d)acc[id].d.push(d);
+    for(const c in CAMPS){const v=num(e[CAMPS[c]]);if(!v)continue;tots[c].push(v);if(id)acc[id][c].push([v,e])}
   });
   const avg=a=>a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length*1000)/1000:null;
-  const out={};for(const k in acc)out[k]={g95:avg(acc[k].g),dsl:avg(acc[k].d),n:Math.max(acc[k].g.length,acc[k].d.length)};
-  return out;
+  const pc=(a,q)=>{a=[...a].sort((x,y)=>x-y);return a[Math.round(q*(a.length-1))]};
+  const out={};
+  for(const k in acc){
+    const o=out[k]={rang:{},barata:{}};
+    for(const c in CAMPS){
+      const vs=acc[k][c].map(x=>x[0]);o[c]=avg(vs);
+      if(vs.length){o.rang[c]=[pc(vs,.1),pc(vs,.9)];const [v,e]=acc[k][c].reduce((a,x)=>x[0]<a[0]?x:a);
+        o.barata[c]={preu:v,municipi:String(e["Municipio"]||"").trim(),lat:num(e["Latitud"]),lon:num(e["Longitud (WGS84)"])}}
+    }
+    o.n=Math.max(acc[k].g95.length,acc[k].dsl.length);
+  }
+  return {marques:out,catalunya:{g95:avg(tots.g95),dsl:avg(tots.dsl),n:Math.max(tots.g95.length,tots.dsl.length)}};
 }
 
 async function getJSON(url,ms){
@@ -461,9 +513,10 @@ async function getJSON(url,ms){
   finally{clearTimeout(t)}
 }
 
-function apply(avgs,label){
+function apply(avgs,label,cat){
   let ok=false;
-  BRANDS.forEach(b=>{const a=avgs[b.id];if(a&&a.g95>0&&a.dsl>0){b.g95=a.g95;b.dsl=a.dsl;b.data=`${a.n} benzineres · ${label}`;ok=true}});
+  BRANDS.forEach(b=>{const a=avgs[b.id];if(a&&a.g95>0&&a.dsl>0){b.g95=a.g95;b.dsl=a.dsl;b.data=`${a.n} benzineres · ${label}`;b.rang=a.rang||null;b.barata=a.barata||null;ok=true}});
+  if(ok)CAT=cat&&cat.g95>0&&cat.dsl>0?cat:null;
   return ok;
 }
 
@@ -489,14 +542,15 @@ async function loadPrices(){
     try{
       const j=await getJSON(API,10000);
       const when=String(j.Fecha||"").slice(0,16);
-      if(apply(average(Array.isArray(j.ListaEESSPrecio)?j.ListaEESSPrecio:[]),"avui")){markDirect(true);NOW=isoDe(j.Fecha);setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
+      const a=average(Array.isArray(j.ListaEESSPrecio)?j.ListaEESSPrecio:[]);
+      if(apply(a.marques,"avui",a.catalunya)){markDirect(true);NOW=isoDe(j.Fecha);setStatus("live",`Preus en directe del Ministeri · ${when}`);render();return}
     }catch(e){markDirect(false);console.info("El navegador no pot llegir el Ministeri directament; es fa servir preus.json.")}
   }
   // 2. Còpia que actualitza GitHub Actions (preus.json)
   try{
     const j=await getJSON("preus.json?"+Date.now(),8000);
     const fecha=String(j.fecha||"");
-    if(apply(j.marques||{},fecha.slice(0,10))){NOW=isoDe(fecha);setStatus("cache",cacheStatus(fecha));render();return}
+    if(apply(j.marques||{},fecha.slice(0,10),j.catalunya)){NOW=isoDe(fecha);setStatus("cache",cacheStatus(fecha));render();return}
   }catch(e){console.info("preus.json no disponible; es mostren els preus desats a la pàgina.")}
   // 3. Preus desats dins la pàgina
   setStatus("off","No s'han pogut carregar els preus d'avui. Es mostren preus de finals de setembre.");

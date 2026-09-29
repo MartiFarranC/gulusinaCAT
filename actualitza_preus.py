@@ -43,8 +43,7 @@ def baixa(url, intents=3):
 def mitjanes(llista):
     acc = {k: {"g": [], "d": []} for k in MARQUES}
     for e in llista:
-        rotul = norm(e.get("Rótulo"))
-        marca = next((k for k, ms in MARQUES.items() if any(m in rotul for m in ms)), None)
+        marca = marca_de(e)
         if not marca:
             continue
         g, d = num(e.get("Precio Gasolina 95 E5")), num(e.get("Precio Gasoleo A"))
@@ -53,6 +52,44 @@ def mitjanes(llista):
     mitjana = lambda a: round(sum(a) / len(a), 3) if a else None
     return {k: {"g95": mitjana(v["g"]), "dsl": mitjana(v["d"]),
                 "n": max(len(v["g"]), len(v["d"]))} for k, v in acc.items()}
+
+def marca_de(e):
+    rotul = norm(e.get("Rótulo"))
+    return next((k for k, ms in MARQUES.items() if any(m in rotul for m in ms)), None)
+
+def percentil(a, q):
+    a = sorted(a)
+    return a[round(q * (len(a) - 1))] if a else None
+
+def detall(llista):
+    """Mitjana de totes les estacions de Catalunya i, per a cada marca, la franja
+    on hi ha 8 de cada 10 estacions (percentils 10-90) i l'estació més barata."""
+    camps = {"g95": "Precio Gasolina 95 E5", "dsl": "Precio Gasoleo A"}
+    tots = {c: [] for c in camps}
+    per_marca = {k: {c: [] for c in camps} for k in MARQUES}
+    for e in llista:
+        marca = marca_de(e)
+        for c, camp in camps.items():
+            v = num(e.get(camp))
+            if not v:
+                continue
+            tots[c].append(v)
+            if marca:
+                per_marca[marca][c].append((v, e))
+    mitjana = lambda a: round(sum(a) / len(a), 3) if a else None
+    cat = {c: mitjana(v) for c, v in tots.items()}
+    cat["n"] = max(len(v) for v in tots.values())
+    extra = {}
+    for k, cs in per_marca.items():
+        extra[k] = {"rang": {}, "barata": {}}
+        for c, llistat in cs.items():
+            preus = [v for v, _ in llistat]
+            extra[k]["rang"][c] = [percentil(preus, .1), percentil(preus, .9)] if preus else None
+            if llistat:
+                v, e = min(llistat, key=lambda x: x[0])
+                extra[k]["barata"][c] = {"preu": v, "municipi": (e.get("Municipio") or "").strip(),
+                                         "lat": num(e.get("Latitud")), "lon": num(e.get("Longitud (WGS84)"))}
+    return cat, extra
 
 def dia_historic(data, marques):
     return {"data": data, "marques": {k: {"g95": m["g95"], "dsl": m["dsl"]} for k, m in marques.items()}}
@@ -66,7 +103,9 @@ for k, m in marques.items():
     if not m["n"]:
         print(f"Avís: cap estació de {k}", file=sys.stderr)
 
-sortida = {"fecha": dades.get("Fecha", ""), "marques": marques}
+catalunya, extra = detall(llista)
+sortida = {"fecha": dades.get("Fecha", ""), "catalunya": catalunya,
+           "marques": {k: {**m, **extra[k]} for k, m in marques.items()}}
 with open("preus.json", "w", encoding="utf-8") as f:
     json.dump(sortida, f, ensure_ascii=False, indent=2)
 print(json.dumps(sortida, ensure_ascii=False, indent=2))
