@@ -198,6 +198,11 @@ footer a{color:var(--ink)}
 .near input[type=text],#muni{flex:1;min-width:180px;font:500 1rem "Figtree",sans-serif;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 #radi{flex:1;min-width:160px;accent-color:var(--led)}
 #radiv{font-family:"Bungee",sans-serif;color:var(--led);min-width:4.2em;text-align:right}
+.loc{display:flex;flex-wrap:wrap;align-items:center;gap:0 4px;margin:12px 0 0;padding:10px 12px;border-radius:10px;background:var(--bg2);font-size:.92rem}
+.loc[hidden]{display:none}
+.loc .pin{width:18px;height:18px;fill:var(--led);flex:none;margin-right:4px}
+.loc .lc{color:var(--muted);font-variant-numeric:tabular-nums}
+.loc a{color:var(--ink);font-weight:600}
 .near-msg{margin:10px 0 0;color:var(--muted);font-size:.9rem;min-height:1.2em}
 .btn{border:1px solid var(--line);background:var(--bg2);color:var(--ink);font:700 .92rem "Figtree",sans-serif;padding:9px 14px;border-radius:999px;cursor:pointer;transition:background .25s,border-color .25s}
 .btn:hover{border-color:var(--ink)}
@@ -256,6 +261,7 @@ footer a{color:var(--ink)}
       <input id="radi" type="range" min="5" max="150" step="5" value="50">
       <output id="radiv" for="radi">50 km</output>
     </div>
+    <p class="loc" id="locInfo" hidden></p>
     <p class="near-msg" id="nearMsg" role="status"></p>
   </div>
   <p class="status" id="status" data-s="loading" role="status"><span class="dot" aria-hidden="true"></span><span id="statusText">Demanant els preus d'avui al Ministeri…</span></p>
@@ -762,9 +768,37 @@ function agrega(dins){
 }
 
 // Aplica l'àmbit triat i torna a pintar la pàgina
+// Municipi amb benzinera més proper a un punt
+function municipiProper(pt){
+  let best=null,bd=Infinity;MUNIS.forEach(m=>{const d=dist(pt,m);if(d<bd){bd=d;best=m}});
+  return best?{nom:best.nom,d:bd}:null;
+}
+// Mostra on és l'usuari (o el municipi triat)
+function mostraUbicacio(){
+  const p=$("locInfo");p.replaceChildren();
+  if(SCOPE!=="properes"||!LOC){p.hidden=true;return}
+  p.hidden=false;
+  const pin=document.createElementNS(svgNS,"svg");pin.setAttribute("viewBox","0 0 24 24");pin.setAttribute("class","pin");pin.setAttribute("aria-hidden","true");
+  mk("path",{d:"M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"},pin);
+  p.appendChild(pin);
+  const coords=`${LOC.lat.toFixed(4).replace(".",",")}, ${LOC.lon.toFixed(4).replace(".",",")}`;
+  if(LOC.gps){
+    const mp=municipiProper(LOC);
+    p.append("La teva ubicació: ");
+    if(mp)p.append(mp.d<3?"a ":`a ${km(mp.d)} de `,el("strong",null,mp.nom));
+    p.append(el("span","lc",` · ${coords}`));
+    if(LOC.prec)p.append(el("span","lc",` · precisió ±${LOC.prec<1000?Math.round(LOC.prec)+" m":km(LOC.prec/1000)}`));
+    LOC.nom=mp?(mp.d<3?`la teva ubicació (${mp.nom})`:`la teva ubicació (a prop de ${mp.nom})`):"la teva ubicació";
+  }else{
+    p.append("Ubicació triada: ",el("strong",null,LOC.nom),el("span","lc",` · ${coords}`));
+  }
+  const a=el("a",null,"Veure al mapa ↗");a.href=mapa(LOC.lat,LOC.lon);a.target="_blank";a.rel="noopener";p.append(" · ",a);
+}
+
 function aplicaAmbit(){
   const near=SCOPE==="properes";
   $("near").hidden=!near;
+  mostraUbicacio();
   let dins=[];
   if(near&&LOC&&STATIONS){
     STATIONS.forEach(x=>x.d=dist(LOC,x));
@@ -806,7 +840,7 @@ function localitza(demanaGPS){
   if(!("geolocation" in navigator)){nearMsg("Aquest navegador no pot donar la ubicació. Escriu un municipi.");aplicaAmbit();return}
   nearMsg("Demanant la teva ubicació…");
   navigator.geolocation.getCurrentPosition(p=>{
-    LOC={lat:p.coords.latitude,lon:p.coords.longitude,nom:"la teva ubicació"};
+    LOC={lat:p.coords.latitude,lon:p.coords.longitude,nom:"la teva ubicació",gps:true,prec:p.coords.accuracy};
     const prop1=Math.min(...STATIONS.map(x=>dist(LOC,x)));
     aplicaAmbit();
     if(prop1>RADI)nearMsg(`La benzinera més propera és a ${km(prop1)}. Les dades són només de Catalunya: augmenta el radi o escriu un municipi.`);
