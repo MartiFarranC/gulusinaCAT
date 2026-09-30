@@ -1,7 +1,8 @@
-{"anys": [
-{"any": 2024, "mesos": 9, "catalunya": {"g95": 1.584, "dsl": 1.45}, "bonarea": {"g95": 1.39, "dsl": 1.294}, "esclatoil": {"g95": 1.476, "dsl": 1.378}, "petrocat": {"g95": 1.597, "dsl": 1.465}, "repsol": {"g95": 1.669, "dsl": 1.523}},
-{"any": 2025, "mesos": 12, "catalunya": {"g95": 1.499, "dsl": 1.407}, "bonarea": {"g95": 1.31, "dsl": 1.247}, "esclatoil": {"g95": 1.391, "dsl": 1.325}, "petrocat": {"g95": 1.516, "dsl": 1.414}, "repsol": {"g95": 1.589, "dsl": 1.482}},
-{"any": 2026, "mesos": 9, "catalunya": {"g95": 1.588, "dsl": 1.658}, "bonarea": {"g95": 1.399, "dsl": 1.491}, "esclatoil": {"g95": 1.485, "dsl": 1.568}, "petrocat": {"g95": 1.61, "dsl": 1.686}, "repsol": {"g95": 1.672, "dsl": 1.737}}
+{"noms": {},
+"anys": [
+{"any": 2024, "mesos": 9, "bonarea": {"g95": 1.39, "dsl": 1.294}, "catalunya": {"g95": 1.584, "dsl": 1.45}, "esclatoil": {"g95": 1.476, "dsl": 1.378}, "petrocat": {"g95": 1.597, "dsl": 1.465}, "repsol": {"g95": 1.669, "dsl": 1.523}},
+{"any": 2025, "mesos": 12, "bonarea": {"g95": 1.31, "dsl": 1.247}, "catalunya": {"g95": 1.499, "dsl": 1.407}, "esclatoil": {"g95": 1.391, "dsl": 1.325}, "petrocat": {"g95": 1.516, "dsl": 1.414}, "repsol": {"g95": 1.589, "dsl": 1.482}},
+{"any": 2026, "mesos": 9, "bonarea": {"g95": 1.399, "dsl": 1.491}, "catalunya": {"g95": 1.588, "dsl": 1.658}, "esclatoil": {"g95": 1.485, "dsl": 1.568}, "petrocat": {"g95": 1.61, "dsl": 1.686}, "repsol": {"g95": 1.672, "dsl": 1.737}}
 ],
 "mesos": {
 "2024-04": {"catalunya": {"g95": 1.696, "dsl": 1.557}, "bonarea": {"g95": 1.516, "dsl": 1.406}, "esclatoil": {"g95": 1.589, "dsl": 1.477}, "petrocat": {"g95": 1.704, "dsl": 1.553}, "repsol": {"g95": 1.794, "dsl": 1.636}},
