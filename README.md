@@ -136,6 +136,7 @@ obrint la pàgina en local (vegeu [Ús](#ús)), en mòbil i en ordinador.
 ├── .github/workflows/
 │   ├── preus.yml          # Actualitza preus (cada 30 minuts)
 │   └── anual.yml          # Històric de 10 anys (cada dia)
+├── docs/adr/              # Decisions d'arquitectura
 ├── index.html             # La pàgina: HTML, CSS i JavaScript
 ├── actualitza_preus.py    # Descarrega els preus i genera els JSON diaris
 ├── historic_anual.py      # Genera anual.json

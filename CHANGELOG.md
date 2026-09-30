@@ -13,6 +13,7 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 - Guia de contribució amb el flux de treball i les convencions de commits.
 - Fitxers `.editorconfig`, `.gitignore` i `.env.example`.
 - Aquest registre de canvis.
+- Registres de decisions d'arquitectura a `docs/adr/`.
 
 ### Canviat
 
