@@ -1,14 +1,71 @@
-.calc{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
-.slider{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
-.slider label{font-weight:800}
-input[type=range]{flex:1;min-width:180px;accent-color:var(--led);height:6px}
-.litres{font-family:"Bungee",sans-serif;font-size:1.6rem;color:var(--led);min-width:4.5em}
-.bill{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.ticket{background:var(--bg2);border-radius:10px;padding:14px 16px;border-left:3px solid var(--line);position:relative;overflow:hidden;transition:box-shadow .4s}
-.ticket .n{font-weight:800}
-.ticket .tot{font-family:var(--head);font-weight:800;font-stretch:105%;font-size:1.8rem;font-variant-numeric:tabular-nums}
-.ticket .save{font-size:.9rem;color:var(--muted)}
-.ticket.best{border-left-color:var(--led)}
-.ticket.best .save{color:var(--led);font-weight:800}
-.verdict{margin-top:20px;font-size:1.1rem;font-weight:600}
-.verdict strong{color:var(--led)}
+.calc {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+}
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.slider label {
+  font-weight: 800;
+}
+input[type="range"] {
+  flex: 1;
+  min-width: 180px;
+  accent-color: var(--led);
+  height: 6px;
+}
+.litres {
+  font-family: "Bungee", sans-serif;
+  font-size: 1.6rem;
+  color: var(--led);
+  min-width: 4.5em;
+}
+.bill {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+.ticket {
+  background: var(--bg2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.4s;
+}
+.ticket .n {
+  font-weight: 800;
+}
+.ticket .tot {
+  font-family: var(--head);
+  font-weight: 800;
+  font-stretch: 105%;
+  font-size: 1.8rem;
+  font-variant-numeric: tabular-nums;
+}
+.ticket .save {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.ticket.best {
+  border-left-color: var(--led);
+}
+.ticket.best .save {
+  color: var(--led);
+  font-weight: 800;
+}
+.verdict {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.verdict strong {
+  color: var(--led);
+}

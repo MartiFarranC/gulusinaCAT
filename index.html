@@ -1,146 +1,244 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ca">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>On omplo el dipòsit? · Preus de benzineres a Catalunya</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Bungee&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/capcalera.css">
-<link rel="stylesheet" href="assets/css/controls.css">
-<link rel="stylesheet" href="assets/css/totems.css">
-<link rel="stylesheet" href="assets/css/comparativa.css">
-<link rel="stylesheet" href="assets/css/grafics.css">
-<link rel="stylesheet" href="assets/css/calculadora.css">
-<link rel="stylesheet" href="assets/css/properes.css">
-<link rel="stylesheet" href="assets/css/filtre.css">
-<link rel="stylesheet" href="assets/css/mapa.css">
-</head>
-<body>
-<header>
-  <div class="wrap">
-    <h1 id="title" aria-label="On omplo el dipòsit?"></h1>
-    <p class="sub">Comparem què costa el litre a totes les marques de benzineres de Catalunya. Tria el combustible i mira qui guanya.</p>
-  </div>
-  <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
-</header>
-
-<main class="wrap">
-  <div class="controls">
-    <div class="toggle" role="group" aria-label="Combustible">
-      <span class="pill" aria-hidden="true"></span>
-      <button type="button" data-fuel="g95" aria-pressed="true">Gasolina 95</button>
-      <button type="button" data-fuel="dsl" aria-pressed="false">Dièsel</button>
-    </div>
-    <div class="seg scope" id="scope" role="group" aria-label="Quines benzineres es comparen">
-      <button type="button" data-scope="totes" aria-pressed="true">Totes les gasolineres</button>
-      <button type="button" data-scope="properes" aria-pressed="false">Les més properes</button>
-    </div>
-    <button type="button" class="btn filtre-btn" id="filtreBtn" aria-expanded="false" aria-controls="filtre"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg><span id="filtreTxt">Marques: totes</span></button>
-  </div>
-  <div class="filtre" id="filtre" hidden>
-    <div class="filtre-cap">
-      <label class="vh" for="filtreCerca">Cerca una marca</label>
-      <input id="filtreCerca" type="search" placeholder="Cerca una marca" autocomplete="off">
-      <button type="button" class="btn" id="filtreTotes">Totes</button>
-      <button type="button" class="btn" id="filtreCap">Cap</button>
-    </div>
-    <div class="filtre-llista" id="filtreLlista" role="group" aria-label="Marques que es comparen"></div>
-    <p class="filtre-nota">La mitjana de referència es calcula sempre amb totes les benzineres.</p>
-  </div>
-  <p class="status" id="status" data-s="loading" role="status"><span class="dot" aria-hidden="true"></span><span id="statusText">Demanant els preus d'avui al Ministeri…</span></p>
-
-  <p class="kicker" id="kicker">Les quatre marques més barates</p>
-  <div class="totems" id="totems"></div>
-
-  <section id="mapSec" hidden>
-    <h2 id="mapTitol">Mapa de les benzineres</h2>
-    <div class="near" id="near" hidden>
-      <div class="near-row">
-        <button type="button" class="btn" id="gps">Fes servir la meva ubicació</button>
-        <span class="or">o bé</span>
-        <label class="vh" for="muni">Municipi</label>
-        <input id="muni" list="munis" placeholder="Escriu un municipi" autocomplete="off" enterkeyhint="search">
-        <datalist id="munis"></datalist>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>On omplo el dipòsit? · Preus de benzineres a Catalunya</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Bungee&family=Figtree:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/capcalera.css" />
+    <link rel="stylesheet" href="assets/css/controls.css" />
+    <link rel="stylesheet" href="assets/css/totems.css" />
+    <link rel="stylesheet" href="assets/css/comparativa.css" />
+    <link rel="stylesheet" href="assets/css/grafics.css" />
+    <link rel="stylesheet" href="assets/css/calculadora.css" />
+    <link rel="stylesheet" href="assets/css/properes.css" />
+    <link rel="stylesheet" href="assets/css/filtre.css" />
+    <link rel="stylesheet" href="assets/css/mapa.css" />
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <h1 id="title" aria-label="On omplo el dipòsit?"></h1>
+        <p class="sub">
+          Comparem què costa el litre a totes les marques de benzineres de Catalunya. Tria el
+          combustible i mira qui guanya.
+        </p>
       </div>
-      <div class="near-row" id="radiRow">
-        <label for="radi">Radi</label>
-        <input id="radi" type="range" min="5" max="150" step="5" value="50">
-        <output id="radiv" for="radi">50 km</output>
+      <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
+    </header>
+
+    <main class="wrap">
+      <div class="controls">
+        <div class="toggle" role="group" aria-label="Combustible">
+          <span class="pill" aria-hidden="true"></span>
+          <button type="button" data-fuel="g95" aria-pressed="true">Gasolina 95</button>
+          <button type="button" data-fuel="dsl" aria-pressed="false">Dièsel</button>
+        </div>
+        <div class="seg scope" id="scope" role="group" aria-label="Quines benzineres es comparen">
+          <button type="button" data-scope="totes" aria-pressed="true">
+            Totes les gasolineres
+          </button>
+          <button type="button" data-scope="properes" aria-pressed="false">Les més properes</button>
+        </div>
+        <button
+          type="button"
+          class="btn filtre-btn"
+          id="filtreBtn"
+          aria-expanded="false"
+          aria-controls="filtre"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7z" /></svg
+          ><span id="filtreTxt">Marques: totes</span>
+        </button>
       </div>
-      <p class="loc" id="locInfo" hidden></p>
-      <p class="near-msg" id="nearMsg" role="status"></p>
-    </div>
-    <div class="map" id="map" role="region" aria-label="Mapa de les benzineres. La mateixa informació és a les llistes de la pàgina.">
-      <div class="map-tiles" id="mapTiles" aria-hidden="true"></div>
-      <svg class="map-svg" id="mapSvg" aria-hidden="true"></svg>
-      <div class="map-pop" id="mapPop" hidden></div>
-      <div class="map-ctl">
-        <button type="button" id="mapIn" aria-label="Apropa el mapa">+</button>
-        <button type="button" id="mapOut" aria-label="Allunya el mapa">−</button>
-        <button type="button" id="mapFit" aria-label="Torna a centrar el mapa"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button>
+      <div class="filtre" id="filtre" hidden>
+        <div class="filtre-cap">
+          <label class="vh" for="filtreCerca">Cerca una marca</label>
+          <input id="filtreCerca" type="search" placeholder="Cerca una marca" autocomplete="off" />
+          <button type="button" class="btn" id="filtreTotes">Totes</button>
+          <button type="button" class="btn" id="filtreCap">Cap</button>
+        </div>
+        <div
+          class="filtre-llista"
+          id="filtreLlista"
+          role="group"
+          aria-label="Marques que es comparen"
+        ></div>
+        <p class="filtre-nota">
+          La mitjana de referència es calcula sempre amb totes les benzineres.
+        </p>
       </div>
-      <div class="map-attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
-    </div>
-    <p class="map-nota" id="mapNota">Toca una benzinera per veure'n les dades. Les etiquetes mostren el preu de les més barates que es veuen; en ambre, la més barata de totes. Apropa el mapa per veure'n més.</p>
-  </section>
+      <p class="status" id="status" data-s="loading" role="status">
+        <span class="dot" aria-hidden="true"></span
+        ><span id="statusText">Demanant els preus d'avui al Ministeri…</span>
+      </p>
 
-  <section id="aprop" hidden>
-    <div class="sechead"><h2>Les benzineres més barates a prop</h2>
-      <div class="seg" id="aOrdre" role="group" aria-label="Ordre"><button type="button" data-o="preu" aria-pressed="true">Més barates</button><button type="button" data-o="dist" aria-pressed="false">Més a prop</button></div></div>
-    <p class="lead" id="apropLead"></p>
-    <ol class="st" id="stList"></ol>
-    <button type="button" class="btn more" id="stMore">Mostra'n més</button>
-  </section>
+      <p class="kicker" id="kicker">Les quatre marques més barates</p>
+      <div class="totems" id="totems"></div>
 
-  <section id="compSec" hidden>
-    <h2>Totes les marques</h2>
-    <p class="lead" id="compLead">De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres de Catalunya.</p>
-    <div class="caxis" aria-hidden="true"><span></span><div class="sc" id="cscale"></div><span></span></div>
-    <div id="comp"></div>
-    <button type="button" class="btn more" id="compMore" hidden></button>
-  </section>
+      <section id="mapSec" hidden>
+        <h2 id="mapTitol">Mapa de les benzineres</h2>
+        <div class="near" id="near" hidden>
+          <div class="near-row">
+            <button type="button" class="btn" id="gps">Fes servir la meva ubicació</button>
+            <span class="or">o bé</span>
+            <label class="vh" for="muni">Municipi</label>
+            <input
+              id="muni"
+              list="munis"
+              placeholder="Escriu un municipi"
+              autocomplete="off"
+              enterkeyhint="search"
+            />
+            <datalist id="munis"></datalist>
+          </div>
+          <div class="near-row" id="radiRow">
+            <label for="radi">Radi</label>
+            <input id="radi" type="range" min="5" max="150" step="5" value="50" />
+            <output id="radiv" for="radi">50 km</output>
+          </div>
+          <p class="loc" id="locInfo" hidden></p>
+          <p class="near-msg" id="nearMsg" role="status"></p>
+        </div>
+        <div
+          class="map"
+          id="map"
+          role="region"
+          aria-label="Mapa de les benzineres. La mateixa informació és a les llistes de la pàgina."
+        >
+          <div class="map-tiles" id="mapTiles" aria-hidden="true"></div>
+          <svg class="map-svg" id="mapSvg" aria-hidden="true"></svg>
+          <div class="map-pop" id="mapPop" hidden></div>
+          <div class="map-ctl">
+            <button type="button" id="mapIn" aria-label="Apropa el mapa">+</button>
+            <button type="button" id="mapOut" aria-label="Allunya el mapa">−</button>
+            <button type="button" id="mapFit" aria-label="Torna a centrar el mapa">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+              </svg>
+            </button>
+          </div>
+          <div class="map-attr">
+            ©
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener"
+              >OpenStreetMap</a
+            >
+          </div>
+        </div>
+        <p class="map-nota" id="mapNota">
+          Toca una benzinera per veure'n les dades. Les etiquetes mostren el preu de les més barates
+          que es veuen; en ambre, la més barata de totes. Apropa el mapa per veure'n més.
+        </p>
+      </section>
 
-  <section id="evoSec" hidden>
-    <h2>Com han anat els preus</h2>
-    <p class="lead" id="evoLead">Tria les marques que vols comparar als gràfics. Passa el dit o el ratolí per sobre per veure'n els valors.</p>
-    <div class="chips" id="chips" role="group" aria-label="Marques als gràfics"></div>
-    <p class="chips-note" id="chipsNote"></p>
-  <div id="histSec" class="sub-sec" hidden>
-    <h3>Últims 30 dies</h3>
-    <p class="lead" id="histLead">Preu mitjà de cada dia, en €/litre.</p>
-    <div class="chart" id="chart"><svg id="chartSvg" role="img" tabindex="0"></svg><div class="tip" id="tip" hidden></div></div>
-    <details class="hist-table"><summary>Veure les dades en una taula</summary><div class="tbl-wrap"><table id="histTable"></table></div></details>
-  </div>
+      <section id="aprop" hidden>
+        <div class="sechead">
+          <h2>Les benzineres més barates a prop</h2>
+          <div class="seg" id="aOrdre" role="group" aria-label="Ordre">
+            <button type="button" data-o="preu" aria-pressed="true">Més barates</button
+            ><button type="button" data-o="dist" aria-pressed="false">Més a prop</button>
+          </div>
+        </div>
+        <p class="lead" id="apropLead"></p>
+        <ol class="st" id="stList"></ol>
+        <button type="button" class="btn more" id="stMore">Mostra'n més</button>
+      </section>
 
-  <div id="anysSec" class="sub-sec" hidden>
-    <div class="sechead"><h3>Deu anys</h3>
-      <div class="seg" id="anysMode" role="group" aria-label="Què es mostra"><button type="button" data-mode="preu" aria-pressed="true">Preu</button><button type="button" data-mode="dif" aria-pressed="false">Respecte a Catalunya</button></div></div>
-    <p class="lead" id="anysLead"></p>
-    <div class="chart"><svg id="anysSvg" role="img" tabindex="0"></svg><div class="tip" id="anysTip" hidden></div></div>
-    <details class="hist-table"><summary>Veure les dades en una taula</summary><div class="tbl-wrap"><table id="anysTable"></table></div><p class="nota">* Any amb dades parcials.</p></details>
-  </div>
-  </section>
+      <section id="compSec" hidden>
+        <h2>Totes les marques</h2>
+        <p class="lead" id="compLead">
+          De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi
+          ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les
+          benzineres de Catalunya.
+        </p>
+        <div class="caxis" aria-hidden="true">
+          <span></span>
+          <div class="sc" id="cscale"></div>
+          <span></span>
+        </div>
+        <div id="comp"></div>
+        <button type="button" class="btn more" id="compMore" hidden></button>
+      </section>
 
-  <section class="calc">
-    <h2>Omple el dipòsit</h2>
-    <p class="lead">Arrossega per triar quants litres poses i mira quant pagaries a cada lloc.</p>
-    <div class="slider">
-      <label for="l">Litres</label>
-      <input id="l" type="range" min="10" max="90" step="5" value="50">
-      <span class="litres" id="lv">50 L</span>
-    </div>
-    <div class="bill" id="bill"></div>
-    <p class="verdict" id="verdict"></p>
-  </section>
-</main>
+      <section id="evoSec" hidden>
+        <h2>Com han anat els preus</h2>
+        <p class="lead" id="evoLead">
+          Tria les marques que vols comparar als gràfics. Passa el dit o el ratolí per sobre per
+          veure'n els valors.
+        </p>
+        <div class="chips" id="chips" role="group" aria-label="Marques als gràfics"></div>
+        <p class="chips-note" id="chipsNote"></p>
+        <div id="histSec" class="sub-sec" hidden>
+          <h3>Últims 30 dies</h3>
+          <p class="lead" id="histLead">Preu mitjà de cada dia, en €/litre.</p>
+          <div class="chart" id="chart">
+            <svg id="chartSvg" role="img" tabindex="0"></svg>
+            <div class="tip" id="tip" hidden></div>
+          </div>
+          <details class="hist-table">
+            <summary>Veure les dades en una taula</summary>
+            <div class="tbl-wrap"><table id="histTable"></table></div>
+          </details>
+        </div>
 
-<footer class="wrap">
-  <p>Preu mitjà (€/litre) de totes les benzineres de cada marca a Catalunya (les marques amb menys de 3 benzineres i les independents s'agrupen a «Independents i altres»), calculat amb les dades oficials del Ministeri per a la Transició Ecològica, que s'actualitzen cada mitja hora. Cada benzinera té el seu preu i canvien cada dia: abans de sortir, consulta la benzinera concreta al <a href="https://geoportalgasolineras.es" target="_blank" rel="noopener">Geoportal de gasolineres</a>.</p>
-</footer>
+        <div id="anysSec" class="sub-sec" hidden>
+          <div class="sechead">
+            <h3>Deu anys</h3>
+            <div class="seg" id="anysMode" role="group" aria-label="Què es mostra">
+              <button type="button" data-mode="preu" aria-pressed="true">Preu</button
+              ><button type="button" data-mode="dif" aria-pressed="false">
+                Respecte a Catalunya
+              </button>
+            </div>
+          </div>
+          <p class="lead" id="anysLead"></p>
+          <div class="chart">
+            <svg id="anysSvg" role="img" tabindex="0"></svg>
+            <div class="tip" id="anysTip" hidden></div>
+          </div>
+          <details class="hist-table">
+            <summary>Veure les dades en una taula</summary>
+            <div class="tbl-wrap"><table id="anysTable"></table></div>
+            <p class="nota">* Any amb dades parcials.</p>
+          </details>
+        </div>
+      </section>
 
-<script type="module" src="assets/js/principal.js"></script>
-</body>
+      <section class="calc">
+        <h2>Omple el dipòsit</h2>
+        <p class="lead">
+          Arrossega per triar quants litres poses i mira quant pagaries a cada lloc.
+        </p>
+        <div class="slider">
+          <label for="l">Litres</label>
+          <input id="l" type="range" min="10" max="90" step="5" value="50" />
+          <span class="litres" id="lv">50 L</span>
+        </div>
+        <div class="bill" id="bill"></div>
+        <p class="verdict" id="verdict"></p>
+      </section>
+    </main>
+
+    <footer class="wrap">
+      <p>
+        Preu mitjà (€/litre) de totes les benzineres de cada marca a Catalunya (les marques amb
+        menys de 3 benzineres i les independents s'agrupen a «Independents i altres»), calculat amb
+        les dades oficials del Ministeri per a la Transició Ecològica, que s'actualitzen cada mitja
+        hora. Cada benzinera té el seu preu i canvien cada dia: abans de sortir, consulta la
+        benzinera concreta al
+        <a href="https://geoportalgasolineras.es" target="_blank" rel="noopener"
+          >Geoportal de gasolineres</a
+        >.
+      </p>
+    </footer>
+
+    <script type="module" src="assets/js/principal.js"></script>
+  </body>
 </html>

@@ -1,22 +1,126 @@
-.near{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 14px;scroll-margin-top:40px}
-.near-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
-.near-row+.near-row{margin-top:12px}
-.near-row label{font-weight:700}
-.near .or{color:var(--muted);font-size:.9rem}
-.near input[type=text],#muni{flex:1;min-width:180px;font:500 1rem "Figtree",sans-serif;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
-#radi{flex:1;min-width:160px;accent-color:var(--led)}
-#radiv{font-family:"Bungee",sans-serif;color:var(--led);min-width:4.2em;text-align:right}
-.loc{display:flex;flex-wrap:wrap;align-items:center;gap:0 4px;margin:12px 0 0;padding:10px 12px;border-radius:10px;background:var(--bg2);font-size:.92rem}
-.loc[hidden]{display:none}
-.loc .pin{width:18px;height:18px;fill:var(--led);flex:none;margin-right:4px}
-.loc .lc{color:var(--muted);font-variant-numeric:tabular-nums}
-.loc a{color:var(--ink);font-weight:600}
-.near-msg{margin:10px 0 0;color:var(--muted);font-size:.9rem;min-height:1.2em}
-.st{list-style:none;margin:0;padding:0}
-.sti{display:grid;grid-template-columns:auto 1fr auto;gap:4px 16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);animation:fade .5s var(--ease) both}
-.stp{font-family:"Bungee",sans-serif;font-size:1.25rem;color:var(--ink);min-width:4.2em}
-.sti.best .stp{color:var(--led)}
-.stm b{display:block;font-weight:800}
-.stm span{color:var(--muted);font-size:.88rem}
-.std{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
-.std a{display:block;font-weight:600;font-size:.85rem;color:var(--ink)}
+.near {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 0 0 14px;
+  scroll-margin-top: 40px;
+}
+.near-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+.near-row + .near-row {
+  margin-top: 12px;
+}
+.near-row label {
+  font-weight: 700;
+}
+.near .or {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.near input[type="text"],
+#muni {
+  flex: 1;
+  min-width: 180px;
+  font:
+    500 1rem "Figtree",
+    sans-serif;
+  color: var(--ink);
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 12px;
+}
+#radi {
+  flex: 1;
+  min-width: 160px;
+  accent-color: var(--led);
+}
+#radiv {
+  font-family: "Bungee", sans-serif;
+  color: var(--led);
+  min-width: 4.2em;
+  text-align: right;
+}
+.loc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 4px;
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg2);
+  font-size: 0.92rem;
+}
+.loc[hidden] {
+  display: none;
+}
+.loc .pin {
+  width: 18px;
+  height: 18px;
+  fill: var(--led);
+  flex: none;
+  margin-right: 4px;
+}
+.loc .lc {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.loc a {
+  color: var(--ink);
+  font-weight: 600;
+}
+.near-msg {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+.st {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sti {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 4px 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  animation: fade 0.5s var(--ease) both;
+}
+.stp {
+  font-family: "Bungee", sans-serif;
+  font-size: 1.25rem;
+  color: var(--ink);
+  min-width: 4.2em;
+}
+.sti.best .stp {
+  color: var(--led);
+}
+.stm b {
+  display: block;
+  font-weight: 800;
+}
+.stm span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.std {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.std a {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ink);
+}

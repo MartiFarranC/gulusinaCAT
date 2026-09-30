@@ -1,0 +1,12 @@
+# Dades generades per les tasques de dades i instantànies dels tests
+preus.json
+historic.json
+estacions.json
+anual.json
+tests/caracteritzacio/dades/
+tests/e2e/dades/
+tests/e2e/instantanies/
+package-lock.json
+.venv/
+src/
+tests/caracteritzacio/

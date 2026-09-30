@@ -35,9 +35,9 @@ cd gulusinaCAT
 
 Per publicar-la a GitHub Pages:
 
-1. A **Settings → Pages**, a *Source* tria **Deploy from a branch**, branca `main`,
+1. A **Settings → Pages**, a _Source_ tria **Deploy from a branch**, branca `main`,
    carpeta `/ (root)`.
-2. A **Settings → Actions → General**, a *Workflow permissions*, marca **Read and
+2. A **Settings → Actions → General**, a _Workflow permissions_, marca **Read and
    write permissions**.
 3. A **Actions → Actualitza preus**, prem **Run workflow** perquè es creïn les
    primeres dades.
@@ -71,19 +71,19 @@ Les tasques accepten dues variables d'entorn opcionals, documentades a
 [`.env.example`](.env.example):
 
 | Variable        | Tasca               | Valor per defecte | Què fa                                            |
-|-----------------|---------------------|-------------------|---------------------------------------------------|
+| --------------- | ------------------- | ----------------- | ------------------------------------------------- |
 | `DIES_ENRERE`   | `gulusinacat preus` | `0`               | Dies passats que cal recuperar a `historic.json`. |
 | `MAX_PETICIONS` | `gulusinacat anual` | `30`              | Mesos pendents que es demanen en una execució.    |
 
-Als workflows es corresponen amb les opcions *dies_enrere* i *max_peticions* de
+Als workflows es corresponen amb les opcions _dies_enrere_ i _max_peticions_ de
 **Run workflow**.
 
 ### Workflows
 
-| Workflow            | Quan s'executa                          | Què actualitza                                   |
-|---------------------|-----------------------------------------|--------------------------------------------------|
-| *Actualitza preus*  | Cada 30 minuts, de 5:00 a 21:00 UTC     | `preus.json`, `historic.json`, `estacions.json`  |
-| *Històric de 10 anys* | Cada dia a les 3:17 UTC               | `anual.json`                                     |
+| Workflow              | Quan s'executa                      | Què actualitza                                  |
+| --------------------- | ----------------------------------- | ----------------------------------------------- |
+| _Actualitza preus_    | Cada 30 minuts, de 5:00 a 21:00 UTC | `preus.json`, `historic.json`, `estacions.json` |
+| _Històric de 10 anys_ | Cada dia a les 3:17 UTC             | `anual.json`                                    |
 
 El servidor del Ministeri talla sovint les connexions que venen de GitHub. Les tasques
 tornen a provar-ho uns quants cops i, si no se'n surten, l'execució falla sense

@@ -17,7 +17,9 @@ test.describe("origen dels preus", () => {
     await obre(page);
 
     await comparaAmbLaInstantania(page, "copia");
-    const evitaElMinisteri = await page.evaluate(() => localStorage.getItem("ministeri-no-disponible"));
+    const evitaElMinisteri = await page.evaluate(() =>
+      localStorage.getItem("ministeri-no-disponible"),
+    );
     expect(evitaElMinisteri).not.toBeNull();
   });
 
