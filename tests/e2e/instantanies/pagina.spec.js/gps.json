@@ -1,0 +1,124 @@
+{
+  "estat": "cache · Preus oficials del Ministeri del 30/09/2026 12:00 · s'actualitzen cada mitja hora",
+  "kicker": "Les quatre marques més barates a menys de 50 km",
+  "filtre": "Marques: totes",
+  "totems": [
+    {
+      "aria": "1a més barata: Esclatoil, 1,469 euros el litre",
+      "meta": "La més barata · 1 a menys de 50 km",
+      "tendencia": null,
+      "rang": "1r",
+      "millor": true
+    },
+    {
+      "aria": "2a més barata: Moeve (Cepsa), 1,629 euros el litre",
+      "meta": "+16,0 cèntims/L · 3 a menys de 50 km",
+      "tendencia": null,
+      "rang": "2n",
+      "millor": false
+    },
+    {
+      "aria": "3a més barata: Repsol, 1,679 euros el litre",
+      "meta": "+21,0 cèntims/L · 2 a menys de 50 km",
+      "tendencia": null,
+      "rang": "3r",
+      "millor": false
+    }
+  ],
+  "comparativa": {
+    "lead": "De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres a menys de 50 km.",
+    "simple": false,
+    "files": [
+      "Esclatoil: 1,469 euros el litre, 15,0 cèntims per sota de la mitjana de la zona | 1 benzinera · La més barata: 1,469 € a Manresa · Veure al mapa ↗",
+      "Moeve (Cepsa): 1,629 euros el litre, 1,0 cèntims per sobre de la mitjana de la zona | 3 benzineres · La més barata: 1,619 € a Mataró · Veure al mapa ↗",
+      "Repsol: 1,679 euros el litre, 6,0 cèntims per sobre de la mitjana de la zona | 2 benzineres · La més barata: 1,669 € a Barcelona · Veure al mapa ↗"
+    ],
+    "mesBoto": null
+  },
+  "calculadora": {
+    "tiquets": [
+      "Esclatoil73,45 €7,50 € menys que la mitjana",
+      "Moeve (Cepsa)81,45 €0,50 € més que la mitjana",
+      "Repsol83,95 €3,00 € més que la mitjana"
+    ],
+    "veredicte": "Amb 50 litres, a Esclatoil pagues 7,50 € menys que la mitjana de la zona i 8,00 € menys que a Moeve (Cepsa), la marca amb més benzineres. En un any omplint cada setmana, t'estalvies uns 390,00 €."
+  },
+  "retol": [
+    "EsclatoilGasolina 951,469",
+    "Moeve (Cepsa)Gasolina 951,629",
+    "RepsolGasolina 951,679"
+  ],
+  "evolucio": {
+    "lead": "Tria les marques que vols comparar als gràfics (les dades històriques són de tot Catalunya). Passa el dit o el ratolí per sobre per veure'n els valors.",
+    "marques": [
+      "Plenergy (Plenoil) true",
+      "bonÀrea true",
+      "Esclatoil true",
+      "GM Oil true",
+      "+ 3 marques més null"
+    ],
+    "nota": "4 de 5 marques triades. La línia discontínua és la mitjana de Catalunya.",
+    "dies": {
+      "aria": "Gasolina 95: preu mitjà de cada dia els últims 3 dies per a Catalunya, Plenergy (Plenoil), bonÀrea, Esclatoil, GM Oil. Les dades són a la taula de sota.",
+      "taula": [
+        "DiaCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
+        "30/91,5371,3841,3971,4691,519",
+        "29/91,5371,3841,3971,4691,519",
+        "28/91,5371,3841,3971,4691,519"
+      ],
+      "etiquetes": [
+        "Catalunya",
+        "GM Oil",
+        "Esclatoil",
+        "bonÀrea",
+        "Plenergy (Plenoil)"
+      ]
+    },
+    "anys": {
+      "lead": "Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. L'any en curs compta fins ara.",
+      "aria": "Gasolina 95: preu mitjà de cada any des del 2016, per marca i per a tot Catalunya. Les dades són a la taula de sota.",
+      "taula": [
+        "AnyCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
+        "2026*1,5311,3781,3911,4631,513",
+        "20251,5031,3531,3661,4361,485",
+        "20241,4721,3251,3381,4071,455",
+        "20231,4421,2981,3101,3771,424",
+        "20221,4111,2701,2821,3481,394",
+        "20211,3801,2431,2541,3191,363",
+        "20201,3491,2151,2261,2891,333",
+        "20191,3181,1871,1981,2601,302",
+        "20181,2881,1591,1701,2301,272",
+        "20171,2571,1321,1421,2011,242",
+        "20161,2261,1041,1141,1711,211"
+      ]
+    }
+  },
+  "mapa": {
+    "titol": "Mapa de les benzineres properes",
+    "missatge": "6 benzineres a menys de 50 km de la teva ubicació (Barcelona).",
+    "ubicacio": "La teva ubicació: a Barcelona · 41,3900, 2,1700 · precisió ±30 m · Veure al mapa ↗",
+    "radiVisible": true,
+    "visible": true,
+    "punts": 2,
+    "etiquetes": [
+      "1,669",
+      "1,629",
+      "1,619",
+      "1,469"
+    ],
+    "radi": true,
+    "ubicacioAlMapa": true
+  },
+  "aprop": {
+    "lead": "6 benzineres amb gasolina 95 a menys de 50 km de la teva ubicació (Barcelona). La més barata és Esclatoil de Manresa, a 1,469 €/L i 47 km.",
+    "llista": [
+      "1,469EsclatoilManresa · Carretera De Vic, 15047 kmMapa ↗",
+      "1,619Moeve (Cepsa)Mataró · Camí Ral, 928 kmMapa ↗",
+      "1,629Moeve (Cepsa)Terrassa · Rambla D'egara, 323 kmMapa ↗",
+      "1,639Moeve (Cepsa)Sabadell · Carretera De Barcelona, 718 kmMapa ↗",
+      "1,669RepsolBarcelona · Gran Via, 5000,4 kmMapa ↗",
+      "1,689RepsolBarcelona · Avinguda Diagonal, 3001,8 kmMapa ↗"
+    ],
+    "mesBoto": false
+  }
+}

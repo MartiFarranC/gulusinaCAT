@@ -1,0 +1,64 @@
+{
+  "estat": "off · No s'han pogut carregar els preus d'avui. Es mostren preus de finals de setembre.",
+  "kicker": "Les quatre marques més barates",
+  "filtre": "Marques: totes",
+  "totems": [
+    {
+      "aria": "1a més barata: Esclatoil, 1,667 euros el litre",
+      "meta": "La més barata · dada del 6 set.",
+      "tendencia": null,
+      "rang": "1r",
+      "millor": true
+    },
+    {
+      "aria": "2a més barata: bonÀrea, 1,748 euros el litre",
+      "meta": "+8,1 cèntims/L · dada del 26-27 set.",
+      "tendencia": null,
+      "rang": "2n",
+      "millor": false
+    },
+    {
+      "aria": "3a més barata: Petrocat, 1,935 euros el litre",
+      "meta": "+26,8 cèntims/L · dada del 14 set.",
+      "tendencia": null,
+      "rang": "3r",
+      "millor": false
+    },
+    {
+      "aria": "4a més barata: Repsol, 2,019 euros el litre",
+      "meta": "+35,2 cèntims/L · dada del 26 set.",
+      "tendencia": null,
+      "rang": "4t",
+      "millor": false
+    }
+  ],
+  "comparativa": {
+    "lead": "De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres de Catalunya.",
+    "simple": true,
+    "files": [
+      "Esclatoil: 1,667 euros el litre | ",
+      "bonÀrea: 1,748 euros el litre | ",
+      "Petrocat: 1,935 euros el litre | ",
+      "Repsol: 2,019 euros el litre | "
+    ],
+    "mesBoto": null
+  },
+  "calculadora": {
+    "tiquets": [
+      "Esclatoil83,35 €T'estalvies 17,60 €",
+      "bonÀrea87,40 €T'estalvies 13,55 €",
+      "Petrocat96,75 €T'estalvies 4,20 €",
+      "Repsol100,95 €T'estalvies 0,00 €"
+    ],
+    "veredicte": "Amb 50 litres, anar a Esclatoil en lloc de Repsol et deixa 17,60 € a la butxaca. En un any omplint cada setmana, són uns 915,20 €."
+  },
+  "retol": [
+    "EsclatoilGasolina 951,667",
+    "bonÀreaGasolina 951,748",
+    "PetrocatGasolina 951,935",
+    "RepsolGasolina 952,019"
+  ],
+  "evolucio": false,
+  "mapa": false,
+  "aprop": false
+}

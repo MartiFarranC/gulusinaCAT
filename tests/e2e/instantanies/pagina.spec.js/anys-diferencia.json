@@ -1,0 +1,133 @@
+{
+  "estat": "cache · Preus oficials del Ministeri del 30/09/2026 12:00 · s'actualitzen cada mitja hora",
+  "kicker": "Les quatre marques més barates",
+  "filtre": "Marques: totes",
+  "totems": [
+    {
+      "aria": "1a més barata: Plenergy (Plenoil), 1,384 euros el litre",
+      "meta": "La més barata · 3 benzineres · 30/09/2026",
+      "tendencia": "= Igual des d'ahir",
+      "rang": "1r",
+      "millor": true
+    },
+    {
+      "aria": "2a més barata: bonÀrea, 1,397 euros el litre",
+      "meta": "+1,3 cèntims/L · 4 benzineres · 30/09/2026",
+      "tendencia": "= Igual des d'ahir",
+      "rang": "2n",
+      "millor": false
+    },
+    {
+      "aria": "3a més barata: Esclatoil, 1,469 euros el litre",
+      "meta": "+8,5 cèntims/L · 3 benzineres · 30/09/2026",
+      "tendencia": "= Igual des d'ahir",
+      "rang": "3r",
+      "millor": false
+    },
+    {
+      "aria": "4a més barata: GM Oil, 1,519 euros el litre",
+      "meta": "+13,5 cèntims/L · 3 benzineres · 30/09/2026",
+      "tendencia": "= Igual des d'ahir",
+      "rang": "4t",
+      "millor": false
+    }
+  ],
+  "comparativa": {
+    "lead": "De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres de Catalunya.",
+    "simple": false,
+    "files": [
+      "Plenergy (Plenoil): 1,384 euros el litre, 15,3 cèntims per sota de la mitjana de Catalunya | 3 benzineres · La més barata: 1,379 € a Blanes · Veure al mapa ↗",
+      "bonÀrea: 1,397 euros el litre, 14,0 cèntims per sota de la mitjana de Catalunya | 4 benzineres · La més barata: 1,389 € a Guissona · Veure al mapa ↗",
+      "Esclatoil: 1,469 euros el litre, 6,8 cèntims per sota de la mitjana de Catalunya | 3 benzineres · La més barata: 1,459 € a Vic · Veure al mapa ↗",
+      "GM Oil: 1,519 euros el litre, 1,8 cèntims per sota de la mitjana de Catalunya | 3 benzineres · La més barata: 1,509 € a Berga · Veure al mapa ↗",
+      "Petrolis Martí: 1,549 euros el litre, 1,2 cèntims per sobre de la mitjana de Catalunya | 3 benzineres · La més barata: 1,539 € a Agramunt · Veure al mapa ↗",
+      "Independents i altres: 1,609 euros el litre, 7,2 cèntims per sobre de la mitjana de Catalunya | 8 benzineres · La més barata: 1,569 € a Amposta · Veure al mapa ↗",
+      "Moeve (Cepsa): 1,629 euros el litre, 9,2 cèntims per sobre de la mitjana de Catalunya | 3 benzineres · La més barata: 1,619 € a Mataró · Veure al mapa ↗",
+      "Repsol: 1,672 euros el litre, 13,5 cèntims per sobre de la mitjana de Catalunya | 3 benzineres · La més barata: 1,659 € a Reus · Veure al mapa ↗"
+    ],
+    "mesBoto": null
+  },
+  "calculadora": {
+    "tiquets": [
+      "Plenergy (Plenoil)69,20 €7,65 € menys que la mitjana",
+      "bonÀrea69,85 €7,00 € menys que la mitjana",
+      "Esclatoil73,45 €3,40 € menys que la mitjana",
+      "GM Oil75,95 €0,90 € menys que la mitjana"
+    ],
+    "veredicte": "Amb 50 litres, a Plenergy (Plenoil) pagues 7,65 € menys que la mitjana de Catalunya i 0,65 € menys que a bonÀrea, la marca amb més benzineres. En un any omplint cada setmana, t'estalvies uns 397,80 €."
+  },
+  "retol": [
+    "Plenergy (Plenoil)Gasolina 951,384=",
+    "bonÀreaGasolina 951,397=",
+    "EsclatoilGasolina 951,469=",
+    "GM OilGasolina 951,519=",
+    "Petrolis MartíGasolina 951,549=",
+    "Moeve (Cepsa)Gasolina 951,629=",
+    "RepsolGasolina 951,672="
+  ],
+  "evolucio": {
+    "lead": "Tria les marques que vols comparar als gràfics. Passa el dit o el ratolí per sobre per veure'n els valors.",
+    "marques": [
+      "Plenergy (Plenoil) true",
+      "bonÀrea true",
+      "Esclatoil true",
+      "GM Oil true",
+      "+ 3 marques més null"
+    ],
+    "nota": "4 de 5 marques triades. La línia discontínua és la mitjana de Catalunya.",
+    "dies": {
+      "aria": "Gasolina 95: preu mitjà de cada dia els últims 3 dies per a Catalunya, Plenergy (Plenoil), bonÀrea, Esclatoil, GM Oil. Les dades són a la taula de sota.",
+      "taula": [
+        "DiaCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
+        "30/91,5371,3841,3971,4691,519",
+        "29/91,5371,3841,3971,4691,519",
+        "28/91,5371,3841,3971,4691,519"
+      ],
+      "etiquetes": [
+        "Catalunya",
+        "GM Oil",
+        "Esclatoil",
+        "bonÀrea",
+        "Plenergy (Plenoil)"
+      ]
+    },
+    "anys": {
+      "lead": "Quants cèntims per litre ha estat cada marca per sobre (+) o per sota (−) de la mitjana de totes les benzineres de Catalunya, any per any. Com més avall, més barata.",
+      "aria": "Gasolina 95: diferència en cèntims de cada marca respecte a la mitjana de Catalunya, any per any des del 2016. Les dades són a la taula de sota.",
+      "taula": [
+        "AnyCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
+        "2026*0,0 c−15,3 c−14,0 c−6,8 c−1,8 c",
+        "20250,0 c−15,0 c−13,7 c−6,7 c−1,8 c",
+        "20240,0 c−14,7 c−13,4 c−6,5 c−1,7 c",
+        "20230,0 c−14,4 c−13,2 c−6,5 c−1,8 c",
+        "20220,0 c−14,1 c−12,9 c−6,3 c−1,7 c",
+        "20210,0 c−13,7 c−12,6 c−6,1 c−1,7 c",
+        "20200,0 c−13,4 c−12,3 c−6,0 c−1,6 c",
+        "20190,0 c−13,1 c−12,0 c−5,8 c−1,6 c",
+        "20180,0 c−12,9 c−11,8 c−5,8 c−1,6 c",
+        "20170,0 c−12,5 c−11,5 c−5,6 c−1,5 c",
+        "20160,0 c−12,2 c−11,2 c−5,5 c−1,5 c"
+      ]
+    }
+  },
+  "mapa": {
+    "titol": "Mapa de les benzineres",
+    "missatge": "Fes servir la teva ubicació o escriu un municipi per veure només les benzineres properes.",
+    "ubicacio": null,
+    "radiVisible": false,
+    "visible": true,
+    "punts": 22,
+    "etiquetes": [
+      "1,479",
+      "1,459",
+      "1,399",
+      "1,389",
+      "1,389",
+      "1,385",
+      "1,379"
+    ],
+    "radi": false,
+    "ubicacioAlMapa": false
+  },
+  "aprop": false
+}

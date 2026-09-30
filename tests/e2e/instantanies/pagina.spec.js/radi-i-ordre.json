@@ -1,0 +1,141 @@
+{
+  "estat": "cache · Preus oficials del Ministeri del 30/09/2026 12:00 · s'actualitzen cada mitja hora",
+  "kicker": "Les quatre marques més barates a menys de 100 km",
+  "filtre": "Marques: totes",
+  "totems": [
+    {
+      "aria": "1a més barata: Plenergy (Plenoil), 1,385 euros el litre",
+      "meta": "La més barata · 1 a menys de 100 km",
+      "tendencia": null,
+      "rang": "1r",
+      "millor": true
+    },
+    {
+      "aria": "2a més barata: bonÀrea, 1,397 euros el litre",
+      "meta": "+1,2 cèntims/L · 4 a menys de 100 km",
+      "tendencia": null,
+      "rang": "2n",
+      "millor": false
+    },
+    {
+      "aria": "3a més barata: Petrolis Martí, 1,549 euros el litre",
+      "meta": "+16,4 cèntims/L · 3 a menys de 100 km",
+      "tendencia": null,
+      "rang": "3r",
+      "millor": false
+    },
+    {
+      "aria": "4a més barata: Repsol, 1,659 euros el litre",
+      "meta": "+27,4 cèntims/L · 1 a menys de 100 km",
+      "tendencia": null,
+      "rang": "4t",
+      "millor": false
+    }
+  ],
+  "comparativa": {
+    "lead": "De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de totes les benzineres a menys de 100 km.",
+    "simple": false,
+    "files": [
+      "Plenergy (Plenoil): 1,385 euros el litre, 12,5 cèntims per sota de la mitjana de la zona | 1 benzinera · La més barata: 1,385 € a Igualada · Veure al mapa ↗",
+      "bonÀrea: 1,397 euros el litre, 11,3 cèntims per sota de la mitjana de la zona | 4 benzineres · La més barata: 1,389 € a Guissona · Veure al mapa ↗",
+      "Petrolis Martí: 1,549 euros el litre, 3,9 cèntims per sobre de la mitjana de la zona | 3 benzineres · La més barata: 1,539 € a Agramunt · Veure al mapa ↗",
+      "Independents i altres: 1,612 euros el litre, 10,2 cèntims per sobre de la mitjana de la zona | 3 benzineres · La més barata: 1,589 € a Solsona · Veure al mapa ↗",
+      "Repsol: 1,659 euros el litre, 14,9 cèntims per sobre de la mitjana de la zona | 1 benzinera · La més barata: 1,659 € a Reus · Veure al mapa ↗"
+    ],
+    "mesBoto": null
+  },
+  "calculadora": {
+    "tiquets": [
+      "Plenergy (Plenoil)69,25 €6,25 € menys que la mitjana",
+      "bonÀrea69,85 €5,65 € menys que la mitjana",
+      "Petrolis Martí77,45 €1,95 € més que la mitjana",
+      "Repsol82,95 €7,45 € més que la mitjana"
+    ],
+    "veredicte": "Amb 50 litres, a Plenergy (Plenoil) pagues 6,25 € menys que la mitjana de la zona i 0,60 € menys que a bonÀrea, la marca amb més benzineres. En un any omplint cada setmana, t'estalvies uns 325,00 €."
+  },
+  "retol": [
+    "Plenergy (Plenoil)Gasolina 951,385",
+    "bonÀreaGasolina 951,397",
+    "Petrolis MartíGasolina 951,549",
+    "RepsolGasolina 951,659"
+  ],
+  "evolucio": {
+    "lead": "Tria les marques que vols comparar als gràfics (les dades històriques són de tot Catalunya). Passa el dit o el ratolí per sobre per veure'n els valors.",
+    "marques": [
+      "Plenergy (Plenoil) true",
+      "bonÀrea true",
+      "Esclatoil true",
+      "GM Oil true",
+      "+ 3 marques més null"
+    ],
+    "nota": "4 de 5 marques triades. La línia discontínua és la mitjana de Catalunya.",
+    "dies": {
+      "aria": "Gasolina 95: preu mitjà de cada dia els últims 3 dies per a Catalunya, Plenergy (Plenoil), bonÀrea, Esclatoil, GM Oil. Les dades són a la taula de sota.",
+      "taula": [
+        "DiaCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
+        "30/91,5371,3841,3971,4691,519",
+        "29/91,5371,3841,3971,4691,519",
+        "28/91,5371,3841,3971,4691,519"
+      ],
+      "etiquetes": [
+        "Catalunya",
+        "GM Oil",
+        "Esclatoil",
+        "bonÀrea",
+        "Plenergy (Plenoil)"
+      ]
+    },
+    "anys": {
+      "lead": "Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. L'any en curs compta fins ara.",
+      "aria": "Gasolina 95: preu mitjà de cada any des del 2016, per marca i per a tot Catalunya. Les dades són a la taula de sota.",
+      "taula": [
+        "AnyCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
+        "2026*1,5311,3781,3911,4631,513",
+        "20251,5031,3531,3661,4361,485",
+        "20241,4721,3251,3381,4071,455",
+        "20231,4421,2981,3101,3771,424",
+        "20221,4111,2701,2821,3481,394",
+        "20211,3801,2431,2541,3191,363",
+        "20201,3491,2151,2261,2891,333",
+        "20191,3181,1871,1981,2601,302",
+        "20181,2881,1591,1701,2301,272",
+        "20171,2571,1321,1421,2011,242",
+        "20161,2261,1041,1141,1711,211"
+      ]
+    }
+  },
+  "mapa": {
+    "titol": "Mapa de les benzineres properes",
+    "missatge": "12 benzineres a menys de 100 km de Lleida.",
+    "ubicacio": "Ubicació triada: Lleida · 41,6170, 0,6200 · Veure al mapa ↗",
+    "radiVisible": true,
+    "visible": true,
+    "punts": 6,
+    "etiquetes": [
+      "1,599",
+      "1,589",
+      "1,549",
+      "1,399",
+      "1,389",
+      "1,385"
+    ],
+    "radi": true,
+    "ubicacioAlMapa": true
+  },
+  "aprop": {
+    "lead": "12 benzineres amb gasolina 95 a menys de 100 km de Lleida. La més barata és Plenergy (Plenoil) de Igualada, a 1,385 €/L i 83 km.",
+    "llista": [
+      "1,399bonÀreaLleida · Avinguda Alcalde Rovira Roure, 900,0 kmMapa ↗",
+      "1,559Petrolis MartíMollerussa · Carrer Ferrer I Busquets, 223 kmMapa ↗",
+      "1,549Petrolis MartíBalaguer · Carrer De Lleida, 425 kmMapa ↗",
+      "1,405bonÀreaTàrrega · Poligon Industrial43 kmMapa ↗",
+      "1,539Petrolis MartíAgramunt · Carretera De Tàrrega, 144 kmMapa ↗",
+      "1,395bonÀreaCervera · Carrer Major, 154 kmMapa ↗",
+      "1,389bonÀreaGuissona · Carretera C-1412a KM 159 kmMapa ↗",
+      "1,599Independents i altresTremp · Avinguda Estació, 165 kmMapa ↗",
+      "1,659RepsolReus · Avinguda De Sant Jordi, 565 kmMapa ↗",
+      "1,649Independents i altresTarragona · Rambla Nova, 176 kmMapa ↗"
+    ],
+    "mesBoto": true
+  }
+}
