@@ -1,0 +1,22 @@
+{
+  "name": "On omplo el dipòsit?",
+  "short_name": "On omplo?",
+  "description": "Preus de les benzineres de Catalunya, marca per marca, amb les dades oficials del Ministeri.",
+  "lang": "ca",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0F1114",
+  "theme_color": "#0F1114",
+  "icons": [
+    { "src": "assets/icones/logo.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "assets/icones/icona-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icones/icona-512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "assets/icones/icona-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

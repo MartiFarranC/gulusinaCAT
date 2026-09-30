@@ -32,6 +32,10 @@ export default [
     languageOptions: { globals: globals.browser },
   },
   {
+    files: ["scripts/**/*.js"],
+    languageOptions: { globals: globals.node },
+  },
+  {
     files: ["tests/**/*.js", "*.config.js"],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
     rules: { "max-lines-per-function": "off" },

@@ -203,7 +203,9 @@ a `main` i a cada pull request.
 ├── index.html             # L'estructura de la pàgina
 ├── assets/
 │   ├── css/               # Estils, un fitxer per part de la pàgina
+│   ├── icones/            # Logo (logo.svg) i icones generades a partir d'ell
 │   └── js/                # Mòduls ES: principal.js hi entra i crea les parts
+├── scripts/               # Generació de les icones (npm run icones)
 ├── src/gulusinacat/       # Tasques de dades (Python)
 │   ├── domini/            # Marques, estadística i resums, sense xarxa ni fitxers
 │   ├── aplicacio/         # Casos d'ús: preus d'avui i històric anual

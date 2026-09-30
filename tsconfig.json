@@ -17,5 +17,5 @@
     "exactOptionalPropertyTypes": true,
     "skipLibCheck": true
   },
-  "include": ["assets/js", "tests/js", "tests/e2e", "*.js"]
+  "include": ["assets/js", "tests/js", "tests/e2e", "*.js", "scripts"]
 }
