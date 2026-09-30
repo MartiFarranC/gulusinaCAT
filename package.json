@@ -13,8 +13,9 @@
     "format:check": "prettier --check . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .git/info/exclude",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test --experimental-test-coverage --test-coverage-lines=80 --test-coverage-branches=80 --test-coverage-include=\"assets/js/**\" \"tests/js/**/*.test.js\"",
     "test:e2e": "playwright test",
-    "check": "npm run format:check && npm run lint && npm run typecheck"
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
