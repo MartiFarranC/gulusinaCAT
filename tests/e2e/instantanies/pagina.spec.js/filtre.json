@@ -88,6 +88,7 @@
       ]
     },
     "anys": {
+      "titol": "Últims cinc anys",
       "lead": "Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. L'any en curs compta fins ara.",
       "aria": "Gasolina 95: preu mitjà de cada any des del 2022, per marca i per a tot Catalunya. Les dades són a la taula de sota.",
       "taula": [

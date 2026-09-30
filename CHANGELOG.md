@@ -24,6 +24,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 - El gràfic de 10 anys passa a ser dels últims 5 anys, i la taula de sota mostra
   sempre el preu mitjà de cada any, també amb l'opció «Respecte a Catalunya».
+- El títol del gràfic dels anys diu quants n'hi ha mentre encara no se n'han
+  baixat cinc (per exemple, «Últims tres anys»).
 - La tasca anual només baixa els últims 5 anys d'històric (abans, 10), de manera
   que fa menys peticions al Ministeri.
 - Les tasques de dades passen a ser el paquet `gulusinacat`, separat en domini,

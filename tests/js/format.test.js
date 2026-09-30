@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import {
+  enLletres,
   formataAmbSigne,
   formataCentims,
   formataDistancia,
@@ -41,4 +42,10 @@ test("els ordinals de les quatre primeres posicions", () => {
 test("el plural només és singular per a una unitat", () => {
   assert.equal(plural(1, "benzinera", "benzineres"), "benzinera");
   assert.equal(plural(0, "benzinera", "benzineres"), "benzineres");
+});
+
+test("els nombres petits s'escriuen en lletres i la resta en xifres", () => {
+  assert.equal(enLletres(3), "tres");
+  assert.equal(enLletres(5), "cinc");
+  assert.equal(enLletres(12), "12");
 });

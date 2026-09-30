@@ -125,6 +125,7 @@ export function estatDeLaPagina(page) {
           etiquetes: [...document.querySelectorAll("#chartSvg .lbl")].map((e) => e.textContent),
         },
         anys: visible("#anysSec") && {
+          titol: text("#anysTitol"),
           lead: text("#anysLead"),
           aria: $("#anysSvg").getAttribute("aria-label"),
           taula: filesDeLaTaula("#anysTable"),

@@ -2,7 +2,7 @@
 
 import { element, marcaPremut, perId, perIdDeTipus, puntDeColor } from "./dom.js";
 import { diaIMes } from "./dates.js";
-import { formataAmbSigne, formataPreu } from "./format.js";
+import { enLletres, formataAmbSigne, formataPreu } from "./format.js";
 import { dibuixaGrafic } from "./grafic.js";
 import { extremsIMig, tots } from "./grafic-calculs.js";
 import { ALTRES, CATALUNYA, NOMS, colorDe } from "./marques.js";
@@ -192,6 +192,7 @@ export class Evolucio {
     const context = { series, anyActual: new Date().getFullYear() };
     const punts = (/** @type {boolean} */ esDiferencia) =>
       anys.map((any) => puntDeLAny(estat, any, { ...context, esDiferencia }));
+    perId("anysTitol").textContent = `Últims ${enLletres(anys.length)} anys`;
     perId("anysLead").textContent = textos.lead;
     dibuixaGrafic({
       svg: perIdDeTipus("anysSvg", SVGSVGElement),

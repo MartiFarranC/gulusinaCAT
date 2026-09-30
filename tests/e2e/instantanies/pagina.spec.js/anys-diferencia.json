@@ -92,6 +92,7 @@
       ]
     },
     "anys": {
+      "titol": "Últims cinc anys",
       "lead": "Quants cèntims per litre ha estat cada marca per sobre (+) o per sota (−) de la mitjana de totes les benzineres de Catalunya, any per any. Com més avall, més barata.",
       "aria": "Gasolina 95: diferència en cèntims de cada marca respecte a la mitjana de Catalunya, any per any des del 2022. El preu mitjà de cada any és a la taula de sota.",
       "taula": [

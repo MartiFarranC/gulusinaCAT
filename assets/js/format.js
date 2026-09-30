@@ -1,6 +1,7 @@
 /** Formats de números per mostrar a la pàgina, a la manera catalana. */
 
 const ORDINALS = ["r", "n", "r", "t"];
+const NOMBRES_EN_LLETRES = ["zero", "un", "dos", "tres", "quatre", "cinc"];
 
 /** @param {number} preu Euros per litre. */
 export const formataPreu = (preu) => preu.toFixed(3).replace(".", ",");
@@ -39,3 +40,9 @@ export const ordinal = (posicio) => `${posicio}${ORDINALS[posicio - 1] ?? "è"}`
  */
 export const plural = (quantitat, singular, formaPlural) =>
   quantitat === 1 ? singular : formaPlural;
+
+/**
+ * @param {number} nombre
+ * @returns {string} Del zero al cinc en lletres (en masculí); la resta, en xifres.
+ */
+export const enLletres = (nombre) => NOMBRES_EN_LLETRES[nombre] ?? String(nombre);

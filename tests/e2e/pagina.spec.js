@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 import { esperaElsRedibuixos, estatDeLaPagina, expect, obre, prepara, test } from "./entorn.js";
 
 /**
@@ -76,6 +78,18 @@ test.describe("controls", () => {
     await page.getByRole("button", { name: "Respecte a Catalunya" }).click();
 
     await comparaAmbLaInstantania(page, "anys-diferencia");
+  });
+
+  test("el títol dels anys diu quants anys hi ha si encara no n'hi ha cinc", async ({ page }) => {
+    const anual = JSON.parse(readFileSync(new URL("./dades/anual.json", import.meta.url), "utf-8"));
+    anual.anys = anual.anys.slice(-3);
+    await page.route(/\/anual\.json\?/, (ruta) => ruta.fulfill({ json: anual }));
+
+    await page.reload();
+    await expect(page.locator("#chips button").first()).toBeAttached();
+
+    await expect(page.locator("#anysTitol")).toHaveText("Últims tres anys");
+    await expect(page.locator("#anysTable tbody tr")).toHaveCount(3);
   });
 
   test("afegeix i treu marques dels gràfics", async ({ page }) => {
