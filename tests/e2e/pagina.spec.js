@@ -276,6 +276,16 @@ test.describe("menú de dreceres", () => {
     );
   });
 
+  test("marca l'última secció en arribar al final de la pàgina", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const ultima = page.locator("#dreceres a[href='#dipositSec']");
+
+    await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+
+    await expect(ultima).toHaveAttribute("aria-current", "location");
+    await expect(page.locator("#dreceres a[aria-current]")).toHaveCount(1);
+  });
+
   for (const { ample, alt } of [
     { ample: 390, alt: 800 },
     { ample: 1440, alt: 900 },

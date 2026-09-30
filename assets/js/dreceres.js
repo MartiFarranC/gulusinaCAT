@@ -1,9 +1,12 @@
 /** Menú de dreceres a les seccions de la pàgina. */
 
 import { perId } from "./dom.js";
+import { indexDeLaSeccioActual } from "./seccio-actual.js";
 
-/** Franja del mig de la pantalla on s'ha de trobar una secció perquè compti com a actual. */
-const FRANJA_ACTUAL = "-40% 0px -55% 0px";
+/** Part de l'alçada de la finestra on hi ha la línia de lectura. */
+const LINIA_DE_LECTURA = 0.4;
+/** Píxels de marge per considerar que ja s'ha arribat al final de la pàgina. */
+const MARGE_DEL_FINAL_PX = 2;
 
 export class Dreceres {
   constructor() {
@@ -45,19 +48,41 @@ export class Dreceres {
     actualitza();
   }
 
-  marcaLaSeccioActual() {
-    if (!("IntersectionObserver" in window)) return;
-    const observador = new IntersectionObserver(
-      (entrades) => {
-        const visible = entrades.find((e) => e.isIntersecting);
-        if (!visible) return;
-        for (const { enllac, objectiu } of this.entrades) {
-          if (objectiu === visible.target) enllac.setAttribute("aria-current", "location");
-          else enllac.removeAttribute("aria-current");
-        }
-      },
-      { rootMargin: FRANJA_ACTUAL },
+  /** Marca al menú la secció que s'està llegint. */
+  marcaLaSeccio() {
+    const posicions = this.entrades.map(({ objectiu }) =>
+      objectiu.hidden ? null : objectiu.getBoundingClientRect().top,
     );
-    for (const { objectiu } of this.entrades) observador.observe(objectiu);
+    const final = document.documentElement.scrollHeight - MARGE_DEL_FINAL_PX;
+    const lectura = {
+      linia: innerHeight * LINIA_DE_LECTURA,
+      esAlFinal: scrollY + innerHeight >= final,
+    };
+    const actual = indexDeLaSeccioActual(posicions, lectura);
+    this.entrades.forEach(({ enllac }, index) => {
+      if (index === actual) enllac.setAttribute("aria-current", "location");
+      else enllac.removeAttribute("aria-current");
+    });
+  }
+
+  /** Torna a marcar la secció en baixar, en canviar la mida i quan una secció apareix. */
+  marcaLaSeccioActual() {
+    let hiHaUnCalculPendent = false;
+    const demana = () => {
+      if (hiHaUnCalculPendent) return;
+      hiHaUnCalculPendent = true;
+      requestAnimationFrame(() => {
+        hiHaUnCalculPendent = false;
+        this.marcaLaSeccio();
+      });
+    };
+    addEventListener("scroll", demana, { passive: true });
+    addEventListener("resize", demana);
+    new MutationObserver(demana).observe(document.body, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["hidden"],
+    });
+    demana();
   }
 }
