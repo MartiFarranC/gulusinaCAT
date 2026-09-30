@@ -42,18 +42,20 @@ El paquet `src/gulusinacat/` separa el domini (regles, sense xarxa ni fitxers), 
 casos d'ús, la infraestructura (API i fitxers) i la línia d'ordres. El domini no pot
 importar res de les altres capes.
 
+La pàgina no té cap pas de compilació: `index.html` carrega els estils de
+`assets/css/` i el mòdul `assets/js/principal.js`. Els càlculs viuen en mòduls que no
+toquen el DOM (i tenen tests unitaris), i cada part de la pàgina és una classe que
+rep l'estat pel constructor. Els tipus s'escriuen amb JSDoc i TypeScript els comprova
+en mode estricte. Prettier formata el codi i ESLint limita la mida de funcions (30
+línies), fitxers (300 línies) i paràmetres (4).
+
 ## Comprovacions abans d'obrir una pull request
 
-1. Serveix la pàgina en local i obre-la en mòbil i en ordinador:
+Els hooks de pre-commit (`.venv/bin/pre-commit install`) passen les comprovacions
+ràpides a cada commit, i el workflow _Comprovacions_ les torna a passar totes a la
+pull request. Per passar-les a mà:
 
-   ```bash
-   python3 -m http.server 8000
-   ```
-
-2. Comprova-la amb les tres fonts de preus: el Ministeri directament, `preus.json` i
-   els preus desats a la pàgina (per exemple, bloquejant `preus.json` des de les eines
-   del navegador).
-3. Si has tocat les tasques de dades, passa totes les comprovacions:
+1. Tasques de dades:
 
    ```bash
    .venv/bin/ruff format --check && .venv/bin/ruff check
@@ -61,8 +63,21 @@ importar res de les altres capes.
    .venv/bin/pytest --cov
    ```
 
-   Tota lògica nova o modificada ha de portar tests. Si un canvi altera a propòsit el
-   contingut dels fitxers generats, actualitza els fitxers de referència de
-   `tests/caracteritzacio/dades/esperat/` i explica-ho al commit.
+   Si un canvi altera a propòsit el contingut dels fitxers generats, actualitza els
+   fitxers de referència de `tests/caracteritzacio/dades/esperat/` i explica-ho al
+   commit.
 
-4. Revisa que la consola del navegador no mostri errors.
+2. Pàgina:
+
+   ```bash
+   npm run check       # format, lint, tipus i tests unitaris
+   npm run test:e2e    # la pàgina al navegador
+   ```
+
+   Si un canvi altera a propòsit el que mostra la pàgina, actualitza les
+   instantànies amb `npx playwright test --update-snapshots` i revisa'n el diff.
+
+3. Obre la pàgina en local (`python3 -m http.server 8000`) en mòbil i en ordinador,
+   i revisa que la consola del navegador no mostri errors.
+
+Tota lògica nova o modificada ha de portar tests.

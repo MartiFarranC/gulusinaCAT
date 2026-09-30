@@ -25,6 +25,9 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 - Python 3.11 o posterior per a les tasques que descarreguen les dades. Només fan
   servir la biblioteca estàndard; les eines de desenvolupament són a
   `requirements-dev.txt`.
+- Node.js 22.13 o posterior, només per a les eines de desenvolupament de la pàgina
+  (format, lint, tipus i tests), que són a `package.json`. La pàgina publicada no en
+  depèn.
 
 ## Instal·lació
 
@@ -114,7 +117,8 @@ es repeteixi en 3 o més benzineres també compta com a marca. La resta s'agrupa
 «Independents i altres». El registre del workflow mostra els rètols més repetits que
 han anat a aquest grup.
 
-La pàgina fa la mateixa classificació quan llegeix el Ministeri directament.
+La pàgina fa la mateixa classificació (`assets/js/marques.js`) quan llegeix el
+Ministeri directament, i un test comprova que en surt el mateix resum.
 
 ### Històric
 
@@ -131,8 +135,9 @@ de les mateixes dades del Ministeri, sense cap servei extern de geolocalització
 
 ## Tests
 
-Les tasques de dades tenen tests amb pytest. Per executar-los, amb les eines de
-comprovació:
+### Tasques de dades
+
+Tests amb pytest, format i lint amb Ruff i tipus amb mypy estricte:
 
 ```bash
 python3 -m venv .venv
@@ -146,24 +151,63 @@ Els tests de `tests/caracteritzacio/` executen les tasques amb una resposta del
 Ministeri desada, sense xarxa, i comparen byte a byte els fitxers generats amb els de
 referència.
 
-La pàgina encara no té tests automàtics: cal comprovar-la obrint-la en local (vegeu
-[Ús](#ús)), en mòbil i en ordinador.
+### Pàgina
+
+Format amb Prettier, lint amb ESLint, tipus amb TypeScript (només comprova els
+comentaris JSDoc, no compila res) i tests unitaris amb `node:test`:
+
+```bash
+npm ci
+npm run check
+```
+
+Els tests e2e obren la pàgina amb Playwright i Chromium, amb dades desades, el
+rellotge fix i sense xarxa, i comparen el que mostra amb les instantànies de
+`tests/e2e/instantanies/`. Serveixen la pàgina amb `python3 -m http.server`:
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+Si un canvi altera a propòsit el que mostra la pàgina, les instantànies
+s'actualitzen amb `npx playwright test --update-snapshots`.
+
+### Abans de cada commit
+
+Els hooks de [pre-commit](https://pre-commit.com/) executen les comprovacions
+ràpides de les dues parts:
+
+```bash
+.venv/bin/pre-commit install
+```
+
+El workflow _Comprovacions_ les torna a passar totes, amb els tests e2e, a cada push
+a `main` i a cada pull request.
 
 ## Estructura
 
 ```
 .
 ├── .github/workflows/
+│   ├── ci.yml             # Comprovacions (a cada push i pull request)
 │   ├── preus.yml          # Actualitza preus (cada 30 minuts)
 │   └── anual.yml          # Històric de 10 anys (cada dia)
 ├── docs/adr/              # Decisions d'arquitectura
-├── index.html             # La pàgina: HTML, CSS i JavaScript
+├── index.html             # L'estructura de la pàgina
+├── assets/
+│   ├── css/               # Estils, un fitxer per part de la pàgina
+│   └── js/                # Mòduls ES: principal.js hi entra i crea les parts
 ├── src/gulusinacat/       # Tasques de dades (Python)
 │   ├── domini/            # Marques, estadística i resums, sense xarxa ni fitxers
 │   ├── aplicacio/         # Casos d'ús: preus d'avui i històric anual
 │   ├── infraestructura/   # API del Ministeri i fitxers JSON
 │   └── presentacio/       # Línia d'ordres
-├── tests/                 # Tests de les tasques de dades
+├── tests/
+│   ├── unit/              # Tests unitaris de les tasques de dades
+│   ├── caracteritzacio/   # Fitxers generats amb una resposta desada del Ministeri
+│   ├── js/                # Tests unitaris dels mòduls de càlcul de la pàgina
+│   └── e2e/               # Tests de la pàgina al navegador
 ├── preus.json             # Mitjanes per marca (generat)
 ├── estacions.json         # Totes les benzineres amb coordenades (generat)
 ├── historic.json          # Una mitjana per dia (generat)

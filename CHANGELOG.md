@@ -15,6 +15,10 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 - Aquest registre de canvis.
 - Registres de decisions d'arquitectura a `docs/adr/`.
 - Tests de les tasques de dades amb pytest, i Ruff i mypy estricte.
+- Tests de la pàgina: e2e amb Playwright i unitaris amb `node:test`.
+- Prettier, ESLint i comprovació de tipus de la pàgina amb TypeScript sobre JSDoc,
+  com a eines de desenvolupament.
+- Workflow _Comprovacions_ a cada push i pull request, i hooks de pre-commit.
 
 ### Canviat
 
@@ -26,6 +30,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
   amb un missatge clar en lloc d'una traça.
 - El panell d'ubicació es veu sempre a sobre del mapa; fer-lo servir activa
   «Les més properes». Desapareix el botó «Busca les més properes».
+- El codi de la pàgina es divideix en fitxers CSS per secció i mòduls ES a
+  `assets/`, sense cap pas de compilació. La pàgina es comporta igual.
 - El README s'organitza en requisits, instal·lació, ús, configuració, tests,
   estructura i llicència.
 
