@@ -236,6 +236,39 @@ footer a{color:var(--ink)}
 .filtre-nota{color:var(--muted);font-size:.82rem;margin:10px 0 0}
 .kicker.buit{color:var(--ink);text-transform:none;letter-spacing:0;font-size:.95rem;font-weight:600}
 
+/* MAPA */
+.map{position:relative;height:440px;border-radius:14px;overflow:hidden;background:#dfe5e8;border:1px solid var(--line);margin:0 0 8px;touch-action:none;cursor:grab;user-select:none}
+.map.arrossega{cursor:grabbing}
+.map-tiles img{position:absolute;left:0;top:0;width:256px;height:256px;max-width:none;pointer-events:none}
+.map-svg{position:absolute;inset:0;width:100%;height:100%}
+.m-radi{fill:rgba(255,176,0,.08);stroke:var(--led);stroke-width:2;stroke-dasharray:6 5}
+.m-pt{stroke:#fff;stroke-width:2;cursor:pointer;transition:r .15s}
+.m-pt:hover{r:9}
+.m-pt.best{fill:var(--led);stroke:#1a1200;stroke-width:2.5}
+.m-jo{fill:#1a73e8;stroke:#fff;stroke-width:3}
+.m-jo-halo{fill:rgba(26,115,232,.25);animation:halo 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes halo{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.m-tag{cursor:pointer}
+.m-tag path{fill:#15181c;stroke:#fff;stroke-width:1.5}
+.m-tag text{fill:#fff;font:700 12px "Figtree",sans-serif;font-variant-numeric:tabular-nums}
+.m-tag.best path{fill:var(--led);stroke:#1a1200}
+.m-tag.best text{fill:#1a1200}
+.map-ctl{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px}
+.map-ctl button{width:36px;height:36px;border-radius:10px;border:1px solid rgba(0,0,0,.2);background:#fff;color:#15181c;font:700 1.2rem/1 "Figtree",sans-serif;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.map-ctl svg{width:18px;height:18px;fill:none;stroke:#15181c;stroke-width:2}
+.map-attr{position:absolute;right:0;bottom:0;background:rgba(255,255,255,.85);color:#333;font-size:.7rem;padding:2px 6px;border-top-left-radius:6px}
+.map-attr a{color:#333}
+.map-pop{position:absolute;z-index:2;display:flex;flex-direction:column;gap:2px;max-width:240px;background:#fff;color:#15181c;border-radius:10px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.3);font-size:.85rem;cursor:auto}
+.map-pop[hidden]{display:none}
+.map-pop b{font-weight:800}
+.map-pop .mp-preu{font-family:"Bungee",sans-serif;font-size:1.1rem;color:#15181c}
+.map-pop span{color:#555}
+.map-pop a{color:#15181c;font-weight:700;margin-top:4px}
+.map-nota{color:var(--muted);font-size:.82rem;margin:0 0 18px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .map-tiles img{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)} :root:not([data-theme="light"]) .map{background:#1d2226}}
+:root[data-theme="dark"] .map-tiles img{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)}
+@media (max-width:560px){.map{height:340px}}
+
 @media (max-width:560px){ .cr,#compSec.simple .cr{grid-template-columns:1fr auto;grid-template-areas:"n v" "t t" "c c";row-gap:8px} .caxis{grid-template-columns:1fr} .caxis>span{display:none} .digits{font-size:2rem} }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -301,6 +334,18 @@ footer a{color:var(--ink)}
     <div class="sechead"><h2>Les benzineres més barates a prop</h2>
       <div class="seg" id="aOrdre" role="group" aria-label="Ordre"><button type="button" data-o="preu" aria-pressed="true">Més barates</button><button type="button" data-o="dist" aria-pressed="false">Més a prop</button></div></div>
     <p class="lead" id="apropLead"></p>
+    <div class="map" id="map" role="region" aria-label="Mapa de les benzineres properes. La mateixa informació és a la llista de sota.">
+      <div class="map-tiles" id="mapTiles" aria-hidden="true"></div>
+      <svg class="map-svg" id="mapSvg" aria-hidden="true"></svg>
+      <div class="map-pop" id="mapPop" hidden></div>
+      <div class="map-ctl">
+        <button type="button" id="mapIn" aria-label="Apropa el mapa">+</button>
+        <button type="button" id="mapOut" aria-label="Allunya el mapa">−</button>
+        <button type="button" id="mapFit" aria-label="Torna a centrar el mapa a la teva ubicació"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button>
+      </div>
+      <div class="map-attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
+    </div>
+    <p class="map-nota">Toca una benzinera per veure'n les dades. Les etiquetes mostren el preu de les més barates que hi caben; en ambre, la més barata de totes. Apropa el mapa per veure'n més.</p>
     <ol class="st" id="stList"></ol>
     <button type="button" class="btn more" id="stMore">Mostra'n més</button>
   </section>
@@ -866,7 +911,111 @@ function renderAprop(dins){
     li.append(el("span","stp",fmt(x[fuel])),info,dd);ol.appendChild(li);
   });
   $("stMore").hidden=llista.length<=SHOWN;
+  actualitzaMapa(llista,barata);
 }
+
+/* ---------- MAPA ---------- */
+// Mapa fet a mà amb les imatges d'OpenStreetMap (sense cap llibreria)
+const TILE=256,ZMIN=6,ZMAX=17;
+const MAP={z:10,c:null,clau:"",pts:[],barata:null};
+const proj=(lat,lon,z)=>{const n=TILE*2**z,s=Math.sin(lat*Math.PI/180);return {x:(lon+180)/360*n,y:(.5-Math.log((1+s)/(1-s))/(4*Math.PI))*n}};
+const unproj=(x,y,z)=>{const n=TILE*2**z;return {lat:Math.atan(Math.sinh(Math.PI*(1-2*y/n)))*180/Math.PI,lon:x/n*360-180}};
+const mPerPx=(lat,z)=>156543.03*Math.cos(lat*Math.PI/180)/2**z;
+
+function actualitzaMapa(llista,barata){
+  MAP.pts=llista;MAP.barata=barata;
+  const clau=`${LOC.lat},${LOC.lon},${RADI}`;
+  if(clau!==MAP.clau){MAP.clau=clau;encaixa()}
+  $("mapPop").hidden=true;
+  requestAnimationFrame(dibuixaMapa);
+}
+function encaixa(){
+  const box=$("map"),costat=Math.min(box.clientWidth||600,box.clientHeight||360)*.92;
+  const z=Math.log2(156543.03*Math.cos(LOC.lat*Math.PI/180)*costat/(RADI*2000));
+  MAP.z=Math.max(ZMIN,Math.min(ZMAX,z));MAP.c={lat:LOC.lat,lon:LOC.lon};
+}
+function dibuixaMapa(){
+  const box=$("map"),W=box.clientWidth,H=box.clientHeight;
+  if(!W||!H||!MAP.c||!LOC)return;
+  const z=MAP.z,c=proj(MAP.c.lat,MAP.c.lon,z),ox=c.x-W/2,oy=c.y-H/2;
+  // Rajoles del nivell de zoom enter, escalades si el zoom és fraccionari.
+  // Es reaprofiten les que ja hi són i només es demanen les noves.
+  const zt=Math.min(ZMAX,Math.round(z)),T=TILE*2**(z-zt),n=2**zt;
+  const tl=$("mapTiles"),cal=new Set();
+  for(let tx=Math.floor(ox/T);tx<=Math.floor((ox+W)/T);tx++)for(let ty=Math.floor(oy/T);ty<=Math.floor((oy+H)/T);ty++){
+    if(ty<0||ty>=n)continue;
+    const k=`${zt}/${tx}/${ty}`;cal.add(k);
+    let img=tl.querySelector(`[data-k="${k}"]`);
+    if(!img){img=new Image();img.alt="";img.decoding="async";img.dataset.k=k;img.src=`https://tile.openstreetmap.org/${zt}/${((tx%n)+n)%n}/${ty}.png`;tl.appendChild(img)}
+    img.style.width=img.style.height=(T+.5)+"px";
+    img.style.transform=`translate(${(tx*T-ox).toFixed(1)}px,${(ty*T-oy).toFixed(1)}px)`;
+  }
+  [...tl.children].forEach(img=>{if(!cal.has(img.dataset.k))img.remove()});
+  // Capa de marcadors
+  const svg=$("mapSvg");svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.replaceChildren();
+  const P=(lat,lon)=>{const p=proj(lat,lon,z);return [p.x-ox,p.y-oy]};
+  const [ux,uy]=P(LOC.lat,LOC.lon);
+  mk("circle",{cx:ux,cy:uy,r:RADI*1000/mPerPx(LOC.lat,z),class:"m-radi"},svg);
+  // Etiquetes de preu per a les més barates, sense que es trepitgin (de més barata a més cara)
+  const caixes=[],top=[];let candidates=0;
+  for(const x of MAP.pts.slice().sort((a,b)=>a[fuel]-b[fuel])){
+    const [px,py]=P(x.lat,x.lon);if(px<-40||py<-40||px>W+40||py>H+40)continue;
+    if(++candidates>10)break; // només les 10 més barates visibles; si no hi caben, es queden com a punt
+    const bx={l:px-30,r:px+30,t:py-34,b:py};
+    if(caixes.some(o=>bx.l<o.r&&bx.r>o.l&&bx.t<o.b&&bx.b>o.t))continue;
+    caixes.push(bx);top.push(x);
+  }
+  const esTop=new Set(top);
+  const dins=(x,y,m=20)=>x>-m&&y>-m&&x<W+m&&y<H+m;
+  MAP.pts.forEach(x=>{
+    if(esTop.has(x))return;const [px,py]=P(x.lat,x.lon);if(!dins(px,py))return;
+    const cc=mk("circle",{cx:px,cy:py,r:z>=13?7:5.5,fill:colorDe(x.m),class:"m-pt"+(x===MAP.barata?" best":"")},svg);
+    cc.addEventListener("click",e=>{e.stopPropagation();obreFitxa(x,px,py)});
+  });
+  mk("circle",{cx:ux,cy:uy,r:16,class:"m-jo-halo"},svg);
+  mk("circle",{cx:ux,cy:uy,r:7,class:"m-jo"},svg);
+  // Les 10 més barates, amb el preu (la més barata, a sobre de tot)
+  top.slice().reverse().forEach(x=>{
+    const [px,py]=P(x.lat,x.lon);if(!dins(px,py,40))return;
+    const g=mk("g",{class:"m-tag"+(x===MAP.barata?" best":""),transform:`translate(${px.toFixed(1)},${py.toFixed(1)})`},svg);
+    mk("path",{d:"M-24,-30h48a4,4 0 0 1 4,4v14a4,4 0 0 1 -4,4h-18l-6,7l-6,-7h-18a4,4 0 0 1 -4,-4v-14a4,4 0 0 1 4,-4z"},g);
+    mk("circle",{cx:-18,cy:-19,r:4,fill:colorDe(x.m)},g);
+    mk("text",{x:5,y:-15,"text-anchor":"middle"},g).textContent=fmt(x[fuel]);
+    g.addEventListener("click",e=>{e.stopPropagation();obreFitxa(x,px,py)});
+  });
+}
+function obreFitxa(x,px,py){
+  const pop=$("mapPop"),box=$("map");pop.replaceChildren();
+  const nm=el("b");nm.append(dot(colorDe(x.m)),x.nom);
+  const a=el("a",null,"Com arribar ↗");a.href=`https://www.google.com/maps/dir/?api=1&destination=${x.lat},${x.lon}`;a.target="_blank";a.rel="noopener";
+  pop.append(nm,el("span","mp-preu",`${fmt(x[fuel])} €/L`),el("span",null,[x.mun,x.adr].filter(Boolean).join(" · ")),el("span",null,`A ${km(x.d)}`),a);
+  pop.hidden=false;
+  const w=pop.offsetWidth,h=pop.offsetHeight;
+  pop.style.left=Math.max(8,Math.min(box.clientWidth-w-8,px-w/2))+"px";
+  pop.style.top=(py-h-14>8?py-h-14:Math.min(box.clientHeight-h-8,py+14))+"px";
+}
+function zoom(d){MAP.z=Math.max(ZMIN,Math.min(ZMAX,MAP.z+d));$("mapPop").hidden=true;dibuixaMapa()}
+$("mapIn").addEventListener("click",()=>zoom(1));
+$("mapOut").addEventListener("click",()=>zoom(-1));
+$("mapFit").addEventListener("click",()=>{encaixa();$("mapPop").hidden=true;dibuixaMapa()});
+// Arrossegar per moure el mapa
+(()=>{
+  const box=$("map");let ini=null,mogut=false,pend=false;
+  box.addEventListener("pointerdown",e=>{
+    if(e.target.closest(".map-ctl,.map-pop,.map-attr,.m-tag,.m-pt"))return;
+    const c=proj(MAP.c.lat,MAP.c.lon,MAP.z);ini={x:e.clientX,y:e.clientY,cx:c.x,cy:c.y};mogut=false;box.setPointerCapture(e.pointerId);
+  });
+  box.addEventListener("pointermove",e=>{
+    if(!ini)return;const dx=e.clientX-ini.x,dy=e.clientY-ini.y;
+    if(!mogut&&Math.hypot(dx,dy)<4)return;mogut=true;box.classList.add("arrossega");
+    MAP.c=unproj(ini.cx-dx,ini.cy-dy,MAP.z);
+    if(!pend){pend=true;requestAnimationFrame(()=>{pend=false;dibuixaMapa()})}
+  });
+  const fi=()=>{if(ini&&!mogut)$("mapPop").hidden=true;ini=null;box.classList.remove("arrossega")};
+  box.addEventListener("pointerup",fi);box.addEventListener("pointercancel",fi);
+  box.addEventListener("dblclick",e=>{if(!e.target.closest(".map-ctl,.map-pop"))zoom(1)});
+})();
+addEventListener("resize",()=>{if(!$("aprop").hidden)dibuixaMapa()});
 
 // Demana el GPS (el navegador mostra el permís) i, si no, deixa escriure un municipi
 function localitza(demanaGPS){

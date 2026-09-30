@@ -64,3 +64,10 @@ El botó «Marques» obre una llista amb totes les marques per triar quines es c
 (amb cercador i botons «Totes» / «Cap»). El filtre afecta els rètols, el rànquing, la
 calculadora, el rètol que llisca i la llista de benzineres properes. La mitjana de
 referència sempre es calcula amb totes les benzineres. El navegador recorda el filtre.
+
+## Mapa
+
+Al mode «Les més properes» hi ha un mapa amb la teva ubicació, el radi i totes les
+benzineres de dins (respectant el filtre de marques). Les més barates porten el preu i,
+si en toques una, en surten les dades i un enllaç «Com arribar». El mapa està fet a mà,
+sense cap llibreria: només carrega les imatges del mapa d'OpenStreetMap.
