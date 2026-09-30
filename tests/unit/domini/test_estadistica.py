@@ -7,6 +7,11 @@ def test_mitjana_arrodoneix_a_mil_lesimes() -> None:
     assert mitjana([1.2345, 1.2346]) == 1.235
 
 
+def test_mitjana_no_depen_de_com_suma_la_versio_de_python() -> None:
+    # Amb sum(), Python 3.11 hi dona 1.568 i Python 3.12, 1.567
+    assert mitjana([1.394, 1.678, 1.612, 1.586]) == 1.567
+
+
 def test_mitjana_d_una_llista_buida_es_none() -> None:
     assert mitjana([]) is None
 

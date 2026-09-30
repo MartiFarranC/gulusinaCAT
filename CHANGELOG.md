@@ -35,6 +35,12 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 - El README s'organitza en requisits, instal·lació, ús, configuració, tests,
   estructura i llicència.
 
+### Corregit
+
+- Les mitjanes es calculen amb una suma exacta i surten iguals amb qualsevol versió
+  de Python. Amb Python 3.12, alguna mitjana de l'històric anual podia diferir en
+  una mil·lèsima de la calculada amb Python 3.11.
+
 ## [1.0.0] - 2026-09-30
 
 ### Afegit
