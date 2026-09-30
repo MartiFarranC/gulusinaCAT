@@ -9,6 +9,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Afegit
 
+- Animació de càrrega amb la gota del logo, que s'omple mentre es demanen els preus
+  o la ubicació del GPS.
 - Logo: icona a la pestanya del navegador i a la pantalla d'inici del mòbil, manifest
   per instal·lar la pàgina i imatge de previsualització en compartir l'enllaç. També
   surt al costat del títol.

@@ -3,6 +3,7 @@
 import { CalculadoraDelDiposit } from "./calculadora-diposit.js";
 import { Comparativa } from "./comparativa.js";
 import { Carrega } from "./carrega.js";
+import { iconaDeCarrega } from "./carregant.js";
 import { diaIsoLocal } from "./dates.js";
 import { Dreceres } from "./dreceres.js";
 import { marcaPremut, perId } from "./dom.js";
@@ -176,6 +177,7 @@ function activaElCombustible() {
 }
 
 new Dreceres();
+perId("status").prepend(iconaDeCarrega());
 animaElTitol(perId("title"), "On omplo el dipòsit?");
 activaElCombustible();
 setTimeout(pinta, estat.movimentReduit ? 0 : RETARD_DEL_PRIMER_PINTAT_MS);

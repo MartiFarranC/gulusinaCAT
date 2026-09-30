@@ -52,6 +52,24 @@ test.describe("origen dels preus", () => {
   });
 });
 
+test("mostra la gota que s'omple mentre carrega els preus", async ({ page }) => {
+  await prepara(page);
+  /** @type {import("@playwright/test").Route[]} */
+  const pendents = [];
+  await page.route(/\/preus\.json\?/, (ruta) => {
+    pendents.push(ruta);
+  });
+  await page.goto("index.html");
+  const gota = page.locator("#status .carregant");
+
+  await expect(gota).toBeVisible();
+  await expect.poll(() => pendents.length).toBe(1);
+  await pendents[0]?.fulfill({ path: new URL("./dades/preus.json", import.meta.url).pathname });
+
+  await expect(page.locator("#status")).toHaveAttribute("data-s", "cache");
+  await expect(gota).toBeHidden();
+});
+
 test.describe("controls", () => {
   test.beforeEach(async ({ page }) => {
     await prepara(page);

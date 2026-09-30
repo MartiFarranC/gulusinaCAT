@@ -1,5 +1,6 @@
 /** Panell d'ubicació: interruptor d'àmbit, GPS, municipi i radi. */
 
+import { iconaDeCarrega } from "./carregant.js";
 import {
   SVG_NS,
   element,
@@ -126,6 +127,11 @@ export class PanellDUbicacio {
     perId("nearMsg").textContent = text || "";
   }
 
+  /** @param {string} text El que s'està esperant. */
+  missatgeDEspera(text) {
+    perId("nearMsg").replaceChildren(iconaDeCarrega(), text);
+  }
+
   mostraLaUbicacio() {
     const text = perId("locInfo");
     const { ubicacio } = this.estat;
@@ -192,7 +198,7 @@ export class PanellDUbicacio {
     } else if (calElGps && !("geolocation" in navigator)) {
       this.missatge("Aquest navegador no pot donar la ubicació. Escriu un municipi.");
     } else if (calElGps) {
-      this.missatge("Demanant la teva ubicació…");
+      this.missatgeDEspera("Demanant la teva ubicació…");
       navigator.geolocation.getCurrentPosition(
         (posicio) => this.enArribarLaPosicio(posicio),
         (error) => this.enFallarElGps(error),
