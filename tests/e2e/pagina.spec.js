@@ -252,4 +252,22 @@ test.describe("menú de dreceres", () => {
       "location",
     );
   });
+
+  for (const { ample, alt } of [
+    { ample: 390, alt: 800 },
+    { ample: 1440, alt: 900 },
+  ]) {
+    test(`queda centrat verticalment en una pantalla de ${ample} px`, async ({ page }) => {
+      await page.setViewportSize({ width: ample, height: alt });
+      await page.locator("#compSec").scrollIntoViewIfNeeded();
+      if (await page.getByRole("button", { name: "Menú" }).isVisible()) {
+        await page.getByRole("button", { name: "Menú" }).click();
+      }
+
+      await expect(async () => {
+        const caixa = await page.locator(".dreceres-panel").boundingBox();
+        expect(Math.abs((caixa?.y ?? 0) + (caixa?.height ?? 0) / 2 - alt / 2)).toBeLessThan(2);
+      }).toPass();
+    });
+  }
 });

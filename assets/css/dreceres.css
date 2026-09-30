@@ -26,6 +26,14 @@ main section {
     transform 0.35s var(--ease),
     visibility 0.35s;
 }
+/* Centrat vertical amb marges automàtics: si no hi cap, es pot desplaçar sense tallar-se per dalt */
+.dreceres {
+  display: flex;
+  flex-direction: column;
+}
+.dreceres-panel {
+  margin: auto 0;
+}
 .dreceres.obert {
   transform: none;
   visibility: visible;
