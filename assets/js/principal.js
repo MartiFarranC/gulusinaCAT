@@ -4,6 +4,7 @@ import { CalculadoraDelDiposit } from "./calculadora-diposit.js";
 import { Comparativa } from "./comparativa.js";
 import { Carrega } from "./carrega.js";
 import { diaIsoLocal } from "./dates.js";
+import { Dreceres } from "./dreceres.js";
 import { marcaPremut, perId } from "./dom.js";
 import { creaEstat, esProperes, marquesOrdenades, preuDe, textDelKicker } from "./estat.js";
 import { Evolucio } from "./evolucio.js";
@@ -174,6 +175,7 @@ function activaElCombustible() {
   mouLaPastilla(primer);
 }
 
+new Dreceres();
 animaElTitol(perId("title"), "On omplo el dipòsit?");
 activaElCombustible();
 setTimeout(pinta, estat.movimentReduit ? 0 : RETARD_DEL_PRIMER_PINTAT_MS);

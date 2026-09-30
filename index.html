@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="assets/css/properes.css" />
     <link rel="stylesheet" href="assets/css/filtre.css" />
     <link rel="stylesheet" href="assets/css/mapa.css" />
+    <link rel="stylesheet" href="assets/css/dreceres.css" />
   </head>
   <body>
     <header>
@@ -32,6 +33,30 @@
       </div>
       <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
     </header>
+
+    <nav class="dreceres" id="dreceres" aria-label="Dreceres">
+      <div class="dreceres-panel">
+        <p class="dreceres-titol">A la pàgina</p>
+        <ul>
+          <li><a href="#preus">Les més barates</a></li>
+          <li><a href="#mapSec">Mapa</a></li>
+          <li><a href="#aprop">Benzineres properes</a></li>
+          <li><a href="#compSec">Totes les marques</a></li>
+          <li><a href="#evoSec">Evolució dels preus</a></li>
+          <li><a href="#dipositSec">Quant hi he de posar?</a></li>
+        </ul>
+      </div>
+    </nav>
+    <button
+      type="button"
+      class="dreceres-boto"
+      id="dreceresBoto"
+      aria-controls="dreceres"
+      aria-expanded="false"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+      <span>Menú</span>
+    </button>
 
     <main class="wrap">
       <div class="controls">
@@ -79,8 +104,10 @@
         ><span id="statusText">Demanant els preus d'avui al Ministeri…</span>
       </p>
 
-      <p class="kicker" id="kicker">Les quatre marques més barates</p>
-      <div class="totems" id="totems"></div>
+      <div id="preus">
+        <p class="kicker" id="kicker">Les quatre marques més barates</p>
+        <div class="totems" id="totems"></div>
+      </div>
 
       <section id="mapSec" hidden>
         <h2 id="mapTitol">Mapa de les benzineres</h2>

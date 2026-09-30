@@ -8,6 +8,8 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 
 ## Funcionalitats
 
+- **Menú de dreceres** a l'esquerra per anar a cada secció (en mòbil, amb el botó
+  «Menú»).
 - **Rètols de preus** amb les quatre marques més barates i la tendència respecte al
   dia anterior.
 - **Totes les marques**: rànquing amb la diferència respecte a la mitjana de

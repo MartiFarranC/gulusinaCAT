@@ -9,6 +9,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Afegit
 
+- Menú de dreceres a les seccions de la pàgina: fix a l'esquerra en pantalles
+  amples, i desplegable amb el botó «Menú» en les estretes.
 - Calculadora «Quant hi he de posar?»: amb el consum, l'autonomia i el dipòsit del
   cotxe, diu quants diners cal demanar en una benzinera propera per omplir el
   dipòsit, amb marge i arrodonit cap avall a 5 €.

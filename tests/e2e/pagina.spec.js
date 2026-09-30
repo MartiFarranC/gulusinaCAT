@@ -209,3 +209,47 @@ test.describe("quant hi he de posar", () => {
     await expect(page.locator("#dDiposit")).toHaveValue("42");
   });
 });
+
+test.describe("menú de dreceres", () => {
+  test.beforeEach(async ({ page }) => {
+    await prepara(page);
+    await obre(page);
+  });
+
+  test("en pantalles estretes s'obre amb el botó i es tanca en triar una secció", async ({
+    page,
+  }) => {
+    const menu = page.getByRole("navigation", { name: "Dreceres" });
+    await expect(menu).toBeHidden();
+
+    await page.getByRole("button", { name: "Menú" }).click();
+    await menu.getByRole("link", { name: "Totes les marques" }).click();
+
+    await expect(menu).toBeHidden();
+    await expect(page.locator("#compSec")).toBeInViewport();
+  });
+
+  test("només mostra les benzineres properes quan la secció es veu", async ({ page }) => {
+    const properes = page.locator("#dreceres a[href='#aprop']");
+    await expect(properes).toBeHidden();
+
+    await page.getByPlaceholder("Escriu un municipi").fill("Reus");
+    await page.getByPlaceholder("Escriu un municipi").press("Enter");
+    await page.getByRole("button", { name: "Menú" }).click();
+
+    await expect(properes).toBeVisible();
+  });
+
+  test("en pantalles amples és fix i marca la secció on ets", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await expect(page.getByRole("button", { name: "Menú" })).toBeHidden();
+    const menu = page.getByRole("navigation", { name: "Dreceres" });
+
+    await menu.getByRole("link", { name: "Evolució dels preus" }).click();
+
+    await expect(menu.getByRole("link", { name: "Evolució dels preus" })).toHaveAttribute(
+      "aria-current",
+      "location",
+    );
+  });
+});

@@ -1,0 +1,131 @@
+/* Menú de dreceres: fix a l'esquerra en pantalles amples, desplegable en les estretes */
+#preus,
+main section {
+  scroll-margin-top: 16px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+.dreceres {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: min(280px, 82vw);
+  padding: 24px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
+  transform: translateX(-105%);
+  visibility: hidden;
+  transition:
+    transform 0.35s var(--ease),
+    visibility 0.35s;
+}
+.dreceres.obert {
+  transform: none;
+  visibility: visible;
+}
+.dreceres-titol {
+  margin: 0 0 10px 12px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.dreceres ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dreceres li[hidden] {
+  display: none;
+}
+.dreceres a {
+  display: block;
+  padding: 9px 12px;
+  border-left: 2px solid transparent;
+  border-radius: 0 8px 8px 0;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    border-color 0.2s;
+}
+.dreceres a:hover {
+  color: var(--ink);
+  background: var(--bg2);
+}
+.dreceres a[aria-current="location"] {
+  color: var(--ink);
+  border-left-color: var(--led);
+  background: var(--bg2);
+}
+.dreceres-boto {
+  position: fixed;
+  z-index: 21;
+  left: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  font:
+    700 0.95rem "Figtree",
+    sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.dreceres-boto svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Hi ha lloc a l'esquerra del contingut (1040 px): el menú comença sota la capçalera i s'hi
+   queda enganxat en baixar, sense ocupar alçada ni passar per sota del contingut */
+@media (min-width: 1280px) {
+  .wrap {
+    margin-left: max(216px, calc((100vw - 1040px) / 2));
+  }
+  .dreceres {
+    position: sticky;
+    top: 24px;
+    height: 0;
+    width: 184px;
+    margin-left: 16px;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    transform: none;
+    visibility: visible;
+    z-index: 5;
+  }
+  .dreceres-panel {
+    margin-top: 36px;
+    padding: 16px 8px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+  }
+  .dreceres-boto {
+    display: none;
+  }
+}
