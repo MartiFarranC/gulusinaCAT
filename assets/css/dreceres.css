@@ -97,29 +97,26 @@ main section {
   stroke-linecap: round;
 }
 
-/* Hi ha lloc a l'esquerra del contingut (1040 px): el menú comença sota la capçalera i s'hi
-   queda enganxat en baixar, sense ocupar alçada ni passar per sota del contingut */
+/* En pantalles amples, la pàgina deixa una columna a l'esquerra per al menú, que hi queda fix
+   i centrat sense tapar ni la capçalera ni el contingut */
 @media (min-width: 1280px) {
-  .wrap {
-    margin-left: max(216px, calc((100vw - 1040px) / 2));
+  body {
+    padding-left: 216px;
   }
   .dreceres {
-    position: sticky;
-    top: 24px;
-    height: 0;
+    top: 50%;
+    bottom: auto;
+    left: 16px;
     width: 184px;
-    margin-left: 16px;
     padding: 0;
     overflow: visible;
     background: none;
     border: 0;
     box-shadow: none;
-    transform: none;
+    transform: translateY(-50%);
     visibility: visible;
-    z-index: 5;
   }
   .dreceres-panel {
-    margin-top: 36px;
     padding: 16px 8px;
     border: 1px solid var(--line);
     border-radius: 14px;
