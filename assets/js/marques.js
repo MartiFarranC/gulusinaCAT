@@ -134,7 +134,7 @@ export function nomLlegible(rotul) {
 }
 
 /** @param {string} rotul */
-function clauDelRotul(rotul) {
+function identificadorDelRotul(rotul) {
   const normalitzat = normalitza(rotul);
   const coneguda = CONEGUDES.find(([, , patro]) => patro.test(normalitzat));
   if (coneguda) return coneguda[0];
@@ -149,7 +149,7 @@ function clauDelRotul(rotul) {
  * @returns {{ids: string[], noms: Record<string, string>}} La marca de cada ròtul i els noms.
  */
 export function classificaRotuls(rotuls) {
-  const claus = rotuls.map(clauDelRotul);
+  const claus = rotuls.map(identificadorDelRotul);
   /** @type {Map<string, number>} */
   const compte = new Map();
   for (const clau of claus) if (clau) compte.set(clau, (compte.get(clau) ?? 0) + 1);
