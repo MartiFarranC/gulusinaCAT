@@ -1,0 +1,250 @@
+{
+  "fecha": "30/09/2026 12:00:00",
+  "catalunya": {
+    "g95": 1.537,
+    "dsl": 1.469,
+    "n": 30
+  },
+  "marques": {
+    "altres": {
+      "nom": "Independents i altres",
+      "g95": 1.609,
+      "dsl": 1.538,
+      "n": 8,
+      "rang": {
+        "g95": [
+          1.575,
+          1.649
+        ],
+        "dsl": [
+          1.505,
+          1.579
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.569,
+          "municipi": "Amposta",
+          "lat": 40.708,
+          "lon": 0.578
+        },
+        "dsl": {
+          "preu": 1.499,
+          "municipi": "Amposta",
+          "lat": 40.708,
+          "lon": 0.578
+        }
+      }
+    },
+    "bonarea": {
+      "nom": "bonÀrea",
+      "g95": 1.397,
+      "dsl": 1.314,
+      "n": 4,
+      "rang": {
+        "g95": [
+          1.389,
+          1.405
+        ],
+        "dsl": [
+          1.309,
+          1.319
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.389,
+          "municipi": "Guissona",
+          "lat": 41.785,
+          "lon": 1.288
+        },
+        "dsl": {
+          "preu": 1.309,
+          "municipi": "Guissona",
+          "lat": 41.785,
+          "lon": 1.288
+        }
+      }
+    },
+    "esclatoil": {
+      "nom": "Esclatoil",
+      "g95": 1.469,
+      "dsl": 1.399,
+      "n": 3,
+      "rang": {
+        "g95": [
+          1.459,
+          1.479
+        ],
+        "dsl": [
+          1.389,
+          1.409
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.459,
+          "municipi": "Vic",
+          "lat": 41.93,
+          "lon": 2.255
+        },
+        "dsl": {
+          "preu": 1.389,
+          "municipi": "Vic",
+          "lat": 41.93,
+          "lon": 2.255
+        }
+      }
+    },
+    "repsol": {
+      "nom": "Repsol",
+      "g95": 1.672,
+      "dsl": 1.604,
+      "n": 3,
+      "rang": {
+        "g95": [
+          1.659,
+          1.689
+        ],
+        "dsl": [
+          1.599,
+          1.609
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.659,
+          "municipi": "Reus",
+          "lat": 41.155,
+          "lon": 1.107
+        },
+        "dsl": {
+          "preu": 1.599,
+          "municipi": "Barcelona",
+          "lat": 41.387,
+          "lon": 2.168
+        }
+      }
+    },
+    "moeve": {
+      "nom": "Moeve (Cepsa)",
+      "g95": 1.629,
+      "dsl": 1.559,
+      "n": 3,
+      "rang": {
+        "g95": [
+          1.619,
+          1.639
+        ],
+        "dsl": [
+          1.549,
+          1.569
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.619,
+          "municipi": "Mataró",
+          "lat": 41.54,
+          "lon": 2.444
+        },
+        "dsl": {
+          "preu": 1.549,
+          "municipi": "Mataró",
+          "lat": 41.54,
+          "lon": 2.444
+        }
+      }
+    },
+    "plenoil": {
+      "nom": "Plenergy (Plenoil)",
+      "g95": 1.384,
+      "dsl": 1.324,
+      "n": 3,
+      "rang": {
+        "g95": [
+          1.379,
+          1.389
+        ],
+        "dsl": [
+          1.319,
+          1.329
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.379,
+          "municipi": "Blanes",
+          "lat": 41.674,
+          "lon": 2.79
+        },
+        "dsl": {
+          "preu": 1.319,
+          "municipi": "Blanes",
+          "lat": 41.674,
+          "lon": 2.79
+        }
+      }
+    },
+    "petrolis-marti": {
+      "nom": "Petrolis Martí",
+      "g95": 1.549,
+      "dsl": 1.479,
+      "n": 3,
+      "rang": {
+        "g95": [
+          1.539,
+          1.559
+        ],
+        "dsl": [
+          1.469,
+          1.489
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.539,
+          "municipi": "Agramunt",
+          "lat": 41.787,
+          "lon": 1.097
+        },
+        "dsl": {
+          "preu": 1.469,
+          "municipi": "Agramunt",
+          "lat": 41.787,
+          "lon": 1.097
+        }
+      }
+    },
+    "gm-oil": {
+      "nom": "GM Oil",
+      "g95": 1.519,
+      "dsl": 1.454,
+      "n": 3,
+      "rang": {
+        "g95": [
+          1.509,
+          1.529
+        ],
+        "dsl": [
+          1.449,
+          1.459
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.509,
+          "municipi": "Berga",
+          "lat": 42.104,
+          "lon": 1.845
+        },
+        "dsl": {
+          "preu": 1.449,
+          "municipi": "Olot",
+          "lat": 42.181,
+          "lon": 2.49
+        }
+      }
+    }
+  }
+}

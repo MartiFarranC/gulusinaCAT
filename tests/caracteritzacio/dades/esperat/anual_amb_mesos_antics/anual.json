@@ -1,0 +1,10 @@
+{"noms": {"bonarea": "bonÀrea", "esclatoil": "Esclatoil", "repsol": "Repsol", "altres": "Independents i altres", "moeve": "Moeve (Cepsa)", "plenoil": "Plenergy (Plenoil)", "petrolis-marti": "Petrolis Martí", "gm-oil": "GM Oil"},
+"anys": [
+{"any": 2026, "mesos": 4, "altres": {"g95": 1.606, "dsl": 1.536}, "bonarea": {"g95": 1.396, "dsl": 1.309}, "catalunya": {"g95": 1.551, "dsl": 1.475}, "esclatoil": {"g95": 1.468, "dsl": 1.397}, "gm-oil": {"g95": 1.516, "dsl": 1.452}, "moeve": {"g95": 1.626, "dsl": 1.556}, "petrocat": {"g95": 1.61, "dsl": 1.54}, "petrolis-marti": {"g95": 1.546, "dsl": 1.477}, "plenoil": {"g95": 1.382, "dsl": 1.322}, "repsol": {"g95": 1.669, "dsl": 1.601}}
+],
+"mesos": {
+"2026-06": {"v": 2, "catalunya": {"g95": 1.533, "dsl": 1.464}, "bonarea": {"g95": 1.393, "dsl": 1.31}, "esclatoil": {"g95": 1.465, "dsl": 1.395}, "repsol": {"g95": 1.667, "dsl": 1.599}, "altres": {"g95": 1.603, "dsl": 1.534}, "moeve": {"g95": 1.624, "dsl": 1.554}, "plenoil": {"g95": 1.38, "dsl": 1.32}, "petrolis-marti": {"g95": 1.544, "dsl": 1.475}, "gm-oil": {"g95": 1.514, "dsl": 1.45}},
+"2026-07": {"v": 2, "catalunya": {"g95": 1.534, "dsl": 1.466}, "bonarea": {"g95": 1.394, "dsl": 1.311}, "esclatoil": {"g95": 1.466, "dsl": 1.396}, "repsol": {"g95": 1.669, "dsl": 1.601}, "altres": {"g95": 1.605, "dsl": 1.535}, "moeve": {"g95": 1.626, "dsl": 1.556}, "plenoil": {"g95": 1.381, "dsl": 1.321}, "petrolis-marti": {"g95": 1.546, "dsl": 1.476}, "gm-oil": {"g95": 1.516, "dsl": 1.451}},
+"2026-08": {"catalunya": {"g95": 1.6, "dsl": 1.5}, "bonarea": {"g95": 1.4, "dsl": 1.3}, "esclatoil": {"g95": 1.47, "dsl": 1.4}, "petrocat": {"g95": 1.61, "dsl": 1.54}, "repsol": {"g95": 1.67, "dsl": 1.6}},
+"2026-09": {"v": 2, "catalunya": {"g95": 1.537, "dsl": 1.469}, "bonarea": {"g95": 1.397, "dsl": 1.314}, "esclatoil": {"g95": 1.469, "dsl": 1.399}, "repsol": {"g95": 1.672, "dsl": 1.604}, "altres": {"g95": 1.609, "dsl": 1.538}, "moeve": {"g95": 1.629, "dsl": 1.559}, "plenoil": {"g95": 1.384, "dsl": 1.324}, "petrolis-marti": {"g95": 1.549, "dsl": 1.479}, "gm-oil": {"g95": 1.519, "dsl": 1.454}}
+}}
