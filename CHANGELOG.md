@@ -17,6 +17,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Canviat
 
+- El panell d'ubicació es veu sempre a sobre del mapa; fer-lo servir activa
+  «Les més properes». Desapareix el botó «Busca les més properes».
 - El README s'organitza en requisits, instal·lació, ús, configuració, tests,
   estructura i llicència.
 

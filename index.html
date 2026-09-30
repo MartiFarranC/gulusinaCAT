@@ -264,7 +264,7 @@ footer a{color:var(--ink)}
 .map-pop .mp-preu{font-family:"Bungee",sans-serif;font-size:1.1rem;color:#15181c}
 .map-pop span{color:#555}
 .map-pop a{color:#15181c;font-weight:700;margin-top:4px}
-.map[hidden],.map-nota[hidden]{display:none}
+.map[hidden],.map-nota[hidden],.near-row[hidden]{display:none}
 .map-nota{color:var(--muted);font-size:.82rem;margin:0 0 18px}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .map-tiles img{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)} :root:not([data-theme="light"]) .map{background:#1d2226}}
 :root[data-theme="dark"] .map-tiles img{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)}
@@ -316,8 +316,7 @@ footer a{color:var(--ink)}
   <div class="totems" id="totems"></div>
 
   <section id="mapSec" hidden>
-    <div class="sechead"><h2 id="mapTitol">Mapa de les benzineres</h2>
-      <button type="button" class="btn" id="mapProperes">Busca les més properes</button></div>
+    <h2 id="mapTitol">Mapa de les benzineres</h2>
     <div class="near" id="near" hidden>
       <div class="near-row">
         <button type="button" class="btn" id="gps">Fes servir la meva ubicació</button>
@@ -326,7 +325,7 @@ footer a{color:var(--ink)}
         <input id="muni" list="munis" placeholder="Escriu un municipi" autocomplete="off" enterkeyhint="search">
         <datalist id="munis"></datalist>
       </div>
-      <div class="near-row">
+      <div class="near-row" id="radiRow">
         <label for="radi">Radi</label>
         <input id="radi" type="range" min="5" max="150" step="5" value="50">
         <output id="radiv" for="radi">50 km</output>
@@ -883,7 +882,9 @@ function mostraUbicacio(){
 
 function aplicaAmbit(){
   const near=SCOPE==="properes";
-  $("near").hidden=!near;
+  $("near").hidden=false;
+  $("radiRow").hidden=!near;
+  if(!near)nearMsg("Fes servir la teva ubicació o escriu un municipi per veure només les benzineres properes.");
   mostraUbicacio();
   let dins=[];
   if(near&&LOC&&STATIONS){
@@ -936,7 +937,6 @@ function pintaMapa(dins){
   sec.hidden=!hasPoints&&SCOPE!=="properes";
   $("map").hidden=$("mapNota").hidden=!hasPoints;
   $("mapTitol").textContent=near?"Mapa de les benzineres properes":"Mapa de les benzineres";
-  $("mapProperes").hidden=SCOPE==="properes";
   if(!hasPoints)return;
   MAP.near=near;MAP.pts=pts;MAP.barata=pts.reduce((p,q)=>q[fuel]<p[fuel]?q:p);
   const clau=near?`${LOC.lat},${LOC.lon},${RADI}`:"tot";
@@ -1041,7 +1041,6 @@ addEventListener("resize",()=>{if(!$("mapSec").hidden)dibuixaMapa()});
 // Quan arriba la ubicació, el contingut de sobre canvia d'alçada: es torna a portar al panell
 let shouldScrollToPanel=false;
 function portaAlPanell(){$("near").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})}
-$("mapProperes").addEventListener("click",()=>document.querySelector('#scope [data-scope="properes"]').click());
 
 // Demana el GPS (el navegador mostra el permís) i, si no, deixa escriure un municipi
 function localitza(demanaGPS){
@@ -1068,14 +1067,18 @@ function triaMunicipi(){
   $("muni").value=m.nom;LOC={lat:m.lat,lon:m.lon,nom:m.nom};SHOWN=10;aplicaAmbit();
 }
 
+function marcaAmbit(ambit){
+  SCOPE=ambit;SHOWN=10;
+  document.querySelectorAll("#scope button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.scope===ambit));
+}
 document.querySelectorAll("#scope button").forEach(btn=>btn.addEventListener("click",()=>{
-  document.querySelectorAll("#scope button").forEach(x=>x.setAttribute("aria-pressed",x===btn));
-  SCOPE=btn.dataset.scope;SHOWN=10;
-  if(SCOPE==="properes"){$("near").hidden=false;$("mapSec").hidden=false;shouldScrollToPanel=true;localitza(true);portaAlPanell()}else{nearMsg("");aplicaAmbit()}
+  marcaAmbit(btn.dataset.scope);
+  if(SCOPE==="properes"){$("mapSec").hidden=false;shouldScrollToPanel=true;localitza(true);portaAlPanell()}else aplicaAmbit();
 }));
-$("gps").addEventListener("click",()=>{LOC=null;$("muni").value="";localitza(true)});
-$("muni").addEventListener("change",triaMunicipi);
-$("muni").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();triaMunicipi()}});
+$("gps").addEventListener("click",()=>{marcaAmbit("properes");LOC=null;$("muni").value="";localitza(true)});
+function triaMunicipiIActiva(){if($("muni").value.trim())marcaAmbit("properes");triaMunicipi()}
+$("muni").addEventListener("change",triaMunicipiIActiva);
+$("muni").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();triaMunicipiIActiva()}});
 let rt;$("radi").addEventListener("input",()=>{RADI=+$("radi").value;$("radiv").textContent=RADI+" km";clearTimeout(rt);rt=setTimeout(aplicaAmbit,150)});
 document.querySelectorAll("#aOrdre button").forEach(btn=>btn.addEventListener("click",()=>{
   document.querySelectorAll("#aOrdre button").forEach(x=>x.setAttribute("aria-pressed",x===btn));ORDRE=btn.dataset.o;aplicaAmbit();
