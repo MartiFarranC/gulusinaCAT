@@ -171,3 +171,16 @@ export function agregaPerMarca(estacions, radiKm) {
     mitjana: { g95: mitjana(tots.g95), dsl: mitjana(tots.dsl), n: estacions.length },
   };
 }
+
+/**
+ * @param {readonly Estacio[]} estacions
+ * @param {{marca: string, combustible: Combustible, punt: {lat: number, lon: number}}} cerca
+ * @returns {EstacioAmbDistancia | null} La benzinera de la marca més propera al punt que ven
+ *   el combustible, o null si no n'hi ha cap.
+ */
+export function mesProperaDeLaMarca(estacions, { marca, combustible, punt }) {
+  const deLaMarca = estacions.filter((e) => e.m === marca && (e[combustible] ?? 0) > 0);
+  if (!deLaMarca.length) return null;
+  const mesPropera = elMesPetit(deLaMarca, (e) => distancia(punt, e));
+  return { ...mesPropera, d: distancia(punt, mesPropera) };
+}

@@ -10,8 +10,8 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 
 - **Menú de dreceres** a l'esquerra per anar a cada secció (en mòbil, amb el botó
   «Menú»).
-- **Rètols de preus** amb les quatre marques més barates i la tendència respecte al
-  dia anterior.
+- **Rètols de preus** amb les quatre marques més barates, la tendència respecte al
+  dia anterior i la benzinera més propera de cada marca, amb l'enllaç per arribar-hi.
 - **Totes les marques**: rànquing amb la diferència respecte a la mitjana de
   Catalunya, la franja de preus de cada marca i la seva benzinera més barata.
 - **Les més properes**: compara només les benzineres dins d'un radi (50 km per

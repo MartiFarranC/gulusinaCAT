@@ -9,6 +9,9 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Afegit
 
+- Els rètols de les quatre marques més barates diuen on és la benzinera més propera
+  de cada marca i enllacen a la ruta. Si encara no se sap on ets, un botó demana el
+  GPS.
 - Animació de càrrega amb la gota del logo, que s'omple mentre es demanen els preus
   o la ubicació del GPS.
 - Logo: icona a la pestanya del navegador i a la pantalla d'inici del mòbil, manifest

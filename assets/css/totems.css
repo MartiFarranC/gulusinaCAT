@@ -122,6 +122,29 @@
 .trend[hidden] {
   display: none;
 }
+.lloc {
+  padding: 0 16px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.lloc[hidden] {
+  display: none;
+}
+.lloc a,
+.enllac-boto {
+  color: var(--ink);
+  font-weight: 700;
+}
+.enllac-boto {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .badge {
   position: absolute;
   z-index: 1;

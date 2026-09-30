@@ -1,7 +1,8 @@
 /** Rètols de les quatre marques més barates, amb els dígits que giren. */
 
-import { dins, element } from "./dom.js";
-import { formataCentims, formataPreu, ordinal } from "./format.js";
+import { iconaDeCarrega } from "./carregant.js";
+import { dins, element, enllacExtern, urlDeLaRuta } from "./dom.js";
+import { formataCentims, formataDistancia, formataPreu, ordinal } from "./format.js";
 
 /** @typedef {import("./tipus.js").Marca} Marca */
 /** @typedef {import("./tendencia.js").Tendencia} Tendencia */
@@ -13,7 +14,7 @@ const RETARD_ENTRE_RETOLS_MS = 110;
 
 const PLANTILLA = `<div class="brand"><span class="bn"><i class="bd"></i><span></span></span><span class="rank"></span></div>
   <div class="board"><div class="badge" aria-hidden="true">Més barata</div><div class="digits" aria-hidden="true"></div><span class="eur">€/L</span></div>
-  <p class="meta"></p><p class="trend" hidden></p>`;
+  <p class="meta"></p><p class="trend" hidden></p><p class="lloc" hidden></p>`;
 
 /**
  * @param {HTMLElement} retol
@@ -56,10 +57,52 @@ function canviaDeMarca(retol, marca, movimentReduit) {
 }
 
 /**
+ * @typedef {object} LlocDeLesMarques Per trobar la benzinera més propera de cada marca.
+ * @property {boolean} hiHaEstacions Si hi ha les dades de cada benzinera.
+ * @property {boolean} teUbicacio
+ * @property {"cap" | "buscant" | "fallada"} peticio Del GPS.
+ * @property {(marca: Marca) => import("./tipus.js").EstacioAmbDistancia | null} mesPropera
+ * @property {() => void} demana Demana la ubicació del GPS.
+ *
  * @typedef {object} OpcionsDelsTotems
  * @property {(marca: Marca) => number} preu Del combustible triat.
  * @property {(marca: Marca) => Tendencia | null} tendencia
+ * @property {LlocDeLesMarques} lloc
  */
+
+/**
+ * @param {LlocDeLesMarques} lloc
+ * @returns {Array<Node | string>} El botó per demanar la ubicació, o l'espera, o l'avís si ha fallat.
+ */
+function sensUbicacio(lloc) {
+  if (lloc.peticio === "buscant") return [iconaDeCarrega(), " Buscant on ets…"];
+  const boto = element("button", "enllac-boto", "Troba la més propera");
+  boto.type = "button";
+  boto.addEventListener("click", lloc.demana);
+  const avis = lloc.peticio === "fallada" ? [" · No s'ha pogut saber on ets."] : [];
+  return [boto, ...avis];
+}
+
+/**
+ * La benzinera de la marca més propera a l'usuari, amb l'enllaç per arribar-hi.
+ *
+ * @param {HTMLElement} retol
+ * @param {Marca} marca
+ * @param {LlocDeLesMarques} lloc
+ */
+function pintaElLloc(retol, marca, lloc) {
+  const text = dins(retol, ".lloc");
+  const estacio = lloc.teUbicacio ? lloc.mesPropera(marca) : null;
+  text.hidden = !lloc.hiHaEstacions || (lloc.teUbicacio && !estacio);
+  if (text.hidden) return;
+  if (!estacio) {
+    text.replaceChildren(...sensUbicacio(lloc));
+    return;
+  }
+  const ruta = enllacExtern("Com arribar ↗", urlDeLaRuta(estacio.lat, estacio.lon));
+  ruta.setAttribute("aria-label", `Com arribar a ${estacio.nom} de ${estacio.mun}`);
+  text.replaceChildren(`Més propera: ${estacio.mun} · ${formataDistancia(estacio.d)} · `, ruta);
+}
 
 export class Totems {
   /**
@@ -102,6 +145,7 @@ export class Totems {
       `${posicio}a més barata: ${marca.nom}, ${formataPreu(preu)} euros el litre`,
     );
     retol.classList.toggle("best", posicio === 1);
+    pintaElLloc(retol, marca, opcions.lloc);
   }
 
   /**

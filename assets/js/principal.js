@@ -20,12 +20,12 @@ import {
   magatzemDelNavegador,
 } from "./preferencies.js";
 import { Properes } from "./properes.js";
-import { agregaPerMarca, estacionsDinsDelRadi } from "./proximitat.js";
+import { agregaPerMarca, estacionsDinsDelRadi, mesProperaDeLaMarca } from "./proximitat.js";
 import { pintaElRetol } from "./retol.js";
 import { tendencia } from "./tendencia.js";
 import { animaElTitol } from "./titol.js";
 import { Totems } from "./totems.js";
-import { PanellDUbicacio } from "./ubicacio.js";
+import { PanellDUbicacio, posicioDelGps } from "./ubicacio.js";
 
 /** @typedef {import("./tipus.js").Marca} Marca */
 
@@ -68,6 +68,35 @@ function tendenciaDe(marca) {
   return tendencia({ id: marca.id, preu: preuDe(estat, marca) }, context);
 }
 
+/** Demana el GPS per trobar la benzinera més propera de les marques més barates. */
+async function ubicaLesMesBarates() {
+  estat.peticioDelGps = "buscant";
+  pinta();
+  try {
+    estat.ubicacio = await posicioDelGps();
+    estat.peticioDelGps = "cap";
+    aplicaLAmbit();
+  } catch {
+    estat.peticioDelGps = "fallada";
+    pinta();
+  }
+}
+
+/** @returns {import("./totems.js").LlocDeLesMarques} */
+function llocDeLesMarques() {
+  const { ubicacio, estacions, combustible } = estat;
+  return {
+    hiHaEstacions: Boolean(estacions),
+    teUbicacio: Boolean(ubicacio),
+    peticio: estat.peticioDelGps,
+    mesPropera: (marca) =>
+      ubicacio && estacions
+        ? mesProperaDeLaMarca(estacions, { marca: marca.id, combustible, punt: ubicacio })
+        : null,
+    demana: () => void ubicaLesMesBarates(),
+  };
+}
+
 /** Torna a pintar tot el que depèn de les marques de l'àmbit actual. */
 function pinta() {
   const ordenades = marquesOrdenades(estat);
@@ -78,7 +107,11 @@ function pinta() {
       "Cap de les marques triades té preu per a aquest combustible. Canvia el filtre de marques.";
   } else if (/^Cap de/.test(kicker.textContent ?? "")) kicker.textContent = textDelKicker(estat);
   filtre.pinta();
-  totems.pinta(reals.slice(0, TOTEMS), { preu: (m) => preuDe(estat, m), tendencia: tendenciaDe });
+  totems.pinta(reals.slice(0, TOTEMS), {
+    preu: (m) => preuDe(estat, m),
+    tendencia: tendenciaDe,
+    lloc: llocDeLesMarques(),
+  });
   comparativa.pinta(ordenades);
   pintaElRetol(estat, reals, tendenciaDe);
 }

@@ -16,6 +16,7 @@ import { ALTRES, colorDe } from "./marques.js";
  * @property {Map<string, import("./tipus.js").Municipi>} municipis
  * @property {"totes" | "properes"} ambit
  * @property {import("./tipus.js").Ubicacio | null} ubicacio
+ * @property {"cap" | "buscant" | "fallada"} peticioDelGps Per trobar la més propera de cada marca.
  * @property {number} radi En quilòmetres.
  * @property {"preu" | "dist"} ordre De la llista de benzineres properes.
  * @property {number} mostrades Benzineres properes que es mostren.
@@ -58,6 +59,7 @@ export function creaEstat({ movimentReduit, excloses }) {
     municipis: new Map(),
     ambit: "totes",
     ubicacio: null,
+    peticioDelGps: "cap",
     radi: 50,
     ordre: "preu",
     mostrades: BENZINERES_PROPERES_PER_PAGINA,

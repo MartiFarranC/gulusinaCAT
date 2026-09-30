@@ -6,6 +6,7 @@ import {
   buscaMunicipi,
   estacionsDinsDelRadi,
   llegeixEstacions,
+  mesProperaDeLaMarca,
   municipiMesProper,
   municipisDe,
   nomDeLaUbicacio,
@@ -108,4 +109,25 @@ test("una marca sense preu d'un combustible no en té mitjana ni franja", () => 
 
   assert.equal(marques[0]?.dsl, null);
   assert.equal(marques[0]?.rang?.dsl, undefined);
+});
+
+test("la més propera d'una marca és la més a prop que ven el combustible", () => {
+  const reus = estacio();
+  const tarragona = estacio({ lat: 41.119, lon: 1.245, mun: "Tarragona" });
+  const sensGasolina = estacio({ lat: 41.156, lon: 1.108, mun: "Reus", g95: null });
+
+  const trobada = mesProperaDeLaMarca([tarragona, sensGasolina, reus, TARRAGONA], {
+    marca: "repsol",
+    combustible: "g95",
+    punt: { lat: 41.15, lon: 1.1 },
+  });
+
+  assert.equal(trobada?.mun, "Reus");
+  assert.ok((trobada?.d ?? 99) < 1);
+});
+
+test("si la marca no té cap benzinera amb el combustible, no n'hi ha de propera", () => {
+  const cerca = { marca: "bonarea", combustible: /** @type {const} */ ("dsl"), punt: REUS };
+
+  assert.equal(mesProperaDeLaMarca([TARRAGONA], cerca), null);
 });

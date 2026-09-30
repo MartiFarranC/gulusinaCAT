@@ -27,6 +27,29 @@ const RETARD_DEL_RADI_MS = 150;
 const PRECISIO_EN_METRES_FINS = 1000;
 const DISTANCIA_PER_SER_AL_MUNICIPI_KM = 3;
 
+/**
+ * Demana la ubicació al GPS (el navegador mostra el permís).
+ *
+ * @returns {Promise<Ubicacio>}
+ * @throws {GeolocationPositionError} Si no hi ha permís o no s'ha pogut obtenir.
+ */
+export function posicioDelGps() {
+  return new Promise((resol, rebutja) => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) =>
+        resol({
+          lat: coords.latitude,
+          lon: coords.longitude,
+          nom: "la teva ubicació",
+          gps: true,
+          prec: coords.accuracy,
+        }),
+      rebutja,
+      OPCIONS_DEL_GPS,
+    );
+  });
+}
+
 /** @param {number} valor */
 const coordenada = (valor) => valor.toFixed(4).replace(".", ",");
 
@@ -159,10 +182,8 @@ export class PanellDUbicacio {
     requestAnimationFrame(() => this.portaAlPanell());
   }
 
-  /** @param {GeolocationPosition} posicio */
-  enArribarLaPosicio({ coords }) {
-    const { latitude: lat, longitude: lon, accuracy: prec } = coords;
-    const ubicacio = { lat, lon, nom: "la teva ubicació", gps: true, prec };
+  /** @param {Ubicacio} ubicacio */
+  enArribarLaPosicio(ubicacio) {
     this.estat.ubicacio = ubicacio;
     const distancies = (this.estat.estacions ?? []).map((e) => distancia(ubicacio, e));
     const mesPropera = Math.min(...distancies);
@@ -199,10 +220,9 @@ export class PanellDUbicacio {
       this.missatge("Aquest navegador no pot donar la ubicació. Escriu un municipi.");
     } else if (calElGps) {
       this.missatgeDEspera("Demanant la teva ubicació…");
-      navigator.geolocation.getCurrentPosition(
-        (posicio) => this.enArribarLaPosicio(posicio),
+      posicioDelGps().then(
+        (ubicacio) => this.enArribarLaPosicio(ubicacio),
         (error) => this.enFallarElGps(error),
-        OPCIONS_DEL_GPS,
       );
       return;
     }
