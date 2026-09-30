@@ -1,10 +1,10 @@
-/** Com han anat els preus: marques triades, últims 30 dies i últims deu anys. */
+/** Com han anat els preus: marques triades, últims 30 dies i últims cinc anys. */
 
 import { element, marcaPremut, perId, perIdDeTipus, puntDeColor } from "./dom.js";
 import { diaIMes } from "./dates.js";
-import { formataAmbSigne } from "./format.js";
+import { formataAmbSigne, formataPreu } from "./format.js";
 import { dibuixaGrafic } from "./grafic.js";
-import { extremsIMig, totsOAlterns } from "./grafic-calculs.js";
+import { extremsIMig, tots } from "./grafic-calculs.js";
 import { ALTRES, CATALUNYA, NOMS, colorDe } from "./marques.js";
 import { NOM_DEL_COMBUSTIBLE, marquesReals } from "./estat.js";
 
@@ -16,6 +16,7 @@ const MAXIM_DE_MARQUES = 5;
 const MARQUES_TRIADES_D_INICI = 4;
 const BENZINERES_PER_SER_PRINCIPAL = 10;
 const DIES_DEL_GRAFIC = 30;
+const ANYS_DEL_GRAFIC = 5;
 const MESOS_PER_ANY = 12;
 /** @type {Serie} */
 const SERIE_CATALUNYA = { id: CATALUNYA, nom: "Catalunya", color: "#8B949E", discontinua: true };
@@ -53,25 +54,22 @@ function textosDelsAnys(estat, mode, anyInicial) {
   if (mode === "dif") {
     return {
       lead: "Quants cèntims per litre ha estat cada marca per sobre (+) o per sota (−) de la mitjana de totes les benzineres de Catalunya, any per any. Com més avall, més barata.",
-      descripcio: `${combustible}: diferència en cèntims de cada marca respecte a la mitjana de Catalunya, any per any des del ${anyInicial}. Les dades són a la taula de sota.`,
-      taula: `${combustible} (cèntims respecte a Catalunya)`,
+      descripcio: `${combustible}: diferència en cèntims de cada marca respecte a la mitjana de Catalunya, any per any des del ${anyInicial}. El preu mitjà de cada any és a la taula de sota.`,
     };
   }
   return {
     lead: "Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. L'any en curs compta fins ara.",
     descripcio: `${combustible}: preu mitjà de cada any des del ${anyInicial}, per marca i per a tot Catalunya. Les dades són a la taula de sota.`,
-    taula: `${combustible} (€/L)`,
   };
 }
 
 /**
  * @param {Estat} estat
  * @param {AnyHistoric} any
- * @param {readonly Serie[]} series
- * @param {number} anyActual
+ * @param {{series: readonly Serie[], anyActual: number, esDiferencia: boolean}} context
+ *   Si el valor és el preu mitjà o la diferència en cèntims amb la mitjana de Catalunya.
  */
-function puntDeLAny(estat, any, series, anyActual) {
-  const esDiferencia = estat.modeAnys === "dif";
+function puntDeLAny(estat, any, { series, anyActual, esDiferencia }) {
   const preu = (/** @type {string} */ id) => {
     const valor = any.preus[id]?.[estat.combustible] ?? 0;
     return valor > 0 ? valor : null;
@@ -184,13 +182,16 @@ export class Evolucio {
   /** @param {boolean} animat */
   dibuixaAnys(animat) {
     const { estat } = this;
-    this.anys.hidden = estat.anual.length < 2;
+    const anys = estat.anual.slice(-ANYS_DEL_GRAFIC);
+    this.anys.hidden = anys.length < 2;
     this.actualitzaLaSeccio();
     if (this.anys.hidden) return;
-    const primer = /** @type {AnyHistoric} */ (estat.anual[0]).any;
+    const primer = /** @type {AnyHistoric} */ (anys[0]).any;
     const textos = textosDelsAnys(estat, estat.modeAnys, primer);
     const series = this.series();
-    const anyActual = new Date().getFullYear();
+    const context = { series, anyActual: new Date().getFullYear() };
+    const punts = (/** @type {boolean} */ esDiferencia) =>
+      anys.map((any) => puntDeLAny(estat, any, { ...context, esDiferencia }));
     perId("anysLead").textContent = textos.lead;
     dibuixaGrafic({
       svg: perIdDeTipus("anysSvg", SVGSVGElement),
@@ -200,10 +201,11 @@ export class Evolucio {
       movimentReduit: estat.movimentReduit,
       series,
       columna: "Any",
-      titolDeLaTaula: textos.taula,
+      titolDeLaTaula: `${NOM_DEL_COMBUSTIBLE[estat.combustible]} (€/L)`,
       descripcio: textos.descripcio,
-      punts: estat.anual.map((any) => puntDeLAny(estat, any, series, anyActual)),
-      marquesDeLEix: totsOAlterns,
+      punts: punts(estat.modeAnys === "dif"),
+      taulaPropia: { punts: punts(false), formataValor: formataPreu },
+      marquesDeLEix: tots,
       ...(estat.modeAnys === "dif" ? OPCIONS_DE_LA_DIFERENCIA : {}),
     });
   }
@@ -276,7 +278,7 @@ export class Evolucio {
       `${triades.length} de ${MAXIM_DE_MARQUES} marques triades. La línia discontínua és la mitjana de Catalunya.`;
   }
 
-  /** El gràfic de deu anys es dibuixa amb animació quan apareix a la pantalla. */
+  /** El gràfic dels anys es dibuixa amb animació quan apareix a la pantalla. */
   animaElsAnysQuanEsVegin() {
     if (this.anys.hidden || !("IntersectionObserver" in window)) return;
     const observador = new IntersectionObserver(

@@ -76,20 +76,14 @@
     },
     "anys": {
       "lead": "Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. L'any en curs compta fins ara.",
-      "aria": "Gasolina 95: preu mitjà de cada any des del 2016, per marca i per a tot Catalunya. Les dades són a la taula de sota.",
+      "aria": "Gasolina 95: preu mitjà de cada any des del 2022, per marca i per a tot Catalunya. Les dades són a la taula de sota.",
       "taula": [
         "AnyCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
         "2026*1,5311,3781,3911,4631,513",
         "20251,5031,3531,3661,4361,485",
         "20241,4721,3251,3381,4071,455",
         "20231,4421,2981,3101,3771,424",
-        "20221,4111,2701,2821,3481,394",
-        "20211,3801,2431,2541,3191,363",
-        "20201,3491,2151,2261,2891,333",
-        "20191,3181,1871,1981,2601,302",
-        "20181,2881,1591,1701,2301,272",
-        "20171,2571,1321,1421,2011,242",
-        "20161,2261,1041,1141,1711,211"
+        "20221,4111,2701,2821,3481,394"
       ]
     }
   },

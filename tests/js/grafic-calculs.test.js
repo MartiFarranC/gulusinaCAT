@@ -5,7 +5,7 @@ import {
   eixRodo,
   extremsIMig,
   separaEtiquetes,
-  totsOAlterns,
+  tots,
   valorDe,
 } from "../../assets/js/grafic-calculs.js";
 
@@ -48,9 +48,8 @@ test("l'eix horitzontal dels dies mostra el primer, el del mig i l'últim", () =
   assert.deepEqual(extremsIMig(2), [0, 1]);
 });
 
-test("l'eix dels anys mostra un de cada dos si és estret, acabant per l'últim", () => {
-  assert.deepEqual(totsOAlterns(5, false), [0, 1, 2, 3, 4]);
-  assert.deepEqual(totsOAlterns(4, true), [1, 3]);
+test("l'eix dels anys els mostra tots", () => {
+  assert.deepEqual(tots(5), [0, 1, 2, 3, 4]);
 });
 
 test("un valor que no és un número finit no es dibuixa", () => {

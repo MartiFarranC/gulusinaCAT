@@ -22,6 +22,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Canviat
 
+- El gràfic de 10 anys passa a ser dels últims 5 anys, i la taula de sota mostra
+  sempre el preu mitjà de cada any, també amb l'opció «Respecte a Catalunya».
 - Les tasques de dades passen a ser el paquet `gulusinacat`, separat en domini,
   casos d'ús, infraestructura i línia d'ordres (`python -m gulusinacat preus` i
   `anual`). Els fitxers generats són idèntics.

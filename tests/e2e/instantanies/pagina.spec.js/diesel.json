@@ -93,20 +93,14 @@
     },
     "anys": {
       "lead": "Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. L'any en curs compta fins ara.",
-      "aria": "Dièsel: preu mitjà de cada any des del 2016, per marca i per a tot Catalunya. Les dades són a la taula de sota.",
+      "aria": "Dièsel: preu mitjà de cada any des del 2022, per marca i per a tot Catalunya. Les dades són a la taula de sota.",
       "taula": [
         "AnyCatalunyaPlenergy (Plenoil)bonÀreaEsclatoilGM Oil",
         "2026*1,4631,3191,3091,3931,448",
         "20251,4361,2941,2851,3681,421",
         "20241,4061,2681,2581,3391,392",
         "20231,3771,2421,2321,3121,363",
-        "20221,3471,2151,2061,2831,334",
-        "20211,3181,1891,1801,2561,305",
-        "20201,2891,1621,1531,2281,276",
-        "20191,2591,1361,1271,2001,247",
-        "20181,2301,1091,1011,1721,218",
-        "20171,2011,0821,0741,1441,189",
-        "20161,1711,0561,0481,1161,160"
+        "20221,3471,2151,2061,2831,334"
       ]
     }
   },

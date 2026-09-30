@@ -30,6 +30,8 @@ import { COLOR_DEL_FONS, activaElTooltip } from "./grafic-tooltip.js";
  * @property {string} titolDeLaTaula
  * @property {string} columna Nom de la primera columna de la taula.
  * @property {(longitud: number, esEstret: boolean) => number[]} marquesDeLEix Punts amb text.
+ * @property {{punts: PuntDelGrafic[], formataValor: (valor: number) => string}} [taulaPropia]
+ *   Valors de la taula, si no són els mateixos del gràfic.
  * @property {(valor: number) => string} [formataValor]
  * @property {(valor: number) => string} [formataEix]
  * @property {number} [ampladaMinima] De l'eix vertical.
@@ -196,7 +198,8 @@ function dibuixaEtiquetes(o, m, finals) {
 
 /** @param {OpcionsDelGrafic} o */
 function ompleLaTaula(o) {
-  const formata = o.formataValor ?? formataPreu;
+  const formata = o.taulaPropia?.formataValor ?? o.formataValor ?? formataPreu;
+  const punts = o.taulaPropia?.punts ?? o.punts;
   const { taula } = o;
   taula.replaceChildren();
   taula.createCaption().textContent = o.titolDeLaTaula;
@@ -205,7 +208,7 @@ function ompleLaTaula(o) {
     capcalera.appendChild(element("th", null, text));
   }
   const cos = taula.createTBody();
-  for (const punt of [...o.punts].reverse()) {
+  for (const punt of [...punts].reverse()) {
     const fila = cos.insertRow();
     fila.insertCell().textContent = punt.fila;
     for (const serie of o.series) {

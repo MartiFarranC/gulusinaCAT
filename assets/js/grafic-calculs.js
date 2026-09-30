@@ -81,7 +81,6 @@ export const extremsIMig = (longitud) => [
 
 /**
  * @param {number} longitud Nombre de punts.
- * @param {boolean} esEstret Si el gràfic és estret, només un de cada dos, acabant per l'últim.
+ * @returns {number[]} Tots els punts.
  */
-export const totsOAlterns = (longitud, esEstret) =>
-  [...Array(longitud).keys()].filter((i) => !esEstret || i % 2 === (longitud - 1) % 2);
+export const tots = (longitud) => [...Array(longitud).keys()];

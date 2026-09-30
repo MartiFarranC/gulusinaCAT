@@ -16,7 +16,8 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
   defecte, de 5 a 150 km) al voltant de la ubicació del GPS o d'un municipi.
 - **Mapa** amb totes les benzineres, o les properes amb la ubicació i el radi.
 - **Filtre de marques** per triar quines es comparen. El navegador el recorda.
-- **Gràfics** de l'evolució dels últims 30 dies i dels últims 10 anys.
+- **Gràfics** de l'evolució dels últims 30 dies i dels últims 5 anys, amb una taula
+  del preu mitjà de cada any.
 - **Calculadora** de quant costa omplir el dipòsit a cada marca.
 
 ## Requisits
