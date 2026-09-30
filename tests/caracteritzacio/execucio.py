@@ -11,5 +11,5 @@ def executa_preus() -> None:
 
 
 def executa_anual() -> None:
-    """Completa l'històric dels últims 10 anys."""
+    """Completa l'històric dels últims 5 anys."""
     assert main(["anual"]) == 0

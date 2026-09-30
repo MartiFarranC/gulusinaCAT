@@ -1,4 +1,4 @@
-"""Cas d'ús: completar l'històric dels últims 10 anys, mes a mes."""
+"""Cas d'ús: completar l'històric dels últims 5 anys, mes a mes."""
 
 from __future__ import annotations
 

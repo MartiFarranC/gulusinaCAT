@@ -84,10 +84,10 @@ Als workflows es corresponen amb les opcions _dies_enrere_ i _max_peticions_ de
 
 ### Workflows
 
-| Workflow              | Quan s'executa                      | Què actualitza                                  |
-| --------------------- | ----------------------------------- | ----------------------------------------------- |
-| _Actualitza preus_    | Cada 30 minuts, de 5:00 a 21:00 UTC | `preus.json`, `historic.json`, `estacions.json` |
-| _Històric de 10 anys_ | Cada dia a les 3:17 UTC             | `anual.json`                                    |
+| Workflow             | Quan s'executa                      | Què actualitza                                  |
+| -------------------- | ----------------------------------- | ----------------------------------------------- |
+| _Actualitza preus_   | Cada 30 minuts, de 5:00 a 21:00 UTC | `preus.json`, `historic.json`, `estacions.json` |
+| _Històric de 5 anys_ | Cada dia a les 3:17 UTC             | `anual.json`                                    |
 
 El servidor del Ministeri talla sovint les connexions que venen de GitHub. Les tasques
 tornen a provar-ho uns quants cops i, si no se'n surten, l'execució falla sense
@@ -125,7 +125,7 @@ Ministeri directament, i un test comprova que en surt el mateix resum.
 
 - `historic.json`: l'última mitjana de cada dia, un any com a màxim. D'aquí surten la
   tendència i el gràfic de 30 dies.
-- `anual.json`: el preu mitjà de cada any dels últims 10, a partir del dia 15 de cada
+- `anual.json`: el preu mitjà de cada any dels últims 5, a partir del dia 15 de cada
   mes de l'històric del Ministeri.
 
 ### Mapa
@@ -193,7 +193,7 @@ a `main` i a cada pull request.
 ├── .github/workflows/
 │   ├── ci.yml             # Comprovacions (a cada push i pull request)
 │   ├── preus.yml          # Actualitza preus (cada 30 minuts)
-│   └── anual.yml          # Històric de 10 anys (cada dia)
+│   └── anual.yml          # Històric de 5 anys (cada dia)
 ├── docs/adr/              # Decisions d'arquitectura
 ├── index.html             # L'estructura de la pàgina
 ├── assets/

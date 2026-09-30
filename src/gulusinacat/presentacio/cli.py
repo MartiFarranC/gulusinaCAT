@@ -70,7 +70,7 @@ def _analitzador() -> argparse.ArgumentParser:
     )
     ordres = analitzador.add_subparsers(dest="ordre", required=True)
     ordres.add_parser(ORDRE_PREUS, help="preus d'avui: preus.json, estacions.json i historic.json")
-    ordres.add_parser(ORDRE_ANUAL, help="històric dels últims 10 anys: anual.json")
+    ordres.add_parser(ORDRE_ANUAL, help="històric dels últims 5 anys: anual.json")
     return analitzador
 
 

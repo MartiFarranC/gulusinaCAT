@@ -3,7 +3,6 @@ from __future__ import annotations
 import datetime
 
 from gulusinacat.domini.historic import (
-    ANYS_D_HISTORIC,
     Mes,
     MostraMensual,
     PreusMarca,
@@ -21,7 +20,8 @@ def test_el_mes_en_curs_no_es_cobreix_fins_passat_el_dia_15() -> None:
     mesos = mesos_a_cobrir(datetime.date(2026, 9, 10))
 
     assert mesos[-1] == Mes(2026, 8)
-    assert mesos[0] == Mes(2026 - ANYS_D_HISTORIC, 1)
+    assert mesos[0] == Mes(2022, 1)
+    assert len(mesos) == 4 * 12 + 8
 
 
 def test_els_mesos_que_falten_van_abans_que_els_antics_i_del_mes_recent_al_mes_vell() -> None:

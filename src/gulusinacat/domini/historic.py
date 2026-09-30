@@ -10,7 +10,8 @@ from typing import TypedDict
 from gulusinacat.domini.combustible import Combustible
 from gulusinacat.domini.estadistica import mitjana
 
-ANYS_D_HISTORIC = 10
+# Anys de l'històric, comptant l'any en curs.
+ANYS_D_HISTORIC = 5
 # Cada mes es resumeix amb els preus del dia 15.
 DIA_DE_LA_MOSTRA = 15
 MESOS_DE_L_ANY = 12
@@ -84,7 +85,7 @@ def mesos_a_cobrir(avui: datetime.date) -> list[Mes]:
     """
     return [
         mes
-        for any_ in range(avui.year - ANYS_D_HISTORIC, avui.year + 1)
+        for any_ in range(avui.year - ANYS_D_HISTORIC + 1, avui.year + 1)
         for numero in range(1, MESOS_DE_L_ANY + 1)
         if (mes := Mes(any_, numero)).dia_de_la_mostra < avui
     ]
@@ -105,7 +106,7 @@ def mesos_pendents(mesos: Sequence[Mes], mostres: Mapping[str, MostraMensual]) -
 def resums_anuals(any_actual: int, mostres: Mapping[str, MostraMensual]) -> list[ResumAnual]:
     """Resum de cada any amb alguna mostra, del més antic al més recent."""
     resums = []
-    for any_ in range(any_actual - ANYS_D_HISTORIC, any_actual + 1):
+    for any_ in range(any_actual - ANYS_D_HISTORIC + 1, any_actual + 1):
         del_any = [mostra for clau, mostra in mostres.items() if clau.startswith(f"{any_}-")]
         if del_any:
             resums.append(_resum_de_l_any(any_, del_any))
