@@ -13,6 +13,13 @@ h1 {
   letter-spacing: -0.02em;
   margin: 0 0 14px;
 }
+h1 .logo {
+  display: inline-block;
+  width: 0.74em;
+  height: 0.74em;
+  vertical-align: -0.04em;
+  animation: fade 0.8s var(--ease) both;
+}
 h1 .w {
   display: inline-block;
   overflow: hidden;

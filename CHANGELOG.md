@@ -10,7 +10,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 ### Afegit
 
 - Logo: icona a la pestanya del navegador i a la pantalla d'inici del mòbil, manifest
-  per instal·lar la pàgina i imatge de previsualització en compartir l'enllaç.
+  per instal·lar la pàgina i imatge de previsualització en compartir l'enllaç. També
+  surt al costat del títol.
 - Menú de dreceres a les seccions de la pàgina: fix i centrat a l'esquerra en
   pantalles amples, i desplegable amb el botó «Menú» en les estretes.
 - Calculadora «Quant hi he de posar?»: amb el consum, l'autonomia i el dipòsit del
