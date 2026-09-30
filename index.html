@@ -190,7 +190,7 @@ footer{color:var(--muted);font-size:.85rem;padding:20px 0 40px;border-top:1px so
 footer a{color:var(--ink)}
 
 /* LES MÉS PROPERES */
-.near{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:-8px 0 26px}
+.near{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 14px;scroll-margin-top:40px}
 .near-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
 .near-row+.near-row{margin-top:12px}
 .near-row label{font-weight:700}
@@ -264,6 +264,7 @@ footer a{color:var(--ink)}
 .map-pop .mp-preu{font-family:"Bungee",sans-serif;font-size:1.1rem;color:#15181c}
 .map-pop span{color:#555}
 .map-pop a{color:#15181c;font-weight:700;margin-top:4px}
+.map[hidden],.map-nota[hidden]{display:none}
 .map-nota{color:var(--muted);font-size:.82rem;margin:0 0 18px}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .map-tiles img{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)} :root:not([data-theme="light"]) .map{background:#1d2226}}
 :root[data-theme="dark"] .map-tiles img{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)}
@@ -309,22 +310,6 @@ footer a{color:var(--ink)}
     <div class="filtre-llista" id="filtreLlista" role="group" aria-label="Marques que es comparen"></div>
     <p class="filtre-nota">La mitjana de referència es calcula sempre amb totes les benzineres.</p>
   </div>
-  <div class="near" id="near" hidden>
-    <div class="near-row">
-      <button type="button" class="btn" id="gps">Fes servir la meva ubicació</button>
-      <span class="or">o bé</span>
-      <label class="vh" for="muni">Municipi</label>
-      <input id="muni" list="munis" placeholder="Escriu un municipi" autocomplete="off" enterkeyhint="search">
-      <datalist id="munis"></datalist>
-    </div>
-    <div class="near-row">
-      <label for="radi">Radi</label>
-      <input id="radi" type="range" min="5" max="150" step="5" value="50">
-      <output id="radiv" for="radi">50 km</output>
-    </div>
-    <p class="loc" id="locInfo" hidden></p>
-    <p class="near-msg" id="nearMsg" role="status"></p>
-  </div>
   <p class="status" id="status" data-s="loading" role="status"><span class="dot" aria-hidden="true"></span><span id="statusText">Demanant els preus d'avui al Ministeri…</span></p>
 
   <p class="kicker">Les quatre marques més barates</p>
@@ -333,6 +318,22 @@ footer a{color:var(--ink)}
   <section id="mapSec" hidden>
     <div class="sechead"><h2 id="mapTitol">Mapa de les benzineres</h2>
       <button type="button" class="btn" id="mapProperes">Busca les més properes</button></div>
+    <div class="near" id="near" hidden>
+      <div class="near-row">
+        <button type="button" class="btn" id="gps">Fes servir la meva ubicació</button>
+        <span class="or">o bé</span>
+        <label class="vh" for="muni">Municipi</label>
+        <input id="muni" list="munis" placeholder="Escriu un municipi" autocomplete="off" enterkeyhint="search">
+        <datalist id="munis"></datalist>
+      </div>
+      <div class="near-row">
+        <label for="radi">Radi</label>
+        <input id="radi" type="range" min="5" max="150" step="5" value="50">
+        <output id="radiv" for="radi">50 km</output>
+      </div>
+      <p class="loc" id="locInfo" hidden></p>
+      <p class="near-msg" id="nearMsg" role="status"></p>
+    </div>
     <div class="map" id="map" role="region" aria-label="Mapa de les benzineres. La mateixa informació és a les llistes de la pàgina.">
       <div class="map-tiles" id="mapTiles" aria-hidden="true"></div>
       <svg class="map-svg" id="mapSvg" aria-hidden="true"></svg>
@@ -344,7 +345,7 @@ footer a{color:var(--ink)}
       </div>
       <div class="map-attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
     </div>
-    <p class="map-nota">Toca una benzinera per veure'n les dades. Les etiquetes mostren el preu de les més barates que es veuen; en ambre, la més barata de totes. Apropa el mapa per veure'n més.</p>
+    <p class="map-nota" id="mapNota">Toca una benzinera per veure'n les dades. Les etiquetes mostren el preu de les més barates que es veuen; en ambre, la més barata de totes. Apropa el mapa per veure'n més.</p>
   </section>
 
   <section id="aprop" hidden>
@@ -897,6 +898,7 @@ function aplicaAmbit(){
   $("evoLead").textContent=`Tria les marques que vols comparar als gràfics${prop()?" (les dades històriques són de tot Catalunya)":""}. Passa el dit o el ratolí per sobre per veure'n els valors.`;
   document.querySelector(".kicker").textContent=prop()?`Les quatre marques més barates a menys de ${RADI} km`:"Les quatre marques més barates";
   render();renderAprop(dins);pintaMapa(dins);
+  if(shouldScrollToPanel&&near){shouldScrollToPanel=false;requestAnimationFrame(portaAlPanell)}
 }
 
 function renderAprop(dins){
@@ -928,14 +930,15 @@ const mPerPx=(lat,z)=>156543.03*Math.cos(lat*Math.PI/180)/2**z;
 
 // Totes les gasolineres: tot Catalunya. Les més properes: la ubicació i el radi.
 function pintaMapa(dins){
-  const sec=$("mapSec");
-  if(!STATIONS){sec.hidden=true;return}
-  const near=prop();
-  const pts=(near?dins:STATIONS).filter(x=>x[fuel]>0&&!EXCLOSES.has(x.m));
-  sec.hidden=!pts.length;if(!pts.length)return;
-  MAP.near=near;MAP.pts=pts;MAP.barata=pts.reduce((p,q)=>q[fuel]<p[fuel]?q:p);
+  const sec=$("mapSec"),near=prop();
+  const pts=STATIONS?(near?dins:STATIONS).filter(x=>x[fuel]>0&&!EXCLOSES.has(x.m)):[];
+  const hasPoints=pts.length>0;
+  sec.hidden=!hasPoints&&SCOPE!=="properes";
+  $("map").hidden=$("mapNota").hidden=!hasPoints;
   $("mapTitol").textContent=near?"Mapa de les benzineres properes":"Mapa de les benzineres";
-  $("mapProperes").hidden=near;
+  $("mapProperes").hidden=SCOPE==="properes";
+  if(!hasPoints)return;
+  MAP.near=near;MAP.pts=pts;MAP.barata=pts.reduce((p,q)=>q[fuel]<p[fuel]?q:p);
   const clau=near?`${LOC.lat},${LOC.lon},${RADI}`:"tot";
   if(clau!==MAP.clau){MAP.clau=clau;encaixa()}
   $("mapPop").hidden=true;
@@ -1034,7 +1037,11 @@ $("mapFit").addEventListener("click",()=>{encaixa();$("mapPop").hidden=true;dibu
   box.addEventListener("dblclick",e=>{if(!e.target.closest(".map-ctl,.map-pop"))zoom(1)});
 })();
 addEventListener("resize",()=>{if(!$("mapSec").hidden)dibuixaMapa()});
-$("mapProperes").addEventListener("click",()=>{document.querySelector('#scope [data-scope="properes"]').click();$("near").scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"})});
+// El panell d'ubicació és a sobre del mapa, lluny de l'interruptor: s'hi porta l'usuari
+// Quan arriba la ubicació, el contingut de sobre canvia d'alçada: es torna a portar al panell
+let shouldScrollToPanel=false;
+function portaAlPanell(){$("near").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})}
+$("mapProperes").addEventListener("click",()=>document.querySelector('#scope [data-scope="properes"]').click());
 
 // Demana el GPS (el navegador mostra el permís) i, si no, deixa escriure un municipi
 function localitza(demanaGPS){
@@ -1064,7 +1071,7 @@ function triaMunicipi(){
 document.querySelectorAll("#scope button").forEach(btn=>btn.addEventListener("click",()=>{
   document.querySelectorAll("#scope button").forEach(x=>x.setAttribute("aria-pressed",x===btn));
   SCOPE=btn.dataset.scope;SHOWN=10;
-  if(SCOPE==="properes"){$("near").hidden=false;localitza(true)}else{nearMsg("");aplicaAmbit()}
+  if(SCOPE==="properes"){$("near").hidden=false;$("mapSec").hidden=false;shouldScrollToPanel=true;localitza(true);portaAlPanell()}else{nearMsg("");aplicaAmbit()}
 }));
 $("gps").addEventListener("click",()=>{LOC=null;$("muni").value="";localitza(true)});
 $("muni").addEventListener("change",triaMunicipi);
