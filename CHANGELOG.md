@@ -32,6 +32,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Canviat
 
+- «Totes les marques» mostra d'entrada les 10 primeres (abans, 20); el botó de sota
+  mostra totes les altres.
 - El gràfic de 10 anys passa a ser dels últims 5 anys, i la taula de sota mostra
   sempre el preu mitjà de cada any, també amb l'opció «Respecte a Catalunya».
 - El títol del gràfic dels anys diu quants n'hi ha mentre encara no se n'han

@@ -102,6 +102,29 @@ test.describe("controls", () => {
   });
 });
 
+test("la comparativa mostra les deu primeres marques i la resta amb el botó", async ({ page }) => {
+  const preus = JSON.parse(readFileSync(new URL("./dades/preus.json", import.meta.url), "utf-8"));
+  const repsol = preus.marques.repsol;
+  for (let i = 1; i <= 6; i++) {
+    preus.marques[`marca-${i}`] = { ...repsol, nom: `Marca ${i}`, g95: repsol.g95 + i / 100 };
+  }
+  await prepara(page);
+  await page.route(/\/preus\.json\?/, (ruta) => ruta.fulfill({ json: preus }));
+  await obre(page);
+  const files = page.locator("#comp .cr:visible");
+  const boto = page.locator("#compMore");
+
+  await expect(files).toHaveCount(10);
+  await expect(boto).toHaveText("Mostra les 4 marques restants");
+
+  await boto.click();
+  await expect(files).toHaveCount(14);
+  await expect(boto).toHaveText("Mostra'n menys");
+
+  await boto.click();
+  await expect(files).toHaveCount(10);
+});
+
 test.describe("benzineres properes", () => {
   test("busca a prop d'un municipi", async ({ page }) => {
     await prepara(page);

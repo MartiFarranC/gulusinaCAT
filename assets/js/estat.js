@@ -31,7 +31,7 @@ import { ALTRES, colorDe } from "./marques.js";
  * @property {boolean} movimentReduit
  */
 
-export const MARQUES_VISIBLES_A_LA_COMPARATIVA = 20;
+export const MARQUES_VISIBLES_A_LA_COMPARATIVA = 10;
 export const BENZINERES_PROPERES_PER_PAGINA = 10;
 
 /** Preus de reserva (finals de setembre) si no es pot carregar res. */
