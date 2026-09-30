@@ -57,3 +57,10 @@ L'interruptor «Les més properes» compara només les benzineres que hi ha dins
 demana permís) o d'un municipi escrit a mà. La llista de municipis surt de les mateixes
 dades del Ministeri, així que no cal cap servei extern. Les dades de cada benzinera són
 a `estacions.json`, que genera el mateix workflow.
+
+## Filtre de marques
+
+El botó «Marques» obre una llista amb totes les marques per triar quines es comparen
+(amb cercador i botons «Totes» / «Cap»). El filtre afecta els rètols, el rànquing, la
+calculadora, el rètol que llisca i la llista de benzineres properes. La mitjana de
+referència sempre es calcula amb totes les benzineres. El navegador recorda el filtre.

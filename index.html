@@ -219,6 +219,23 @@ footer a{color:var(--ink)}
 .more[hidden]{display:none}
 .scope button{font-size:.9rem}
 
+/* FILTRE DE MARQUES */
+.filtre-btn{display:inline-flex;align-items:center;gap:7px}
+.filtre-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.filtre-btn.actiu{border-color:var(--led);color:var(--ink)}
+.filtre-btn.actiu svg{fill:var(--led);stroke:var(--led)}
+.filtre{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:-8px 0 26px}
+.filtre-cap{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+#filtreCerca{flex:1;min-width:160px;font:500 1rem "Figtree",sans-serif;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.filtre-llista{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:2px 16px;margin-top:12px;max-height:320px;overflow:auto;padding-right:4px}
+.fm{display:flex;align-items:center;gap:0;padding:6px 4px;border-radius:8px;cursor:pointer;font-size:.92rem}
+.fm:hover{background:var(--bg2)}
+.fm input{accent-color:var(--led);width:17px;height:17px;margin:0 9px 0 0;flex:none}
+.fm .fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fm .fc{color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;margin-left:8px}
+.filtre-nota{color:var(--muted);font-size:.82rem;margin:10px 0 0}
+.kicker.buit{color:var(--ink);text-transform:none;letter-spacing:0;font-size:.95rem;font-weight:600}
+
 @media (max-width:560px){ .cr,#compSec.simple .cr{grid-template-columns:1fr auto;grid-template-areas:"n v" "t t" "c c";row-gap:8px} .caxis{grid-template-columns:1fr} .caxis>span{display:none} .digits{font-size:2rem} }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -247,6 +264,17 @@ footer a{color:var(--ink)}
       <button type="button" data-scope="totes" aria-pressed="true">Totes les gasolineres</button>
       <button type="button" data-scope="properes" aria-pressed="false">Les més properes</button>
     </div>
+    <button type="button" class="btn filtre-btn" id="filtreBtn" aria-expanded="false" aria-controls="filtre"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg><span id="filtreTxt">Marques: totes</span></button>
+  </div>
+  <div class="filtre" id="filtre" hidden>
+    <div class="filtre-cap">
+      <label class="vh" for="filtreCerca">Cerca una marca</label>
+      <input id="filtreCerca" type="search" placeholder="Cerca una marca" autocomplete="off">
+      <button type="button" class="btn" id="filtreTotes">Totes</button>
+      <button type="button" class="btn" id="filtreCap">Cap</button>
+    </div>
+    <div class="filtre-llista" id="filtreLlista" role="group" aria-label="Marques que es comparen"></div>
+    <p class="filtre-nota">La mitjana de referència es calcula sempre amb totes les benzineres.</p>
   </div>
   <div class="near" id="near" hidden>
     <div class="near-row">
@@ -365,7 +393,7 @@ const dot=color=>{const i=el("i","bd");i.style.background=color;return i};
 // Marques amb preu del combustible triat, de més barata a més cara (sense el grup d'independents)
 const prop=()=>SCOPE==="properes"&&LOC&&STATIONS&&BASE&&BRANDS!==BASE.brands;
 const refNom=()=>prop()?"la zona":"Catalunya";
-const ordenades=()=>BRANDS.filter(b=>b[fuel]>0).sort((a,b)=>a[fuel]-b[fuel]);
+const ordenades=()=>BRANDS.filter(b=>b[fuel]>0&&!EXCLOSES.has(b.id)).sort((a,b)=>a[fuel]-b[fuel]);
 const marques=()=>ordenades().filter(b=>b.id!==ALTRES);
 
 /* Títol: cada lletra puja des de sota */
@@ -515,9 +543,12 @@ function updateBill(){
   const S=(txt)=>el("strong",null,txt);
   if(cat){
     const dif=(cat-b[fuel])*L;
-    v.append(`Amb ${L} litres, a `,S(b.nom),` pagues `,S(eur(dif)),` menys que la mitjana de ${refNom()}`);
-    if(gran&&gran.id!==b.id&&gran.n>1)v.append(` i ${eur((gran[fuel]-b[fuel])*L)} menys que a ${gran.nom}, la marca amb més benzineres`);
-    v.append(`. En un any omplint cada setmana, són uns ${eur(dif*52)}.`);
+    // "menys" o "més" segons si la més barata de les triades és per sota o per sobre de la mitjana
+    const mm=d=>Math.abs(d)<0.005?["el mateix","que"]:[eur(Math.abs(d)),d>0?"menys que":"més que"];
+    const [q1,r1]=mm(dif);
+    v.append(`Amb ${L} litres, a `,S(b.nom),` pagues `,S(q1),` ${r1} la mitjana de ${refNom()}`);
+    if(gran&&gran.id!==b.id&&gran.n>1){const [q2,r2]=mm((gran[fuel]-b[fuel])*L);v.append(` i ${q2} ${r2} a ${gran.nom}, la marca amb més benzineres`)}
+    v.append(dif>0.005?`. En un any omplint cada setmana, t'estalvies uns ${eur(dif*52)}.`:dif<-0.005?`. En un any omplint cada setmana, són uns ${eur(-dif*52)} més.`:".");
   }else{
     const w=tots.at(-1),dif=(w[fuel]-b[fuel])*L;
     v.append(`Amb ${L} litres, anar a `,S(b.nom),` en lloc de ${w.nom} et deixa `,S(eur(dif)),` a la butxaca. En un any omplint cada setmana, són uns ${eur(dif*52)}.`);
@@ -706,6 +737,10 @@ function updateTicker(llista){
 
 function render(){
   const llista=ordenades(),m=llista.filter(b=>b.id!==ALTRES);
+  const k=document.querySelector(".kicker");k.classList.toggle("buit",!m.length);
+  if(!m.length)k.textContent="Cap de les marques triades té preu per a aquest combustible. Canvia el filtre de marques.";
+  else if(k.classList.contains("buit")||/^Cap de/.test(k.textContent))k.textContent=prop()?`Les quatre marques més barates a menys de ${RADI} km`:"Les quatre marques més barates";
+  renderFiltre();
   renderTotems(m.slice(0,4));
   renderComp(llista);
   updateTicker(m);
@@ -816,7 +851,7 @@ function aplicaAmbit(){
 
 function renderAprop(dins){
   const sec=$("aprop");
-  const llista=(dins||[]).filter(x=>x[fuel]>0).sort(ORDRE==="dist"?(a,b)=>a.d-b.d:(a,b)=>a[fuel]-b[fuel]||a.d-b.d);
+  const llista=(dins||[]).filter(x=>x[fuel]>0&&!EXCLOSES.has(x.m)).sort(ORDRE==="dist"?(a,b)=>a.d-b.d:(a,b)=>a[fuel]-b[fuel]||a.d-b.d);
   if(!prop()||!llista.length){sec.hidden=true;return}
   sec.hidden=false;
   const barata=llista.reduce((p,q)=>q[fuel]<p[fuel]?q:p);
@@ -871,6 +906,46 @@ document.querySelectorAll("#aOrdre button").forEach(btn=>btn.addEventListener("c
   document.querySelectorAll("#aOrdre button").forEach(x=>x.setAttribute("aria-pressed",x===btn));ORDRE=btn.dataset.o;aplicaAmbit();
 }));
 $("stMore").addEventListener("click",()=>{SHOWN+=10;aplicaAmbit()});
+
+
+/* ---------- FILTRE DE MARQUES ---------- */
+// Es desen les marques excloses: així, les marques noves surten marcades per defecte
+const CLAU_FILTRE="marques-excloses";
+let EXCLOSES=new Set();
+try{EXCLOSES=new Set(JSON.parse(localStorage.getItem(CLAU_FILTRE)||"[]"))}catch(e){}
+const desaFiltre=()=>{try{localStorage.setItem(CLAU_FILTRE,JSON.stringify([...EXCLOSES]))}catch(e){}};
+const totesMarques=()=>{
+  const llista=((BASE&&BASE.brands)||BRANDS).slice(),ids=new Set(llista.map(b=>b.id));
+  if(STATIONS){const n={};STATIONS.forEach(x=>{if(!ids.has(x.m)){n[x.m]=n[x.m]||{id:x.m,nom:x.nom,color:colorDe(x.m),n:0};n[x.m].n++}});llista.push(...Object.values(n))}
+  return llista.sort((a,b)=>a.id===ALTRES?1:b.id===ALTRES?-1:a.nom.localeCompare(b.nom,"ca"));
+};
+
+function renderFiltre(){
+  const tot=totesMarques(),triades=tot.filter(b=>!EXCLOSES.has(b.id)).length;
+  $("filtreTxt").textContent=triades===tot.length?"Marques: totes":`Marques: ${triades} de ${tot.length}`;
+  $("filtreBtn").classList.toggle("actiu",triades<tot.length);
+  if($("filtre").hidden)return;
+  const q=norm($("filtreCerca").value),box=$("filtreLlista");box.replaceChildren();
+  tot.filter(b=>!q||norm(b.nom).includes(q)).forEach(b=>{
+    const lab=el("label","fm"),cb=el("input");cb.type="checkbox";cb.checked=!EXCLOSES.has(b.id);
+    cb.onchange=()=>{cb.checked?EXCLOSES.delete(b.id):EXCLOSES.add(b.id);desaFiltre();canviFiltre()};
+    lab.append(cb,dot(b.color),el("span","fn",b.nom),el("span","fc",b.n?String(b.n):""));
+    box.appendChild(lab);
+  });
+  if(!box.children.length)box.appendChild(el("p","filtre-nota","Cap marca coincideix amb la cerca."));
+}
+function canviFiltre(){typeof aplicaAmbit==="function"?aplicaAmbit():render()}
+$("filtreBtn").addEventListener("click",()=>{
+  const obre=$("filtre").hidden;$("filtre").hidden=!obre;$("filtreBtn").setAttribute("aria-expanded",obre);
+  renderFiltre();if(obre)$("filtreCerca").focus({preventScroll:true});
+});
+$("filtreCerca").addEventListener("input",renderFiltre);
+$("filtreTotes").addEventListener("click",()=>{
+  const q=norm($("filtreCerca").value);totesMarques().forEach(b=>{if(!q||norm(b.nom).includes(q))EXCLOSES.delete(b.id)});desaFiltre();canviFiltre();
+});
+$("filtreCap").addEventListener("click",()=>{
+  const q=norm($("filtreCerca").value);totesMarques().forEach(b=>{if(!q||norm(b.nom).includes(q))EXCLOSES.add(b.id)});desaFiltre();canviFiltre();
+});
 
 /* ---------- PREUS EN DIRECTE ---------- */
 const API="https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroCCAA/09";
