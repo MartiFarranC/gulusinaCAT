@@ -113,7 +113,6 @@ export function estatDeLaPagina(page) {
         ),
         mesBoto: visible("#compMore") ? text("#compMore") : null,
       },
-      calculadora: { tiquets: textos(".ticket"), veredicte: text("#verdict") },
       retol: textos(".tk"),
       evolucio: visible("#evoSec") && {
         lead: text("#evoLead"),

@@ -3,7 +3,7 @@
 /** Part del dipòsit que es deixa buida perquè l'autonomia que marca el cotxe no és exacta. */
 export const MARGE_DEL_DIPOSIT = 0.05;
 /** Els diners es demanen en múltiples d'aquesta quantitat, arrodonint cap avall. */
-export const EUROS_PER_ARRODONIR = 5;
+const EUROS_PER_ARRODONIR = 5;
 
 /**
  * @typedef {object} DadesDelCotxe

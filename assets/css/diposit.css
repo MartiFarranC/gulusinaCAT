@@ -1,3 +1,9 @@
+.calc {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+}
 .diposit {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));

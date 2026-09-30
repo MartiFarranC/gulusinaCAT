@@ -23,6 +23,11 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
   com a eines de desenvolupament.
 - Workflow _Comprovacions_ a cada push i pull request, i hooks de pre-commit.
 
+### Eliminat
+
+- La calculadora «Omple el dipòsit», que comparava el cost d'uns litres a les quatre
+  marques més barates. La substitueix «Quant hi he de posar?».
+
 ### Canviat
 
 - El gràfic de 10 anys passa a ser dels últims 5 anys, i la taula de sota mostra

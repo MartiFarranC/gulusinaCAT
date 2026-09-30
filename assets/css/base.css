@@ -190,3 +190,9 @@ footer a {
     transition: none !important;
   }
 }
+input[type="range"] {
+  flex: 1;
+  min-width: 180px;
+  accent-color: var(--led);
+  height: 6px;
+}

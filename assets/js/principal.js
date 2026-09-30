@@ -1,6 +1,5 @@
 /** Punt d'entrada de la pàgina: crea l'estat i les parts, i carrega les dades. */
 
-import { Calculadora } from "./calculadora.js";
 import { CalculadoraDelDiposit } from "./calculadora-diposit.js";
 import { Comparativa } from "./comparativa.js";
 import { Carrega } from "./carrega.js";
@@ -42,7 +41,6 @@ const estat = creaEstat({
 const kicker = perId("kicker");
 const totems = new Totems(perId("totems"), estat.movimentReduit);
 const comparativa = new Comparativa(estat, pinta);
-const calculadora = new Calculadora(estat);
 const evolucio = new Evolucio(estat);
 const filtre = new Filtre(estat, {
   enCanviar: aplicaLAmbit,
@@ -81,7 +79,6 @@ function pinta() {
   totems.pinta(reals.slice(0, TOTEMS), { preu: (m) => preuDe(estat, m), tendencia: tendenciaDe });
   comparativa.pinta(ordenades);
   pintaElRetol(estat, reals, tendenciaDe);
-  calculadora.pinta();
 }
 
 /** @param {number} quantes Benzineres dins del radi. */
