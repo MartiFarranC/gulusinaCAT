@@ -1,0 +1,23 @@
+{
+  "name": "gulusinacat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Comparador de preus de les benzineres de Catalunya per marca",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test --experimental-test-coverage --test-coverage-lines=80 --test-coverage-branches=80 --test-coverage-include=\"assets/js/**\" \"tests/js/**/*.test.js\"",
+    "test:e2e": "playwright test",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}

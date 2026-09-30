@@ -16,3 +16,7 @@ node_modules/
 # Sistema operatiu
 .DS_Store
 Thumbs.db
+
+# Tests de la pàgina
+test-results/
+playwright-report/
