@@ -171,7 +171,9 @@ def estacions(llista):
     for marca, e in classificades:
         lat, lon = coord(e.get("Latitud")), coord(e.get("Longitud (WGS84)"))
         g, d = num(e.get(CAMPS["g95"])), num(e.get(CAMPS["dsl"]))
-        if lat is None or lon is None or not (g or d):
+        # Hi ha estacions amb coordenades buides o a (0, 0): es descarten les que cauen
+        # lluny de Catalunya
+        if lat is None or lon is None or not (g or d) or not (40 < lat < 43.5 and -0.5 < lon < 3.6):
             continue
         files.append([marca, round(lat, 5), round(lon, 5), g, d, (e.get("Municipio") or "").strip(),
                       bonic((e.get("Dirección") or "").strip())])

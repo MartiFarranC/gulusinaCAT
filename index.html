@@ -330,22 +330,27 @@ footer a{color:var(--ink)}
   <p class="kicker">Les quatre marques més barates</p>
   <div class="totems" id="totems"></div>
 
-  <section id="aprop" hidden>
-    <div class="sechead"><h2>Les benzineres més barates a prop</h2>
-      <div class="seg" id="aOrdre" role="group" aria-label="Ordre"><button type="button" data-o="preu" aria-pressed="true">Més barates</button><button type="button" data-o="dist" aria-pressed="false">Més a prop</button></div></div>
-    <p class="lead" id="apropLead"></p>
-    <div class="map" id="map" role="region" aria-label="Mapa de les benzineres properes. La mateixa informació és a la llista de sota.">
+  <section id="mapSec" hidden>
+    <div class="sechead"><h2 id="mapTitol">Mapa de les benzineres</h2>
+      <button type="button" class="btn" id="mapProperes">Busca les més properes</button></div>
+    <div class="map" id="map" role="region" aria-label="Mapa de les benzineres. La mateixa informació és a les llistes de la pàgina.">
       <div class="map-tiles" id="mapTiles" aria-hidden="true"></div>
       <svg class="map-svg" id="mapSvg" aria-hidden="true"></svg>
       <div class="map-pop" id="mapPop" hidden></div>
       <div class="map-ctl">
         <button type="button" id="mapIn" aria-label="Apropa el mapa">+</button>
         <button type="button" id="mapOut" aria-label="Allunya el mapa">−</button>
-        <button type="button" id="mapFit" aria-label="Torna a centrar el mapa a la teva ubicació"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button>
+        <button type="button" id="mapFit" aria-label="Torna a centrar el mapa"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button>
       </div>
       <div class="map-attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
     </div>
-    <p class="map-nota">Toca una benzinera per veure'n les dades. Les etiquetes mostren el preu de les més barates que hi caben; en ambre, la més barata de totes. Apropa el mapa per veure'n més.</p>
+    <p class="map-nota">Toca una benzinera per veure'n les dades. Les etiquetes mostren el preu de les més barates que es veuen; en ambre, la més barata de totes. Apropa el mapa per veure'n més.</p>
+  </section>
+
+  <section id="aprop" hidden>
+    <div class="sechead"><h2>Les benzineres més barates a prop</h2>
+      <div class="seg" id="aOrdre" role="group" aria-label="Ordre"><button type="button" data-o="preu" aria-pressed="true">Més barates</button><button type="button" data-o="dist" aria-pressed="false">Més a prop</button></div></div>
+    <p class="lead" id="apropLead"></p>
     <ol class="st" id="stList"></ol>
     <button type="button" class="btn more" id="stMore">Mostra'n més</button>
   </section>
@@ -819,7 +824,7 @@ function setStations(d){
   if(!d||!Array.isArray(d.e))return;
   const noms=d.marques||{};
   STATIONS=d.e.map(([m,lat,lon,g95,dsl,mun,adr])=>({m,nom:noms[m]||NOMS[m]||m,lat,lon,g95:g95||null,dsl:dsl||null,mun:mun||"",adr:adr||""}))
-    .filter(x=>isFinite(x.lat)&&isFinite(x.lon));
+    .filter(x=>x.lat>40&&x.lat<43.5&&x.lon>-0.5&&x.lon<3.6); // fora les coordenades impossibles (n'hi ha a 0,0)
   // Municipis per al cercador: el centre de les seves benzineres
   const acc=new Map();
   STATIONS.forEach(x=>{if(!x.mun)return;const k=norm(x.mun);const a=acc.get(k)||{nom:x.mun,lat:0,lon:0,n:0};a.lat+=x.lat;a.lon+=x.lon;a.n++;acc.set(k,a)});
@@ -828,7 +833,7 @@ function setStations(d){
   [...MUNIS.values()].sort((a,b)=>a.nom.localeCompare(b.nom,"ca")).forEach(m=>{const o=el("option");o.value=m.nom;dl.appendChild(o)});
 }
 async function loadStations(){
-  try{const j=await getJSON("estacions.json?"+Date.now(),10000);if(!STATIONS)setStations(j)}catch(e){}
+  try{const j=await getJSON("estacions.json?"+Date.now(),10000);if(!STATIONS){setStations(j);if(BASE)aplicaAmbit()}}catch(e){}
 }
 
 // Mitjanes de les benzineres que queden dins del radi (mateix format que apply)
@@ -891,7 +896,7 @@ function aplicaAmbit(){
   $("compLead").textContent=`De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de ${prop()?`totes les benzineres a menys de ${RADI} km`:"totes les benzineres de Catalunya"}.`;
   $("evoLead").textContent=`Tria les marques que vols comparar als gràfics${prop()?" (les dades històriques són de tot Catalunya)":""}. Passa el dit o el ratolí per sobre per veure'n els valors.`;
   document.querySelector(".kicker").textContent=prop()?`Les quatre marques més barates a menys de ${RADI} km`:"Les quatre marques més barates";
-  render();renderAprop(dins);
+  render();renderAprop(dins);pintaMapa(dins);
 }
 
 function renderAprop(dins){
@@ -911,7 +916,6 @@ function renderAprop(dins){
     li.append(el("span","stp",fmt(x[fuel])),info,dd);ol.appendChild(li);
   });
   $("stMore").hidden=llista.length<=SHOWN;
-  actualitzaMapa(llista,barata);
 }
 
 /* ---------- MAPA ---------- */
@@ -922,21 +926,36 @@ const proj=(lat,lon,z)=>{const n=TILE*2**z,s=Math.sin(lat*Math.PI/180);return {x
 const unproj=(x,y,z)=>{const n=TILE*2**z;return {lat:Math.atan(Math.sinh(Math.PI*(1-2*y/n)))*180/Math.PI,lon:x/n*360-180}};
 const mPerPx=(lat,z)=>156543.03*Math.cos(lat*Math.PI/180)/2**z;
 
-function actualitzaMapa(llista,barata){
-  MAP.pts=llista;MAP.barata=barata;
-  const clau=`${LOC.lat},${LOC.lon},${RADI}`;
+// Totes les gasolineres: tot Catalunya. Les més properes: la ubicació i el radi.
+function pintaMapa(dins){
+  const sec=$("mapSec");
+  if(!STATIONS){sec.hidden=true;return}
+  const near=prop();
+  const pts=(near?dins:STATIONS).filter(x=>x[fuel]>0&&!EXCLOSES.has(x.m));
+  sec.hidden=!pts.length;if(!pts.length)return;
+  MAP.near=near;MAP.pts=pts;MAP.barata=pts.reduce((p,q)=>q[fuel]<p[fuel]?q:p);
+  $("mapTitol").textContent=near?"Mapa de les benzineres properes":"Mapa de les benzineres";
+  $("mapProperes").hidden=near;
+  const clau=near?`${LOC.lat},${LOC.lon},${RADI}`:"tot";
   if(clau!==MAP.clau){MAP.clau=clau;encaixa()}
   $("mapPop").hidden=true;
   requestAnimationFrame(dibuixaMapa);
 }
 function encaixa(){
-  const box=$("map"),costat=Math.min(box.clientWidth||600,box.clientHeight||360)*.92;
-  const z=Math.log2(156543.03*Math.cos(LOC.lat*Math.PI/180)*costat/(RADI*2000));
-  MAP.z=Math.max(ZMIN,Math.min(ZMAX,z));MAP.c={lat:LOC.lat,lon:LOC.lon};
+  const box=$("map"),W=box.clientWidth||600,H=box.clientHeight||400;
+  if(MAP.near){
+    const z=Math.log2(156543.03*Math.cos(LOC.lat*Math.PI/180)*Math.min(W,H)*.92/(RADI*2000));
+    MAP.z=Math.max(ZMIN,Math.min(ZMAX,z));MAP.c={lat:LOC.lat,lon:LOC.lon};return;
+  }
+  // Encaixa totes les benzineres (tot Catalunya)
+  const la=MAP.pts.map(x=>x.lat),lo=MAP.pts.map(x=>x.lon);
+  const a=proj(Math.max(...la),Math.min(...lo),0),b=proj(Math.min(...la),Math.max(...lo),0);
+  const z=Math.log2(Math.min(W*.9/((b.x-a.x)||1e-6),H*.9/((b.y-a.y)||1e-6)));
+  MAP.z=Math.max(ZMIN,Math.min(ZMAX,z));MAP.c=unproj((a.x+b.x)/2,(a.y+b.y)/2,0);
 }
 function dibuixaMapa(){
   const box=$("map"),W=box.clientWidth,H=box.clientHeight;
-  if(!W||!H||!MAP.c||!LOC)return;
+  if(!W||!H||!MAP.c)return;
   const z=MAP.z,c=proj(MAP.c.lat,MAP.c.lon,z),ox=c.x-W/2,oy=c.y-H/2;
   // Rajoles del nivell de zoom enter, escalades si el zoom és fraccionari.
   // Es reaprofiten les que ja hi són i només es demanen les noves.
@@ -954,8 +973,8 @@ function dibuixaMapa(){
   // Capa de marcadors
   const svg=$("mapSvg");svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.replaceChildren();
   const P=(lat,lon)=>{const p=proj(lat,lon,z);return [p.x-ox,p.y-oy]};
-  const [ux,uy]=P(LOC.lat,LOC.lon);
-  mk("circle",{cx:ux,cy:uy,r:RADI*1000/mPerPx(LOC.lat,z),class:"m-radi"},svg);
+  const [ux,uy]=LOC?P(LOC.lat,LOC.lon):[0,0];
+  if(MAP.near)mk("circle",{cx:ux,cy:uy,r:RADI*1000/mPerPx(LOC.lat,z),class:"m-radi"},svg);
   // Etiquetes de preu per a les més barates, sense que es trepitgin (de més barata a més cara)
   const caixes=[],top=[];let candidates=0;
   for(const x of MAP.pts.slice().sort((a,b)=>a[fuel]-b[fuel])){
@@ -972,8 +991,7 @@ function dibuixaMapa(){
     const cc=mk("circle",{cx:px,cy:py,r:z>=13?7:5.5,fill:colorDe(x.m),class:"m-pt"+(x===MAP.barata?" best":"")},svg);
     cc.addEventListener("click",e=>{e.stopPropagation();obreFitxa(x,px,py)});
   });
-  mk("circle",{cx:ux,cy:uy,r:16,class:"m-jo-halo"},svg);
-  mk("circle",{cx:ux,cy:uy,r:7,class:"m-jo"},svg);
+  if(LOC){mk("circle",{cx:ux,cy:uy,r:16,class:"m-jo-halo"},svg);mk("circle",{cx:ux,cy:uy,r:7,class:"m-jo"},svg)}
   // Les 10 més barates, amb el preu (la més barata, a sobre de tot)
   top.slice().reverse().forEach(x=>{
     const [px,py]=P(x.lat,x.lon);if(!dins(px,py,40))return;
@@ -988,7 +1006,7 @@ function obreFitxa(x,px,py){
   const pop=$("mapPop"),box=$("map");pop.replaceChildren();
   const nm=el("b");nm.append(dot(colorDe(x.m)),x.nom);
   const a=el("a",null,"Com arribar ↗");a.href=`https://www.google.com/maps/dir/?api=1&destination=${x.lat},${x.lon}`;a.target="_blank";a.rel="noopener";
-  pop.append(nm,el("span","mp-preu",`${fmt(x[fuel])} €/L`),el("span",null,[x.mun,x.adr].filter(Boolean).join(" · ")),el("span",null,`A ${km(x.d)}`),a);
+  pop.append(nm,el("span","mp-preu",`${fmt(x[fuel])} €/L`),el("span",null,[x.mun,x.adr].filter(Boolean).join(" · ")),...(LOC?[el("span",null,`A ${km(dist(LOC,x))} ${LOC.gps?"de tu":"de "+LOC.nom}`)]:[]),a);
   pop.hidden=false;
   const w=pop.offsetWidth,h=pop.offsetHeight;
   pop.style.left=Math.max(8,Math.min(box.clientWidth-w-8,px-w/2))+"px";
@@ -1015,7 +1033,8 @@ $("mapFit").addEventListener("click",()=>{encaixa();$("mapPop").hidden=true;dibu
   box.addEventListener("pointerup",fi);box.addEventListener("pointercancel",fi);
   box.addEventListener("dblclick",e=>{if(!e.target.closest(".map-ctl,.map-pop"))zoom(1)});
 })();
-addEventListener("resize",()=>{if(!$("aprop").hidden)dibuixaMapa()});
+addEventListener("resize",()=>{if(!$("mapSec").hidden)dibuixaMapa()});
+$("mapProperes").addEventListener("click",()=>{document.querySelector('#scope [data-scope="properes"]').click();$("near").scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"})});
 
 // Demana el GPS (el navegador mostra el permís) i, si no, deixa escriure un municipi
 function localitza(demanaGPS){
@@ -1128,7 +1147,7 @@ function average(list){
     o.n=Math.max(acc[k].g95.length,acc[k].dsl.length);
   }
   const est=classif.map(([id,e])=>[id,coord(e["Latitud"]),coord(e["Longitud (WGS84)"]),num(e[CAMPS.g95]),num(e[CAMPS.dsl]),String(e["Municipio"]||"").trim(),bonic(String(e["Dirección"]||"").trim())])
-    .filter(x=>x[1]!==null&&x[2]!==null&&(x[3]||x[4]));
+    .filter(x=>x[1]>40&&x[1]<43.5&&x[2]>-0.5&&x[2]<3.6&&(x[3]||x[4]));
   return {marques:out,catalunya:{g95:avg(tots.g95),dsl:avg(tots.dsl),n:Math.max(tots.g95.length,tots.dsl.length)},
     estacions:{marques:Object.fromEntries(Object.keys(acc).map(k=>[k,noms[k]||k])),e:est}};
 }
@@ -1205,7 +1224,7 @@ const histReady=loadHistory(),yearsReady=loadYears();
 setTimeout(async()=>{
   await loadPrices();
   await Promise.all([histReady,yearsReady]);
-  if(HIST.length)render();
+  aplicaAmbit();
   renderChips();drawChart(true);drawYears(false);
   // El gràfic de 10 anys es dibuixa amb animació quan apareix a la pantalla
   const sec=$("anysSec");if(sec.hidden||!("IntersectionObserver" in window))return;
