@@ -1,0 +1,51 @@
+# Les mateixes comprovacions ràpides que la integració contínua, amb les eines del projecte
+# (.venv per a Python i node_modules per a la pàgina). S'activa amb: .venv/bin/pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: Format de Python
+        entry: .venv/bin/ruff format --check
+        language: system
+        types: [python]
+      - id: ruff
+        name: Lint de Python
+        entry: .venv/bin/ruff check
+        language: system
+        types: [python]
+      - id: mypy
+        name: Tipus de Python
+        entry: .venv/bin/mypy
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: pytest
+        name: Tests de Python
+        entry: .venv/bin/pytest -q
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: prettier
+        name: Format de la pàgina
+        entry: npm run --silent format:check
+        language: system
+        types_or: [javascript, css, html, markdown, json, yaml]
+        pass_filenames: false
+      - id: eslint
+        name: Lint de la pàgina
+        entry: npm run --silent lint
+        language: system
+        types: [javascript]
+        pass_filenames: false
+      - id: tsc
+        name: Tipus de la pàgina
+        entry: npm run --silent typecheck
+        language: system
+        types: [javascript]
+        pass_filenames: false
+      - id: node-test
+        name: Tests de la pàgina
+        entry: npm test --silent
+        language: system
+        types: [javascript]
+        pass_filenames: false
