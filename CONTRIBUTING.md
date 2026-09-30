@@ -35,8 +35,12 @@ workflows de dades; no cal fer-ne a mà.
 ## Estil
 
 El fitxer [`.editorconfig`](.editorconfig) fixa la codificació (UTF-8), els finals
-de línia (LF) i la indentació: dos espais en general i quatre a Python. Els scripts de
-Python segueixen PEP 8.
+de línia (LF) i la indentació: dos espais en general i quatre a Python. El codi de
+Python el formata i el revisa Ruff, i mypy en comprova els tipus en mode estricte.
+
+El paquet `src/gulusinacat/` separa el domini (regles, sense xarxa ni fitxers), els
+casos d'ús, la infraestructura (API i fitxers) i la línia d'ordres. El domini no pot
+importar res de les altres capes.
 
 ## Comprovacions abans d'obrir una pull request
 
@@ -49,12 +53,16 @@ Python segueixen PEP 8.
 2. Comprova-la amb les tres fonts de preus: el Ministeri directament, `preus.json` i
    els preus desats a la pàgina (per exemple, bloquejant `preus.json` des de les eines
    del navegador).
-3. Si has tocat els scripts de dades, executa'ls i comprova que els JSON generats són
-   vàlids:
+3. Si has tocat les tasques de dades, passa totes les comprovacions:
 
    ```bash
-   python3 actualitza_preus.py
-   python3 -m json.tool preus.json > /dev/null
+   .venv/bin/ruff format --check && .venv/bin/ruff check
+   .venv/bin/mypy
+   .venv/bin/pytest --cov
    ```
+
+   Tota lògica nova o modificada ha de portar tests. Si un canvi altera a propòsit el
+   contingut dels fitxers generats, actualitza els fitxers de referència de
+   `tests/caracteritzacio/dades/esperat/` i explica-ho al commit.
 
 4. Revisa que la consola del navegador no mostri errors.

@@ -25,7 +25,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python historic_anual.py
+      - run: pip install .
+      - run: python -m gulusinacat anual
         env:
           MAX_PETICIONS: ${{ inputs.max_peticions || '30' }}
       - name: Desa anual.json si ha canviat

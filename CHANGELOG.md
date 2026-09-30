@@ -14,9 +14,16 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 - Fitxers `.editorconfig`, `.gitignore` i `.env.example`.
 - Aquest registre de canvis.
 - Registres de decisions d'arquitectura a `docs/adr/`.
+- Tests de les tasques de dades amb pytest, i Ruff i mypy estricte.
 
 ### Canviat
 
+- Les tasques de dades passen a ser el paquet `gulusinacat`, separat en domini,
+  casos d'ús, infraestructura i línia d'ordres (`python -m gulusinacat preus` i
+  `anual`). Els fitxers generats són idèntics.
+- Els missatges de les tasques fan servir `logging`, i els errors esperats (Ministeri
+  sense resposta, fitxers de dades malmesos, variables d'entorn incorrectes) acaben
+  amb un missatge clar en lloc d'una traça.
 - El panell d'ubicació es veu sempre a sobre del mapa; fer-lo servir activa
   «Les més properes». Desapareix el botó «Busca les més properes».
 - El README s'organitza en requisits, instal·lació, ús, configuració, tests,

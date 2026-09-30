@@ -22,8 +22,9 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 ## Requisits
 
 - Un navegador actual. La pàgina és HTML estàtic, sense cap pas de compilació.
-- Python 3.12 per als scripts que descarreguen les dades. Només fan servir la
-  biblioteca estàndard.
+- Python 3.11 o posterior per a les tasques que descarreguen les dades. Només fan
+  servir la biblioteca estàndard; les eines de desenvolupament són a
+  `requirements-dev.txt`.
 
 ## Instal·lació
 
@@ -57,19 +58,22 @@ i obrir <http://localhost:8000/>.
 Per actualitzar les dades a mà (cal accés a Internet):
 
 ```bash
-python3 actualitza_preus.py   # preus.json, historic.json i estacions.json
-python3 historic_anual.py     # anual.json
+python3 -m pip install .
+python3 -m gulusinacat preus   # preus.json, historic.json i estacions.json
+python3 -m gulusinacat anual   # anual.json
 ```
+
+Amb `--directori <camí>` els fitxers es llegeixen i es desen en un altre directori.
 
 ## Configuració
 
-Els scripts accepten dues variables d'entorn opcionals, documentades a
+Les tasques accepten dues variables d'entorn opcionals, documentades a
 [`.env.example`](.env.example):
 
-| Variable        | Script                | Valor per defecte | Què fa                                              |
-|-----------------|-----------------------|-------------------|-----------------------------------------------------|
-| `DIES_ENRERE`   | `actualitza_preus.py` | `0`               | Dies passats que cal recuperar a `historic.json`.   |
-| `MAX_PETICIONS` | `historic_anual.py`   | `30`              | Mesos pendents que es demanen en una execució.      |
+| Variable        | Tasca               | Valor per defecte | Què fa                                            |
+|-----------------|---------------------|-------------------|---------------------------------------------------|
+| `DIES_ENRERE`   | `gulusinacat preus` | `0`               | Dies passats que cal recuperar a `historic.json`. |
+| `MAX_PETICIONS` | `gulusinacat anual` | `30`              | Mesos pendents que es demanen en una execució.    |
 
 Als workflows es corresponen amb les opcions *dies_enrere* i *max_peticions* de
 **Run workflow**.
@@ -81,7 +85,7 @@ Als workflows es corresponen amb les opcions *dies_enrere* i *max_peticions* de
 | *Actualitza preus*  | Cada 30 minuts, de 5:00 a 21:00 UTC     | `preus.json`, `historic.json`, `estacions.json`  |
 | *Històric de 10 anys* | Cada dia a les 3:17 UTC               | `anual.json`                                     |
 
-El servidor del Ministeri talla sovint les connexions que venen de GitHub. Els scripts
+El servidor del Ministeri talla sovint les connexions que venen de GitHub. Les tasques
 tornen a provar-ho uns quants cops i, si no se'n surten, l'execució falla sense
 sobreescriure les dades bones. El workflow anual desa el que aconsegueix i continua a
 la propera execució.
@@ -102,7 +106,8 @@ dades tenen més d'un dia.
 
 ### Marques
 
-`actualitza_preus.py` (llista `CONEGUDES`) reconeix les cadenes habituals pel rètol:
+`src/gulusinacat/domini/marques.py` (llista `MARQUES_CONEGUDES`) reconeix les cadenes
+habituals pel rètol:
 Repsol, Moeve (Cepsa), Galp, BP, Shell, Plenergy (Plenoil), Ballenoil, Petroprix,
 bonÀrea, Esclatoil, Petrocat, Petromiralles, supermercats… Qualsevol altre rètol que
 es repeteixi en 3 o més benzineres també compta com a marca. La resta s'agrupa a
@@ -126,8 +131,23 @@ de les mateixes dades del Ministeri, sense cap servei extern de geolocalització
 
 ## Tests
 
-El projecte encara no té tests automàtics. Mentrestant, cal comprovar els canvis
-obrint la pàgina en local (vegeu [Ús](#ús)), en mòbil i en ordinador.
+Les tasques de dades tenen tests amb pytest. Per executar-los, amb les eines de
+comprovació:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-dev.txt
+.venv/bin/ruff format --check && .venv/bin/ruff check
+.venv/bin/mypy
+.venv/bin/pytest --cov
+```
+
+Els tests de `tests/caracteritzacio/` executen les tasques amb una resposta del
+Ministeri desada, sense xarxa, i comparen byte a byte els fitxers generats amb els de
+referència.
+
+La pàgina encara no té tests automàtics: cal comprovar-la obrint-la en local (vegeu
+[Ús](#ús)), en mòbil i en ordinador.
 
 ## Estructura
 
@@ -138,8 +158,12 @@ obrint la pàgina en local (vegeu [Ús](#ús)), en mòbil i en ordinador.
 │   └── anual.yml          # Històric de 10 anys (cada dia)
 ├── docs/adr/              # Decisions d'arquitectura
 ├── index.html             # La pàgina: HTML, CSS i JavaScript
-├── actualitza_preus.py    # Descarrega els preus i genera els JSON diaris
-├── historic_anual.py      # Genera anual.json
+├── src/gulusinacat/       # Tasques de dades (Python)
+│   ├── domini/            # Marques, estadística i resums, sense xarxa ni fitxers
+│   ├── aplicacio/         # Casos d'ús: preus d'avui i històric anual
+│   ├── infraestructura/   # API del Ministeri i fitxers JSON
+│   └── presentacio/       # Línia d'ordres
+├── tests/                 # Tests de les tasques de dades
 ├── preus.json             # Mitjanes per marca (generat)
 ├── estacions.json         # Totes les benzineres amb coordenades (generat)
 ├── historic.json          # Una mitjana per dia (generat)

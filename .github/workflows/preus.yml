@@ -26,7 +26,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python actualitza_preus.py
+      - run: pip install .
+      - run: python -m gulusinacat preus
         env:
           DIES_ENRERE: ${{ inputs.dies_enrere || '0' }}
       - name: Desa els preus si han canviat
