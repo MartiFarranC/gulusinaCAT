@@ -16,7 +16,7 @@ import { NOM_DEL_COMBUSTIBLE, esProperes } from "./estat.js";
  */
 
 /** @param {EstacioAmbDistancia} estacio */
-const clauDeLEstacio = (estacio) => `${estacio.m}|${estacio.lat}|${estacio.lon}`;
+const identificadorDeLEstacio = (estacio) => `${estacio.m}|${estacio.lat}|${estacio.lon}`;
 
 /**
  * Cada dada del cotxe amb el camp, el rang vàlid i el que cal dir si no hi és.
@@ -93,7 +93,7 @@ export class CalculadoraDelDiposit {
    */
   ompleLesBenzineres(properes) {
     const triada = this.opcions[Number(this.benzinera.value)];
-    const clau = triada ? clauDeLEstacio(triada) : null;
+    const clau = triada ? identificadorDeLEstacio(triada) : null;
     this.opcions = properes.filter((e) => this.preu(e) > 0).sort((a, b) => a.d - b.d);
     const combustible = NOM_DEL_COMBUSTIBLE[this.estat.combustible];
     this.benzinera.replaceChildren(
@@ -105,7 +105,7 @@ export class CalculadoraDelDiposit {
         return opcio;
       }),
     );
-    const index = this.opcions.findIndex((e) => clauDeLEstacio(e) === clau);
+    const index = this.opcions.findIndex((e) => identificadorDeLEstacio(e) === clau);
     this.benzinera.value = String(Math.max(0, index));
   }
 
