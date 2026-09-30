@@ -7,6 +7,7 @@ import {
   formataCentims,
   formataDistancia,
   formataEuros,
+  formataLitres,
   formataPreu,
   ordinal,
   plural,
@@ -48,4 +49,8 @@ test("els nombres petits s'escriuen en lletres i la resta en xifres", () => {
   assert.equal(enLletres(3), "tres");
   assert.equal(enLletres(5), "cinc");
   assert.equal(enLletres(12), "12");
+});
+
+test("els litres tenen un decimal amb coma", () => {
+  assert.equal(formataLitres(41.56), "41,6 L");
 });

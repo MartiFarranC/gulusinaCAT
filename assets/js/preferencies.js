@@ -70,3 +70,40 @@ export function magatzemDelNavegador() {
     return null;
   }
 }
+
+const CLAU_COTXE = "dades-del-cotxe";
+
+/**
+ * @typedef {object} DadesDesadesDelCotxe
+ * @property {number} [consum] Litres als 100 km.
+ * @property {number} [diposit] Capacitat en litres.
+ */
+
+/**
+ * @param {Storage | null} magatzem
+ * @returns {DadesDesadesDelCotxe} El consum i el dipòsit que l'usuari va escriure l'última vegada.
+ */
+export function llegeixElCotxe(magatzem) {
+  try {
+    const desat = JSON.parse(magatzem?.getItem(CLAU_COTXE) || "{}");
+    /** @type {DadesDesadesDelCotxe} */
+    const cotxe = {};
+    if (Number(desat?.consum) > 0) cotxe.consum = Number(desat.consum);
+    if (Number(desat?.diposit) > 0) cotxe.diposit = Number(desat.diposit);
+    return cotxe;
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * @param {Storage | null} magatzem
+ * @param {DadesDesadesDelCotxe} cotxe
+ */
+export function desaElCotxe(magatzem, cotxe) {
+  try {
+    magatzem?.setItem(CLAU_COTXE, JSON.stringify(cotxe));
+  } catch {
+    // Sense poder desar, caldrà tornar a escriure les dades del cotxe.
+  }
+}

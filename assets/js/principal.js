@@ -1,6 +1,7 @@
 /** Punt d'entrada de la pàgina: crea l'estat i les parts, i carrega les dades. */
 
 import { Calculadora } from "./calculadora.js";
+import { CalculadoraDelDiposit } from "./calculadora-diposit.js";
 import { Comparativa } from "./comparativa.js";
 import { Carrega } from "./carrega.js";
 import { diaIsoLocal } from "./dates.js";
@@ -11,7 +12,9 @@ import { Filtre } from "./filtre.js";
 import { Mapa } from "./mapa.js";
 import { ALTRES } from "./marques.js";
 import {
+  desaElCotxe,
   desaMarquesExcloses,
+  llegeixElCotxe,
   llegeixMarquesExcloses,
   magatzemDelNavegador,
 } from "./preferencies.js";
@@ -48,6 +51,10 @@ const filtre = new Filtre(estat, {
 const panell = new PanellDUbicacio(estat, aplicaLAmbit);
 const properes = new Properes(estat, aplicaLAmbit);
 const mapa = new Mapa(estat);
+const diposit = new CalculadoraDelDiposit(estat, {
+  cotxe: llegeixElCotxe(magatzem),
+  desa: (cotxe) => desaElCotxe(magatzem, cotxe),
+});
 
 /** @param {Marca} marca */
 function tendenciaDe(marca) {
@@ -116,8 +123,18 @@ function aplicaLAmbit() {
     `Tria les marques que vols comparar als gràfics${esProperes(estat) ? " (les dades històriques són de tot Catalunya)" : ""}. Passa el dit o el ratolí per sobre per veure'n els valors.`;
   kicker.textContent = textDelKicker(estat);
   pinta();
+  pintaLesProperes(dins);
+}
+
+/**
+ * Les parts que depenen de les benzineres de dins del radi.
+ *
+ * @param {import("./tipus.js").EstacioAmbDistancia[]} dins
+ */
+function pintaLesProperes(dins) {
   properes.pinta(dins);
   mapa.pinta(dins);
+  diposit.pinta(dins);
   panell.portaAlPanellSiCal();
 }
 

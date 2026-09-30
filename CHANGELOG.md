@@ -9,6 +9,9 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Afegit
 
+- Calculadora «Quant hi he de posar?»: amb el consum, l'autonomia i el dipòsit del
+  cotxe, diu quants diners cal demanar en una benzinera propera per omplir el
+  dipòsit, amb marge i arrodonit cap avall a 5 €.
 - Llicència MIT.
 - Guia de contribució amb el flux de treball i les convencions de commits.
 - Fitxers `.editorconfig`, `.gitignore` i `.env.example`.

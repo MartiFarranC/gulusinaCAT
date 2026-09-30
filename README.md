@@ -19,6 +19,10 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 - **Gràfics** de l'evolució dels últims 30 dies i dels últims 5 anys, amb una taula
   del preu mitjà de cada any.
 - **Calculadora** de quant costa omplir el dipòsit a cada marca.
+- **Quant hi he de posar?**: a partir del consum, l'autonomia que queda i la mida del
+  dipòsit, diu quants diners cal demanar en una de les benzineres properes per omplir-lo
+  sense que vessi (amb un marge del 5 % i arrodonit cap avall a 5 €). El navegador
+  recorda el consum i el dipòsit.
 
 ## Requisits
 

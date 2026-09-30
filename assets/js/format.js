@@ -46,3 +46,6 @@ export const plural = (quantitat, singular, formaPlural) =>
  * @returns {string} Del zero al cinc en lletres (en masculí); la resta, en xifres.
  */
 export const enLletres = (nombre) => NOMBRES_EN_LLETRES[nombre] ?? String(nombre);
+
+/** @param {number} litres */
+export const formataLitres = (litres) => `${litres.toFixed(1).replace(".", ",")} L`;

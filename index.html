@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/css/comparativa.css" />
     <link rel="stylesheet" href="assets/css/grafics.css" />
     <link rel="stylesheet" href="assets/css/calculadora.css" />
+    <link rel="stylesheet" href="assets/css/diposit.css" />
     <link rel="stylesheet" href="assets/css/properes.css" />
     <link rel="stylesheet" href="assets/css/filtre.css" />
     <link rel="stylesheet" href="assets/css/mapa.css" />
@@ -223,6 +224,71 @@
         </div>
         <div class="bill" id="bill"></div>
         <p class="verdict" id="verdict"></p>
+      </section>
+
+      <section class="calc" id="dipositSec">
+        <h2>Quant hi he de posar?</h2>
+        <p class="lead">
+          Digues com està el cotxe i a quina benzinera ets, i et direm quants diners has de demanar
+          per omplir el dipòsit sense que vessi.
+        </p>
+        <div class="diposit">
+          <label class="camp" for="dConsum">
+            <span>Consum</span>
+            <span class="entrada"
+              ><input
+                id="dConsum"
+                type="number"
+                inputmode="decimal"
+                min="1"
+                max="30"
+                step="0.1"
+                value="6"
+              /><span>L/100 km</span></span
+            >
+          </label>
+          <label class="camp" for="dKm">
+            <span>Autonomia que queda</span>
+            <span class="entrada"
+              ><input
+                id="dKm"
+                type="number"
+                inputmode="numeric"
+                min="0"
+                max="2000"
+                step="1"
+                placeholder="p. ex. 80"
+              /><span>km</span></span
+            >
+          </label>
+          <label class="camp" for="dDiposit">
+            <span>Dipòsit</span>
+            <span class="entrada"
+              ><input
+                id="dDiposit"
+                type="number"
+                inputmode="numeric"
+                min="5"
+                max="200"
+                step="1"
+                value="50"
+              /><span>L</span></span
+            >
+          </label>
+          <label class="camp ample" for="dBenzinera">
+            <span>Benzinera</span>
+            <select id="dBenzinera" disabled></select>
+          </label>
+        </div>
+        <p class="diposit-avis" id="dSenseBenzineres">
+          Per triar la benzinera, activa <a href="#near">«Les més properes»</a> amb la teva ubicació
+          o un municipi.
+        </p>
+        <p class="diposit-avis" id="dAvis" role="status"></p>
+        <div class="diposit-resultat" id="dResultat" hidden>
+          <p class="diposit-euros">Demana <strong id="dEuros"></strong></p>
+          <p class="diposit-detall" id="dDetall"></p>
+        </div>
       </section>
     </main>
 

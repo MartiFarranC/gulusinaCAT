@@ -3,7 +3,9 @@ import { test } from "node:test";
 
 import {
   calEvitarElMinisteri,
+  desaElCotxe,
   desaMarquesExcloses,
+  llegeixElCotxe,
   llegeixMarquesExcloses,
   recordaElMinisteri,
 } from "../../assets/js/preferencies.js";
@@ -83,4 +85,20 @@ test("quan el Ministeri respon, s'oblida la fallada", () => {
   recordaElMinisteri(magatzem, null);
 
   assert.equal(calEvitarElMinisteri(magatzem, 10 * HORA), false);
+});
+
+test("les dades del cotxe es desen i es tornen a llegir", () => {
+  const magatzem = comStorage(new MagatzemEnMemoria());
+
+  desaElCotxe(magatzem, { consum: 5.4, diposit: 45 });
+
+  assert.deepEqual(llegeixElCotxe(magatzem), { consum: 5.4, diposit: 45 });
+});
+
+test("les dades del cotxe que no són números positius no es fan servir", () => {
+  const magatzem = new MagatzemEnMemoria();
+  magatzem.setItem("dades-del-cotxe", '{"consum": "molt", "diposit": -3}');
+
+  assert.deepEqual(llegeixElCotxe(comStorage(magatzem)), {});
+  assert.deepEqual(llegeixElCotxe(comStorage(new MagatzemBloquejat())), {});
 });

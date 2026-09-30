@@ -163,3 +163,49 @@ test.describe("benzineres properes", () => {
     );
   });
 });
+
+test.describe("quant hi he de posar", () => {
+  test.beforeEach(async ({ page }) => {
+    await prepara(page);
+    await obre(page);
+  });
+
+  test("demana activar les més properes per triar la benzinera", async ({ page }) => {
+    await expect(page.locator("#dSenseBenzineres")).toBeVisible();
+    await expect(page.locator("#dBenzinera")).toBeDisabled();
+  });
+
+  test("calcula els diners amb marge i arrodonits a 5 € a la benzinera més propera", async ({
+    page,
+  }) => {
+    await page.getByPlaceholder("Escriu un municipi").fill("Reus");
+    await page.getByPlaceholder("Escriu un municipi").press("Enter");
+
+    await page.locator("#dKm").fill("100");
+
+    // 50 L − 6 L que queden − 2,5 L de marge = 41,5 L × 1,659 €/L = 68,85 € → 65 €
+    await expect(page.locator("#dBenzinera option:checked")).toContainText("Repsol");
+    await expect(page.locator("#dEuros")).toHaveText("65 €");
+    await expect(page.locator("#dDetall")).toContainText("n'hi caben 44,0 L");
+  });
+
+  test("diu que no cal posar-hi res si el dipòsit és gairebé ple", async ({ page }) => {
+    await page.getByPlaceholder("Escriu un municipi").fill("Reus");
+    await page.getByPlaceholder("Escriu un municipi").press("Enter");
+
+    await page.locator("#dKm").fill("800");
+
+    await expect(page.locator("#dEuros")).toHaveText("Res");
+  });
+
+  test("recorda el consum i el dipòsit del cotxe", async ({ page }) => {
+    await page.locator("#dConsum").fill("5.5");
+    await page.locator("#dDiposit").fill("42");
+    await page.locator("#dDiposit").blur();
+
+    await page.reload();
+
+    await expect(page.locator("#dConsum")).toHaveValue("5.5");
+    await expect(page.locator("#dDiposit")).toHaveValue("42");
+  });
+});
