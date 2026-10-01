@@ -166,7 +166,7 @@ function aplicaLAmbit() {
 function pintaLesProperes(dins) {
   properes.pinta(dins);
   mapa.pinta(dins);
-  diposit.pinta(dins);
+  diposit.pinta();
   panell.portaAlPanellSiCal();
 }
 

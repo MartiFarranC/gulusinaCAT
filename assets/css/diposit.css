@@ -26,8 +26,7 @@
   color: var(--muted);
   white-space: nowrap;
 }
-.camp input,
-.camp select {
+.camp input {
   width: 100%;
   min-width: 0;
   font:
@@ -38,9 +37,6 @@
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 9px 12px;
-}
-.camp select:disabled {
-  opacity: 0.5;
 }
 .diposit-avis {
   margin: 14px 0 0;
@@ -95,4 +91,55 @@
   width: 12px;
   height: 16px;
   fill: var(--led);
+}
+
+/* Cercador de la benzinera */
+.diposit-triada {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--led);
+  background: var(--bg2);
+  font-weight: 500;
+}
+.diposit-triada[hidden],
+.diposit-resultats[hidden] {
+  display: none;
+}
+.diposit-resultats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.diposit-resultats li + li {
+  border-top: 1px solid var(--line);
+}
+.diposit-opcio {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: var(--panel);
+  color: var(--muted);
+  font:
+    500 0.92rem "Figtree",
+    sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+.diposit-opcio:hover,
+.diposit-opcio:focus-visible {
+  background: var(--bg2);
+}
+.diposit-opcio strong,
+.diposit-triada strong {
+  color: var(--ink);
+}
+.diposit-cap {
+  padding: 10px 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
 }

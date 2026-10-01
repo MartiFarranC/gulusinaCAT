@@ -22,7 +22,7 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 - Menú de dreceres a les seccions de la pàgina: fix i centrat a l'esquerra en
   pantalles amples, i desplegable amb el botó «Menú» en les estretes.
 - Calculadora «Quant hi he de posar?»: amb el consum, l'autonomia i el dipòsit del
-  cotxe, diu quants diners cal demanar en una benzinera propera per omplir el
+  cotxe, diu quants diners cal demanar a la benzinera triada per omplir el
   dipòsit, amb marge i arrodonit cap avall a 5 €.
 - Llicència MIT.
 - Guia de contribució amb el flux de treball i les convencions de commits.
@@ -42,6 +42,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Canviat
 
+- La benzinera de «Quant hi he de posar?» es busca per marca, municipi o adreça entre
+  totes les de Catalunya; ja no cal activar «Les més properes».
 - «Totes les marques» mostra d'entrada les 10 primeres (abans, 20); el botó de sota
   mostra totes les altres.
 - El gràfic de 10 anys passa a ser dels últims 5 anys, i la taula de sota mostra

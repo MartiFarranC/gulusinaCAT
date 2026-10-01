@@ -1,12 +1,13 @@
 /** Calculadora de quants diners cal demanar a la benzinera per omplir el dipòsit. */
 
 import { dinersPerOmplir, MARGE_DEL_DIPOSIT } from "./diposit.js";
-import { element, perId, perIdDeTipus } from "./dom.js";
-import { formataDistancia, formataEuros, formataLitres, formataPreu } from "./format.js";
-import { NOM_DEL_COMBUSTIBLE, esProperes } from "./estat.js";
+import { CercadorDeBenzineres } from "./cercador-benzineres.js";
+import { perId, perIdDeTipus } from "./dom.js";
+import { formataEuros, formataLitres, formataPreu } from "./format.js";
+import { NOM_DEL_COMBUSTIBLE } from "./estat.js";
 
 /** @typedef {import("./estat.js").Estat} Estat */
-/** @typedef {import("./tipus.js").EstacioAmbDistancia} EstacioAmbDistancia */
+/** @typedef {import("./tipus.js").Estacio} Estacio */
 /** @typedef {import("./preferencies.js").DadesDesadesDelCotxe} DadesDesadesDelCotxe */
 
 /**
@@ -14,9 +15,6 @@ import { NOM_DEL_COMBUSTIBLE, esProperes } from "./estat.js";
  * @property {DadesDesadesDelCotxe} cotxe Dades desades l'última vegada.
  * @property {(cotxe: DadesDesadesDelCotxe) => void} desa
  */
-
-/** @param {EstacioAmbDistancia} estacio */
-const identificadorDeLEstacio = (estacio) => `${estacio.m}|${estacio.lat}|${estacio.lon}`;
 
 /**
  * Cada dada del cotxe amb el camp, el rang vàlid i el que cal dir si no hi és.
@@ -58,12 +56,10 @@ export class CalculadoraDelDiposit {
     this.consum = perIdDeTipus("dConsum", HTMLInputElement);
     this.km = perIdDeTipus("dKm", HTMLInputElement);
     this.diposit = perIdDeTipus("dDiposit", HTMLInputElement);
-    this.benzinera = perIdDeTipus("dBenzinera", HTMLSelectElement);
-    /** @type {EstacioAmbDistancia[]} */
-    this.opcions = [];
+    this.cercador = new CercadorDeBenzineres(estat, () => this.calcula());
     if (accions.cotxe.consum) this.consum.value = String(accions.cotxe.consum);
     if (accions.cotxe.diposit) this.diposit.value = String(accions.cotxe.diposit);
-    for (const camp of [this.consum, this.km, this.diposit, this.benzinera]) {
+    for (const camp of [this.consum, this.km, this.diposit]) {
       camp.addEventListener("input", () => this.calcula());
     }
     for (const camp of [this.consum, this.diposit]) {
@@ -92,41 +88,14 @@ export class CalculadoraDelDiposit {
     });
   }
 
-  /** @param {EstacioAmbDistancia} estacio */
+  /** @param {Estacio} estacio */
   preu(estacio) {
     return estacio[this.estat.combustible] ?? 0;
   }
 
-  /**
-   * Les benzineres properes amb preu, de la més propera a la més llunyana. Manté la triada si
-   * encara hi és; si no, tria la més propera, que és on deu ser l'usuari.
-   *
-   * @param {readonly EstacioAmbDistancia[]} properes
-   */
-  ompleLesBenzineres(properes) {
-    const triada = this.opcions[Number(this.benzinera.value)];
-    const clau = triada ? identificadorDeLEstacio(triada) : null;
-    this.opcions = properes.filter((e) => this.preu(e) > 0).sort((a, b) => a.d - b.d);
-    const combustible = NOM_DEL_COMBUSTIBLE[this.estat.combustible];
-    this.benzinera.replaceChildren(
-      ...this.opcions.map((estacio, i) => {
-        const lloc = [estacio.mun, estacio.adr].filter(Boolean).join(", ");
-        const text = `${estacio.nom} · ${lloc} · ${formataPreu(this.preu(estacio))} €/L · ${formataDistancia(estacio.d)}`;
-        const opcio = Object.assign(element("option", null, text), { value: String(i) });
-        opcio.title = `${combustible} a ${estacio.nom} de ${estacio.mun}`;
-        return opcio;
-      }),
-    );
-    const index = this.opcions.findIndex((e) => identificadorDeLEstacio(e) === clau);
-    this.benzinera.value = String(Math.max(0, index));
-  }
-
-  /** @param {readonly EstacioAmbDistancia[]} properes Les de dins del radi. */
-  pinta(properes) {
-    const teBenzineres = esProperes(this.estat) && properes.some((e) => this.preu(e) > 0);
-    perId("dSenseBenzineres").hidden = teBenzineres;
-    this.benzinera.disabled = !teBenzineres;
-    this.ompleLesBenzineres(teBenzineres ? properes : []);
+  /** Torna a calcular amb el combustible, la ubicació i les dades de les benzineres actuals. */
+  pinta() {
+    this.cercador.pinta();
     this.calcula();
   }
 
@@ -152,14 +121,20 @@ export class CalculadoraDelDiposit {
     return dades;
   }
 
+  /** @returns {Estacio | false} La benzinera triada, si en té preu; si no, ho avisa. */
+  benzineraTriada() {
+    const estacio = this.cercador.triada;
+    if (!this.estat.estacions) return this.avisa("Encara no hi ha les dades de cada benzinera.");
+    if (!estacio) return this.avisa("Busca i tria la benzinera on ets.");
+    if (this.preu(estacio)) return estacio;
+    const combustible = NOM_DEL_COMBUSTIBLE[this.estat.combustible].toLowerCase();
+    return this.avisa(`${estacio.nom} de ${estacio.mun} no té ${combustible}. Tria'n una altra.`);
+  }
+
   calcula() {
-    const estacio = this.opcions[Number(this.benzinera.value)];
     const cotxe = this.dadesDelCotxe();
-    if (!cotxe) return;
-    if (!estacio) {
-      this.avisa("");
-      return;
-    }
+    const estacio = cotxe && this.benzineraTriada();
+    if (!cotxe || !estacio) return;
     const carrega = dinersPerOmplir({ ...cotxe, preu: this.preu(estacio) });
     perId("dAvis").textContent = "";
     perId("dResultat").hidden = false;
@@ -169,7 +144,7 @@ export class CalculadoraDelDiposit {
 
   /**
    * @param {import("./diposit.js").Carrega} carrega
-   * @param {EstacioAmbDistancia} estacio
+   * @param {Estacio} estacio
    */
   textDelDetall(carrega, estacio) {
     const queden = `Et queden uns ${formataLitres(carrega.litresQueQueden)} i n'hi caben ${formataLitres(carrega.litresQueHiCaben)}.`;
