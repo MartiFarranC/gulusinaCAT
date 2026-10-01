@@ -239,6 +239,22 @@ test.describe("quant hi he de posar", () => {
     await expect(page.locator("#dEuros")).toHaveText("Res");
   });
 
+  test("el botó «Quant hi poso?» porta a la calculadora amb el cursor a l'autonomia", async ({
+    page,
+  }) => {
+    await page.getByRole("link", { name: "Quant hi poso?" }).click();
+
+    await expect(page.locator("#dipositSec")).toBeInViewport();
+    await expect(page.locator("#dKm")).toBeFocused();
+  });
+
+  test("l'adreça amb #dipositSec obre la pàgina a la calculadora", async ({ page }) => {
+    await page.goto("index.html#dipositSec");
+
+    await expect(page.locator("#dKm")).toBeFocused();
+    await expect(page.locator("#dipositSec")).toBeInViewport();
+  });
+
   test("recorda el consum i el dipòsit del cotxe", async ({ page }) => {
     await page.locator("#dConsum").fill("5.5");
     await page.locator("#dDiposit").fill("42");

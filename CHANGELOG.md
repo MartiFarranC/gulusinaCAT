@@ -9,6 +9,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Afegit
 
+- Accés ràpid a «Quant hi he de posar?»: botó «Quant hi poso?» a la barra de dalt,
+  drecera a la icona de l'app instal·lada i adreça directa amb `#dipositSec`.
 - Els rètols de les quatre marques més barates diuen on és la benzinera més propera
   de cada marca i enllacen a la ruta. Si encara no se sap on ets, un botó demana el
   GPS.

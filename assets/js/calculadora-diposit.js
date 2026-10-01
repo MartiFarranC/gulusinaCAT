@@ -69,6 +69,18 @@ export class CalculadoraDelDiposit {
     for (const camp of [this.consum, this.diposit]) {
       camp.addEventListener("change", () => this.desaElCotxe());
     }
+    perId("dreceraDiposit").addEventListener("click", (e) => {
+      // Sense el salt de l'enllaç, que trauria el cursor del camp
+      e.preventDefault();
+      this.enfoca();
+    });
+  }
+
+  /** Porta a la calculadora i deixa el cursor a l'autonomia, que és el que canvia cada vegada. */
+  enfoca() {
+    const moviment = this.estat.movimentReduit ? "auto" : "smooth";
+    perId("dipositSec").scrollIntoView({ behavior: moviment, block: "start" });
+    this.km.focus({ preventScroll: true });
   }
 
   desaElCotxe() {

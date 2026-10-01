@@ -82,3 +82,17 @@
   color: var(--muted);
   font-size: 0.92rem;
 }
+
+/* Accés ràpid des de la barra de controls */
+.drecera-diposit {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-color: var(--led);
+  text-decoration: none;
+}
+.drecera-diposit svg {
+  width: 12px;
+  height: 16px;
+  fill: var(--led);
+}

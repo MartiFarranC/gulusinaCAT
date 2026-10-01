@@ -23,7 +23,8 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 - **Quant hi he de posar?**: a partir del consum, l'autonomia que queda i la mida del
   dipòsit, diu quants diners cal demanar en una de les benzineres properes per omplir-lo
   sense que vessi (amb un marge del 5 % i arrodonit cap avall a 5 €). El navegador
-  recorda el consum i el dipòsit.
+  recorda el consum i el dipòsit. Hi porta el botó «Quant hi poso?» de dalt de tot, i
+  la drecera de la icona si la pàgina s'instal·la com a app.
 
 ## Requisits
 

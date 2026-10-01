@@ -214,4 +214,11 @@ perId("status").prepend(iconaDeCarrega());
 animaElTitol(perId("title"), "On omplo el dipòsit?");
 activaElCombustible();
 setTimeout(pinta, estat.movimentReduit ? 0 : RETARD_DEL_PRIMER_PINTAT_MS);
-void carrega.carregaTot(estat.movimentReduit ? 0 : RETARD_DE_LA_CARREGA_MS);
+// Accés directe a la calculadora: drecera de l'app instal·lada o enllaç amb #dipositSec
+const obreLaCalculadoraSiCal = () => {
+  if (location.hash === "#dipositSec") diposit.enfoca();
+};
+addEventListener("hashchange", obreLaCalculadoraSiCal);
+void carrega
+  .carregaTot(estat.movimentReduit ? 0 : RETARD_DE_LA_CARREGA_MS)
+  .then(obreLaCalculadoraSiCal);
