@@ -116,9 +116,15 @@ export class Totems {
       retol.id = `t-${i}`;
       retol.innerHTML = PLANTILLA;
       contenidor.appendChild(retol);
-      const retard = movimentReduit ? 0 : RETARD_ENTRADA_MS + i * RETARD_ENTRE_RETOLS_MS;
-      setTimeout(() => retol.classList.add("in"), retard);
       return retol;
+    });
+  }
+
+  /** Fa entrar els rètols un darrere l'altre, quan ja es veuen. */
+  entra() {
+    this.retols.forEach((retol, i) => {
+      const retard = this.movimentReduit ? 0 : RETARD_ENTRADA_MS + i * RETARD_ENTRE_RETOLS_MS;
+      setTimeout(() => retol.classList.add("in"), retard);
     });
   }
 

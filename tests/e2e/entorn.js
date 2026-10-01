@@ -56,6 +56,7 @@ export async function prepara(
  */
 export async function obre(page, { ambMapa = true } = {}) {
   await page.goto("index.html");
+  await expect(page.locator("#pantallaDeCarrega")).toHaveCount(0);
   await expect(page.locator("#chips button").first()).toBeAttached();
   if (ambMapa) await expect(page.locator("#mapSvg circle").first()).toBeAttached();
 }

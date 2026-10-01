@@ -42,6 +42,9 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Canviat
 
+- En entrar només es veu la gota que s'omple fins que han arribat totes les dades
+  (preus, benzineres i històrics); llavors apareix la pàgina sencera, ja pintada.
+  Si alguna dada triga més de 20 segons, es mostra igualment i la resta arriba després.
 - La benzinera de «Quant hi he de posar?» es busca per marca, municipi o adreça entre
   totes les de Catalunya; ja no cal activar «Les més properes».
 - «Totes les marques» mostra d'entrada les 10 primeres (abans, 20); el botó de sota

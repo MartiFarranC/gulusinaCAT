@@ -46,8 +46,29 @@
     <link rel="stylesheet" href="assets/css/mapa.css" />
     <link rel="stylesheet" href="assets/css/dreceres.css" />
     <link rel="stylesheet" href="assets/css/carregant.css" />
+    <noscript
+      ><style>
+        .pantalla-carrega {
+          display: none;
+        }
+      </style></noscript
+    >
   </head>
-  <body>
+  <body aria-busy="true">
+    <div class="pantalla-carrega" id="pantallaDeCarrega" role="status">
+      <span class="carregant" aria-hidden="true"
+        ><svg viewBox="13 6 38 53">
+          <path
+            class="carregant-vora"
+            d="M32 8C26 17 15 28.5 15 40a17 17 0 0 0 34 0C49 28.5 38 17 32 8Z"
+          />
+          <path
+            class="carregant-ple"
+            d="M32 8C26 17 15 28.5 15 40a17 17 0 0 0 34 0C49 28.5 38 17 32 8Z"
+          /></svg
+      ></span>
+      <p>Carregant els preus…</p>
+    </div>
     <header>
       <div class="wrap">
         <h1 id="title" aria-label="On omplo el dipòsit?">

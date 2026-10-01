@@ -136,18 +136,12 @@ export class Carrega {
     return Promise.all([historic, anual]).then(() => undefined);
   }
 
-  /**
-   * Les dades de cada benzinera i els històrics es demanen de seguida; els preus, després del
-   * retard, quan ja s'ha vist l'animació d'entrada.
-   *
-   * @param {number} retard Mil·lisegons.
-   */
-  async carregaTot(retard) {
-    void this.carregaLesEstacions();
+  /** Ho demana tot alhora i, quan tot ha arribat, pinta la pàgina sencera. */
+  async carregaTot() {
+    const estacions = this.carregaLesEstacions();
     const historics = this.carregaElsHistorics();
-    await new Promise((fet) => setTimeout(fet, retard));
     await this.carregaElsPreus();
-    await historics;
+    await Promise.all([estacions, historics]);
     const { aplicaLAmbit, evolucio } = this.accions;
     aplicaLAmbit();
     evolucio.pintaMarques();

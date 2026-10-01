@@ -52,7 +52,7 @@ test.describe("origen dels preus", () => {
   });
 });
 
-test("mostra la gota que s'omple mentre carrega els preus", async ({ page }) => {
+test("només es veu la gota fins que totes les dades han arribat", async ({ page }) => {
   await prepara(page);
   /** @type {import("@playwright/test").Route[]} */
   const pendents = [];
@@ -60,14 +60,19 @@ test("mostra la gota que s'omple mentre carrega els preus", async ({ page }) => 
     pendents.push(ruta);
   });
   await page.goto("index.html");
-  const gota = page.locator("#status .carregant");
+  const pantalla = page.locator("#pantallaDeCarrega");
 
-  await expect(gota).toBeVisible();
+  await expect(pantalla).toBeVisible();
+  await expect(pantalla).toHaveText("Carregant els preus…");
   await expect.poll(() => pendents.length).toBe(1);
+  await expect(pantalla).toBeVisible();
+  await expect(page.locator("#title .w")).toHaveCount(0);
   await pendents[0]?.fulfill({ path: new URL("./dades/preus.json", import.meta.url).pathname });
 
+  await expect(pantalla).toHaveCount(0);
   await expect(page.locator("#status")).toHaveAttribute("data-s", "cache");
-  await expect(gota).toBeHidden();
+  await expect(page.locator("#title")).toContainText("On");
+  await expect(page.locator("body")).not.toHaveAttribute("aria-busy");
 });
 
 test.describe("controls", () => {

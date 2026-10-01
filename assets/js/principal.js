@@ -6,11 +6,13 @@ import { Carrega } from "./carrega.js";
 import { iconaDeCarrega } from "./carregant.js";
 import { diaIsoLocal } from "./dates.js";
 import { Dreceres } from "./dreceres.js";
+import { esperaSensePassarDe } from "./espera.js";
 import { marcaPremut, perId } from "./dom.js";
 import { creaEstat, esProperes, marquesOrdenades, preuDe, textDelKicker } from "./estat.js";
 import { Evolucio } from "./evolucio.js";
 import { Filtre } from "./filtre.js";
 import { Mapa } from "./mapa.js";
+import { PantallaDeCarrega } from "./pantalla-de-carrega.js";
 import { ALTRES } from "./marques.js";
 import {
   desaElCotxe,
@@ -29,8 +31,7 @@ import { PanellDUbicacio, posicioDelGps } from "./ubicacio.js";
 
 /** @typedef {import("./tipus.js").Marca} Marca */
 
-const RETARD_DEL_PRIMER_PINTAT_MS = 700;
-const RETARD_DE_LA_CARREGA_MS = 1000;
+const LIMIT_DE_LA_PANTALLA_DE_CARREGA_MS = 20_000;
 const RETARD_EN_CANVIAR_DE_MIDA_MS = 150;
 const TOTEMS = 4;
 
@@ -209,16 +210,24 @@ function activaElCombustible() {
   mouLaPastilla(primer);
 }
 
-new Dreceres();
-perId("status").prepend(iconaDeCarrega());
-animaElTitol(perId("title"), "On omplo el dipòsit?");
-activaElCombustible();
-setTimeout(pinta, estat.movimentReduit ? 0 : RETARD_DEL_PRIMER_PINTAT_MS);
 // Accés directe a la calculadora: drecera de l'app instal·lada o enllaç amb #dipositSec
 const obreLaCalculadoraSiCal = () => {
   if (location.hash === "#dipositSec") diposit.enfoca();
 };
+
+/** Destapa la pàgina ja pintada i hi fa les animacions d'entrada. */
+function mostraLaPagina() {
+  new PantallaDeCarrega(perId("pantallaDeCarrega"), estat.movimentReduit).amaga();
+  animaElTitol(perId("title"), "On omplo el dipòsit?");
+  totems.entra();
+  obreLaCalculadoraSiCal();
+}
+
+new Dreceres();
+perId("status").prepend(iconaDeCarrega());
+activaElCombustible();
 addEventListener("hashchange", obreLaCalculadoraSiCal);
-void carrega
-  .carregaTot(estat.movimentReduit ? 0 : RETARD_DE_LA_CARREGA_MS)
-  .then(obreLaCalculadoraSiCal);
+// Si alguna dada triga massa, es destapa igualment i la resta arriba després
+void esperaSensePassarDe(carrega.carregaTot(), LIMIT_DE_LA_PANTALLA_DE_CARREGA_MS).then(
+  mostraLaPagina,
+);
