@@ -1,15 +1,15 @@
 {
-  "fecha": "04/10/2026 12:48:32",
+  "fecha": "04/10/2026 17:33:11",
   "catalunya": {
     "g95": 1.793,
     "dsl": 1.887,
-    "n": 1450
+    "n": 1449
   },
   "marques": {
     "repsol": {
       "nom": "Repsol",
-      "g95": 1.849,
-      "dsl": 1.978,
+      "g95": 1.848,
+      "dsl": 1.977,
       "n": 342,
       "rang": {
         "g95": [
@@ -39,7 +39,7 @@
     "altres": {
       "nom": "Independents i altres",
       "g95": 1.785,
-      "dsl": 1.839,
+      "dsl": 1.838,
       "n": 289,
       "rang": {
         "g95": [
@@ -68,8 +68,8 @@
     },
     "moeve": {
       "nom": "Moeve (Cepsa)",
-      "g95": 1.872,
-      "dsl": 1.999,
+      "g95": 1.871,
+      "dsl": 1.998,
       "n": 108,
       "rang": {
         "g95": [
@@ -98,17 +98,17 @@
     },
     "galp": {
       "nom": "Galp",
-      "g95": 1.785,
-      "dsl": 1.924,
+      "g95": 1.782,
+      "dsl": 1.921,
       "n": 80,
       "rang": {
         "g95": [
           1.704,
-          1.864
+          1.859
         ],
         "dsl": [
           1.829,
-          2.004
+          1.999
         ]
       },
       "barata": {
@@ -119,7 +119,7 @@
           "lon": 0.509417
         },
         "dsl": {
-          "preu": 1.734,
+          "preu": 1.729,
           "municipi": "Sant Adrià de Besòs",
           "lat": 41.429361,
           "lon": 2.227611
@@ -505,14 +505,14 @@
         "g95": {
           "preu": 1.658,
           "municipi": "Olesa de Montserrat",
-          "lat": 41.545472,
-          "lon": 1.882222
+          "lat": 41.541444,
+          "lon": 1.900222
         },
         "dsl": {
           "preu": 1.67,
           "municipi": "Olesa de Montserrat",
-          "lat": 41.545472,
-          "lon": 1.882222
+          "lat": 41.541444,
+          "lon": 1.900222
         }
       }
     },
@@ -876,36 +876,6 @@
         }
       }
     },
-    "petrolowcost": {
-      "nom": "Petrolowcost",
-      "g95": 1.761,
-      "dsl": 1.855,
-      "n": 5,
-      "rang": {
-        "g95": [
-          1.719,
-          1.859
-        ],
-        "dsl": [
-          1.829,
-          1.889
-        ]
-      },
-      "barata": {
-        "g95": {
-          "preu": 1.719,
-          "municipi": "Montcada i Reixac",
-          "lat": 41.507556,
-          "lon": 2.187806
-        },
-        "dsl": {
-          "preu": 1.829,
-          "municipi": "Terrassa",
-          "lat": 41.557472,
-          "lon": 2.035333
-        }
-      }
-    },
     "benzoil": {
       "nom": "Benzoil",
       "g95": 1.776,
@@ -936,6 +906,36 @@
         }
       }
     },
+    "petrolowcost": {
+      "nom": "Petrolowcost",
+      "g95": 1.761,
+      "dsl": 1.855,
+      "n": 5,
+      "rang": {
+        "g95": [
+          1.719,
+          1.859
+        ],
+        "dsl": [
+          1.829,
+          1.889
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.719,
+          "municipi": "Montcada i Reixac",
+          "lat": 41.507556,
+          "lon": 2.187806
+        },
+        "dsl": {
+          "preu": 1.829,
+          "municipi": "Terrassa",
+          "lat": 41.557472,
+          "lon": 2.035333
+        }
+      }
+    },
     "aneu-oil": {
       "nom": "Aneu Oil",
       "g95": 1.843,
@@ -963,36 +963,6 @@
           "municipi": "Esparreguera",
           "lat": 41.545528,
           "lon": 1.86175
-        }
-      }
-    },
-    "avia": {
-      "nom": "Avia",
-      "g95": 1.801,
-      "dsl": 1.863,
-      "n": 5,
-      "rang": {
-        "g95": [
-          1.759,
-          1.849
-        ],
-        "dsl": [
-          1.799,
-          1.939
-        ]
-      },
-      "barata": {
-        "g95": {
-          "preu": 1.759,
-          "municipi": "Manresa",
-          "lat": 41.724111,
-          "lon": 1.849
-        },
-        "dsl": {
-          "preu": 1.799,
-          "municipi": "Manresa",
-          "lat": 41.724111,
-          "lon": 1.849
         }
       }
     },
@@ -1083,6 +1053,36 @@
           "municipi": "Mollet del Vallès",
           "lat": 41.548583,
           "lon": 2.224806
+        }
+      }
+    },
+    "avia": {
+      "nom": "Avia",
+      "g95": 1.789,
+      "dsl": 1.859,
+      "n": 4,
+      "rang": {
+        "g95": [
+          1.759,
+          1.839
+        ],
+        "dsl": [
+          1.799,
+          1.939
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.759,
+          "municipi": "Manresa",
+          "lat": 41.724111,
+          "lon": 1.849
+        },
+        "dsl": {
+          "preu": 1.799,
+          "municipi": "Manresa",
+          "lat": 41.724111,
+          "lon": 1.849
         }
       }
     },
