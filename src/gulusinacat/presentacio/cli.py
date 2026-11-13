@@ -1,4 +1,4 @@
-"""Línia d'ordres: `python -m gulusinacat preus` i `python -m gulusinacat anual`."""
+"""Línia d'ordres: `python -m gulusinacat [--regio andorra] preus|anual`."""
 
 from __future__ import annotations
 
@@ -11,8 +11,9 @@ from pathlib import Path
 
 from gulusinacat.aplicacio.actualitza_preus import CapMarcaReconegudaError, actualitza_preus
 from gulusinacat.aplicacio.historic_anual import completa_historic_anual
-from gulusinacat.aplicacio.ports import FontNoDisponibleError
+from gulusinacat.aplicacio.ports import FontDePreus, FontNoDisponibleError
 from gulusinacat.infraestructura.fitxers import FitxerDeDadesInvalidError, MagatzemDeFitxers
+from gulusinacat.infraestructura.govern_andorra import ClientGovernAndorra
 from gulusinacat.infraestructura.ministeri import ClientMinisteri
 
 ORDRE_PREUS = "preus"
@@ -22,6 +23,10 @@ VARIABLE_MAX_PETICIONS = "MAX_PETICIONS"
 DIES_ENRERE_PER_DEFECTE = 0
 MAX_PETICIONS_PER_DEFECTE = 30
 CODI_ERROR = 1
+FONTS: dict[str, type[FontDePreus]] = {
+    "catalunya": ClientMinisteri,
+    "andorra": ClientGovernAndorra,
+}
 
 registre = logging.getLogger(__name__)
 
@@ -38,15 +43,14 @@ def main(arguments: Sequence[str] | None = None) -> int:
     opcions = _analitzador().parse_args(arguments)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     magatzem = MagatzemDeFitxers(opcions.directori)
+    font = FONTS[opcions.regio]()
     try:
         if opcions.ordre == ORDRE_PREUS:
             dies_enrere = _enter_de_l_entorn(VARIABLE_DIES_ENRERE, DIES_ENRERE_PER_DEFECTE)
-            actualitza_preus(ClientMinisteri(), magatzem, dies_enrere)
+            actualitza_preus(font, magatzem, dies_enrere)
         else:
             max_peticions = _enter_de_l_entorn(VARIABLE_MAX_PETICIONS, MAX_PETICIONS_PER_DEFECTE)
-            completa_historic_anual(
-                ClientMinisteri(), magatzem, datetime.date.today(), max_peticions
-            )
+            completa_historic_anual(font, magatzem, datetime.date.today(), max_peticions)
     except (
         FontNoDisponibleError,
         CapMarcaReconegudaError,
@@ -67,6 +71,12 @@ def _analitzador() -> argparse.ArgumentParser:
         type=Path,
         default=Path(),
         help="on es llegeixen i es desen els fitxers JSON (per defecte, el directori actual)",
+    )
+    analitzador.add_argument(
+        "--regio",
+        choices=sorted(FONTS),
+        default="catalunya",
+        help="d'on són les benzineres: el Ministeri (Catalunya) o el Govern d'Andorra",
     )
     ordres = analitzador.add_subparsers(dest="ordre", required=True)
     ordres.add_parser(ORDRE_PREUS, help="preus d'avui: preus.json, estacions.json i historic.json")

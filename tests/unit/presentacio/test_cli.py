@@ -33,3 +33,18 @@ def test_si_el_ministeri_no_respon_acaba_amb_error_sense_desar_res(
 def test_cal_indicar_una_ordre() -> None:
     with pytest.raises(SystemExit):
         main([])
+
+
+def test_amb_la_regio_d_andorra_llegeix_el_web_del_govern(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    adreces: list[str] = []
+
+    def sense_xarxa(peticio: urllib.request.Request, **_opcions: object) -> None:
+        adreces.append(peticio.full_url)
+        _sense_xarxa()
+
+    monkeypatch.setattr(urllib.request, "urlopen", sense_xarxa)
+
+    assert main(["--directori", str(tmp_path), "--regio", "andorra", "preus"]) == CODI_ERROR
+    assert adreces[0].startswith("https://sig.govern.ad/")

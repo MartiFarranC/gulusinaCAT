@@ -29,11 +29,18 @@ jobs:
       - run: python -m gulusinacat anual
         env:
           MAX_PETICIONS: ${{ inputs.max_peticions || '30' }}
+      - name: Històric d'Andorra
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: mkdir -p andorra && python -m gulusinacat --regio andorra --directori andorra anual
+        env:
+          MAX_PETICIONS: ${{ inputs.max_peticions || '30' }}
       - name: Desa anual.json si ha canviat
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add anual.json
+          git add anual.json $(ls andorra/*.json 2>/dev/null)
           if git diff --staged --quiet; then
             echo "anual.json no ha canviat"
             exit 0

@@ -30,11 +30,19 @@ jobs:
       - run: python -m gulusinacat preus
         env:
           DIES_ENRERE: ${{ inputs.dies_enrere || '0' }}
+      - name: Preus d'Andorra
+        if: ${{ !cancelled() }}
+        # Si el web del Govern d'Andorra falla, els preus de Catalunya es desen igualment
+        continue-on-error: true
+        run: mkdir -p andorra && python -m gulusinacat --regio andorra --directori andorra preus
+        env:
+          DIES_ENRERE: ${{ inputs.dies_enrere || '0' }}
       - name: Desa els preus si han canviat
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add preus.json historic.json estacions.json
+          git add preus.json historic.json estacions.json $(ls andorra/*.json 2>/dev/null)
           if git diff --staged --quiet; then
             echo "Els preus no han canviat"
             exit 0

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gulusinacat"
 version = "1.0.0"
-description = "Descarrega i resumeix els preus de les benzineres de Catalunya."
+description = "Descarrega i resumeix els preus de les benzineres de Catalunya i Andorra."
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.11"
