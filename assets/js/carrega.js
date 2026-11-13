@@ -9,6 +9,7 @@ import {
 } from "./dades.js";
 import { diaIsoDeLaFecha, textDeLaCopia } from "./dates.js";
 import { element, perId } from "./dom.js";
+import { deLloc } from "./format.js";
 import { calEvitarElMinisteri, recordaElMinisteri } from "./preferencies.js";
 import { llegeixEstacions, municipisDe } from "./proximitat.js";
 import { marquesDeLaPublicacio, mitjanaCompleta } from "./publicacio.js";
@@ -75,7 +76,7 @@ export class Carrega {
   /** @returns {Promise<boolean>} Si s'han pogut llegir els preus en directe. */
   async provaElMinisteri() {
     const { magatzem } = this.accions;
-    if (calEvitarElMinisteri(magatzem, Date.now())) return false;
+    if (!this.estat.regio.teMinisteri || calEvitarElMinisteri(magatzem, Date.now())) return false;
     try {
       const preus = await llegeixElMinisteri();
       if (!this.aplicaLesMarques(preus, "avui")) return false;
@@ -94,10 +95,10 @@ export class Carrega {
   /** @returns {Promise<boolean>} Si s'ha pogut llegir la còpia de preus.json. */
   async provaLaCopia() {
     try {
-      const preus = await llegeixLaCopia();
+      const preus = await llegeixLaCopia(this.estat.regio.directori);
       if (!this.aplicaLesMarques(preus, preus.fecha.slice(0, 10))) return false;
       this.estat.diaDelsPreus = diaIsoDeLaFecha(preus.fecha);
-      mostraLaFont("cache", textDeLaCopia(preus.fecha, Date.now()));
+      mostraLaFont("cache", textDeLaCopia(preus.fecha, Date.now(), this.estat.regio.font));
       return true;
     } catch {
       console.info("preus.json no disponible; es mostren els preus desats a la pàgina.");
@@ -113,12 +114,14 @@ export class Carrega {
     }
     mostraLaFont(
       "off",
-      "No s'han pogut carregar els preus d'avui. Es mostren preus de finals de setembre.",
+      this.estat.regio.teMinisteri
+        ? "No s'han pogut carregar els preus d'avui. Es mostren preus de finals de setembre."
+        : `No s'han pogut carregar els preus ${deLloc(this.estat.regio.nom)}. Torna-ho a provar d'aquí a una estona.`,
     );
   }
 
   async carregaLesEstacions() {
-    const document = await llegeixLesEstacions();
+    const document = await llegeixLesEstacions(this.estat.regio.directori);
     if (!document || this.estat.estacions) return;
     this.aplicaLesEstacions(document);
     if (this.estat.base) this.accions.aplicaLAmbit();
@@ -126,10 +129,11 @@ export class Carrega {
 
   /** @returns {Promise<void>} Quan s'han llegit els dos històrics (encara que no hi siguin). */
   carregaElsHistorics() {
-    const historic = llegeixLHistoric().then((dies) => {
+    const { directori } = this.estat.regio;
+    const historic = llegeixLHistoric(directori).then((dies) => {
       this.estat.historic = dies;
     });
-    const anual = llegeixLAnual().then(({ anys, noms }) => {
+    const anual = llegeixLAnual(directori).then(({ anys, noms }) => {
       this.estat.anual = anys;
       this.estat.nomsAnual = noms;
     });

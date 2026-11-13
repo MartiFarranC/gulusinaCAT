@@ -75,8 +75,8 @@
           <img class="logo" src="assets/icones/logo.svg" alt="" width="64" height="64" />
         </h1>
         <p class="sub">
-          Comparem què costa el litre a totes les marques de benzineres de Catalunya. Tria el
-          combustible i mira qui guanya.
+          Comparem què costa el litre a totes les marques de benzineres
+          <span data-de-la-regio>de Catalunya</span>. Tria el combustible i mira qui guanya.
         </p>
       </div>
       <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
@@ -108,6 +108,10 @@
 
     <main class="wrap">
       <div class="controls">
+        <nav class="seg regio" id="regio" aria-label="De quin país són les benzineres">
+          <a href="?zona=catalunya" data-regio="catalunya" aria-current="page">Catalunya</a>
+          <a href="?zona=andorra" data-regio="andorra">Andorra</a>
+        </nav>
         <div class="toggle" role="group" aria-label="Combustible">
           <span class="pill" aria-hidden="true"></span>
           <button type="button" data-fuel="g95" aria-pressed="true">Gasolina 95</button>
@@ -275,7 +279,7 @@
             <div class="seg" id="anysMode" role="group" aria-label="Què es mostra">
               <button type="button" data-mode="preu" aria-pressed="true">Preu</button
               ><button type="button" data-mode="dif" aria-pressed="false">
-                Respecte a Catalunya
+                Respecte a <span data-nom-de-la-regio>Catalunya</span>
               </button>
             </div>
           </div>
@@ -363,7 +367,7 @@
     </main>
 
     <footer class="wrap">
-      <p>
+      <p data-nomes-a="catalunya">
         Preu mitjà (€/litre) de totes les benzineres de cada marca a Catalunya (les marques amb
         menys de 3 benzineres i les independents s'agrupen a «Independents i altres»), calculat amb
         les dades oficials del Ministeri per a la Transició Ecològica, que s'actualitzen cada mitja
@@ -372,6 +376,15 @@
         <a href="https://geoportalgasolineras.es" target="_blank" rel="noopener"
           >Geoportal de gasolineres</a
         >.
+      </p>
+      <p data-nomes-a="andorra" hidden>
+        Preu mitjà (€/litre) de totes les benzineres de cada marca a Andorra (les marques amb menys
+        de 3 benzineres i les independents s'agrupen a «Independents i altres»), calculat amb les
+        dades oficials que el Govern d'Andorra publica per a cada benzinera. Cada benzinera té el
+        seu preu i canvien sovint: abans de sortir, consulta la benzinera concreta al
+        <a href="https://sig.govern.ad/IPE/PreusCarburants" target="_blank" rel="noopener"
+          >web de preus del Govern</a
+        >. La ubicació de les benzineres al mapa és d'OpenStreetMap.
       </p>
     </footer>
 

@@ -4,8 +4,10 @@ import { test } from "node:test";
 import {
   calEvitarElMinisteri,
   desaElCotxe,
+  desaLaRegio,
   desaMarquesExcloses,
   llegeixElCotxe,
+  llegeixLaRegio,
   llegeixMarquesExcloses,
   recordaElMinisteri,
 } from "../../assets/js/preferencies.js";
@@ -101,4 +103,21 @@ test("les dades del cotxe que no són números positius no es fan servir", () =>
 
   assert.deepEqual(llegeixElCotxe(comStorage(magatzem)), {});
   assert.deepEqual(llegeixElCotxe(comStorage(new MagatzemBloquejat())), {});
+});
+
+test("recorda la regió triada", () => {
+  const magatzem = comStorage(new MagatzemEnMemoria());
+
+  desaLaRegio(magatzem, "andorra");
+
+  assert.equal(llegeixLaRegio(magatzem), "andorra");
+});
+
+test("sense poder llegir el magatzem no hi ha cap regió desada", () => {
+  const magatzem = comStorage(new MagatzemBloquejat());
+
+  desaLaRegio(magatzem, "andorra");
+
+  assert.equal(llegeixLaRegio(magatzem), null);
+  assert.equal(llegeixLaRegio(null), null);
 });

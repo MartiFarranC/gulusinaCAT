@@ -2,7 +2,7 @@
 
 import { element, marcaPremut, perId, perIdDeTipus, puntDeColor } from "./dom.js";
 import { diaIMes } from "./dates.js";
-import { enLletres, formataAmbSigne, formataPreu } from "./format.js";
+import { deLloc, enLletres, formataAmbSigne, formataPreu } from "./format.js";
 import { dibuixaGrafic } from "./grafic.js";
 import { extremsIMig, tots } from "./grafic-calculs.js";
 import { ALTRES, CATALUNYA, NOMS, colorDe } from "./marques.js";
@@ -18,8 +18,7 @@ const BENZINERES_PER_SER_PRINCIPAL = 10;
 const DIES_DEL_GRAFIC = 30;
 const ANYS_DEL_GRAFIC = 5;
 const MESOS_PER_ANY = 12;
-/** @type {Serie} */
-const SERIE_CATALUNYA = { id: CATALUNYA, nom: "Catalunya", color: "#8B949E", discontinua: true };
+const COLOR_DE_LA_MITJANA = "#8B949E";
 
 /**
  * @param {Estat} estat
@@ -51,15 +50,16 @@ function marquesAmbDades(estat) {
  */
 function textosDelsAnys(estat, mode, anyInicial) {
   const combustible = NOM_DEL_COMBUSTIBLE[estat.combustible];
+  const { nom, font } = estat.regio;
   if (mode === "dif") {
     return {
-      lead: "Quants cèntims per litre ha estat cada marca per sobre (+) o per sota (−) de la mitjana de totes les benzineres de Catalunya, any per any. Com més avall, més barata.",
-      descripcio: `${combustible}: diferència en cèntims de cada marca respecte a la mitjana de Catalunya, any per any des del ${anyInicial}. El preu mitjà de cada any és a la taula de sota.`,
+      lead: `Quants cèntims per litre ha estat cada marca per sobre (+) o per sota (−) de la mitjana de totes les benzineres ${deLloc(nom)}, any per any. Com més avall, més barata.`,
+      descripcio: `${combustible}: diferència en cèntims de cada marca respecte a la mitjana ${deLloc(nom)}, any per any des del ${anyInicial}. El preu mitjà de cada any és a la taula de sota.`,
     };
   }
   return {
-    lead: "Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del Ministeri. L'any en curs compta fins ara.",
-    descripcio: `${combustible}: preu mitjà de cada any des del ${anyInicial}, per marca i per a tot Catalunya. Les dades són a la taula de sota.`,
+    lead: `Preu mitjà de cada any, en €/litre, a partir d'un dia per mes de l'històric del ${font}. L'any en curs compta fins ara.`,
+    descripcio: `${combustible}: preu mitjà de cada any des del ${anyInicial}, per marca i per a tot ${nom}. Les dades són a la taula de sota.`,
   };
 }
 
@@ -67,7 +67,7 @@ function textosDelsAnys(estat, mode, anyInicial) {
  * @param {Estat} estat
  * @param {AnyHistoric} any
  * @param {{series: readonly Serie[], anyActual: number, esDiferencia: boolean}} context
- *   Si el valor és el preu mitjà o la diferència en cèntims amb la mitjana de Catalunya.
+ *   Si el valor és el preu mitjà o la diferència en cèntims amb la mitjana de la regió.
  */
 function puntDeLAny(estat, any, { series, anyActual, esDiferencia }) {
   const preu = (/** @type {string} */ id) => {
@@ -141,14 +141,21 @@ export class Evolucio {
     }
   }
 
-  /** @returns {Serie[]} La mitjana de Catalunya i les marques triades. */
+  /** @returns {Serie[]} La mitjana de la regió i les marques triades. */
   series() {
     const serieDe = (/** @type {string} */ id) => ({
       id,
       nom: nomDe(this.estat, id),
       color: colorDe(id),
     });
-    return [SERIE_CATALUNYA, ...(this.estat.triades ?? []).map(serieDe)];
+    /** @type {Serie} */
+    const mitjana = {
+      id: CATALUNYA,
+      nom: this.estat.regio.nom,
+      color: COLOR_DE_LA_MITJANA,
+      discontinua: true,
+    };
+    return [mitjana, ...(this.estat.triades ?? []).map(serieDe)];
   }
 
   actualitzaLaSeccio() {
@@ -276,7 +283,7 @@ export class Evolucio {
     contenidor.replaceChildren(...visibles.map((id) => this.botoDeMarca(id, triades)));
     if (amagades > 0) contenidor.appendChild(this.botoDeMesMarques(amagades));
     perId("chipsNote").textContent =
-      `${triades.length} de ${MAXIM_DE_MARQUES} marques triades. La línia discontínua és la mitjana de Catalunya.`;
+      `${triades.length} de ${MAXIM_DE_MARQUES} marques triades. La línia discontínua és la mitjana ${deLloc(this.estat.regio.nom)}.`;
   }
 
   /** El gràfic dels anys es dibuixa amb animació quan apareix a la pantalla. */

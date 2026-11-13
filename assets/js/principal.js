@@ -5,6 +5,7 @@ import { Comparativa } from "./comparativa.js";
 import { Carrega } from "./carrega.js";
 import { iconaDeCarrega } from "./carregant.js";
 import { diaIsoLocal } from "./dates.js";
+import { deLloc } from "./format.js";
 import { Dreceres } from "./dreceres.js";
 import { esperaSensePassarDe } from "./espera.js";
 import { marcaPremut, perId } from "./dom.js";
@@ -16,13 +17,17 @@ import { PantallaDeCarrega } from "./pantalla-de-carrega.js";
 import { ALTRES } from "./marques.js";
 import {
   desaElCotxe,
+  desaLaRegio,
   desaMarquesExcloses,
   llegeixElCotxe,
+  llegeixLaRegio,
   llegeixMarquesExcloses,
   magatzemDelNavegador,
 } from "./preferencies.js";
 import { Properes } from "./properes.js";
 import { agregaPerMarca, estacionsDinsDelRadi, mesProperaDeLaMarca } from "./proximitat.js";
+import { regioTriada } from "./regio.js";
+import { mostraLaRegio } from "./regio-pagina.js";
 import { pintaElRetol } from "./retol.js";
 import { tendencia } from "./tendencia.js";
 import { animaElTitol } from "./titol.js";
@@ -36,9 +41,12 @@ const RETARD_EN_CANVIAR_DE_MIDA_MS = 150;
 const TOTEMS = 4;
 
 const magatzem = magatzemDelNavegador();
+const regio = regioTriada(location.search, llegeixLaRegio(magatzem));
+desaLaRegio(magatzem, regio.id);
 const estat = creaEstat({
   movimentReduit: matchMedia("(prefers-reduced-motion: reduce)").matches,
   excloses: llegeixMarquesExcloses(magatzem),
+  regio,
 });
 
 const kicker = perId("kicker");
@@ -129,7 +137,7 @@ function missatgeDelRadi(quantes) {
   );
 }
 
-/** Calcula les marques de l'àmbit triat (tot Catalunya o les properes) i torna a pintar. */
+/** Calcula les marques de l'àmbit triat (tota la regió o les properes) i torna a pintar. */
 function aplicaLAmbit() {
   const aProp = estat.ambit === "properes";
   panell.mostra(aProp);
@@ -149,11 +157,11 @@ function aplicaLAmbit() {
   missatgeDelRadi(dins.length);
   const ambit = esProperes(estat)
     ? `totes les benzineres a menys de ${estat.radi} km`
-    : "totes les benzineres de Catalunya";
+    : `totes les benzineres ${deLloc(estat.regio.nom)}`;
   perId("compLead").textContent =
     `De més barata a més cara. El punt és el preu mitjà de cada marca i la franja grisa, on hi ha 8 de cada 10 de les seves benzineres. La línia discontínua és la mitjana de ${ambit}.`;
   perId("evoLead").textContent =
-    `Tria les marques que vols comparar als gràfics${esProperes(estat) ? " (les dades històriques són de tot Catalunya)" : ""}. Passa el dit o el ratolí per sobre per veure'n els valors.`;
+    `Tria les marques que vols comparar als gràfics${esProperes(estat) ? ` (les dades històriques són de tot ${estat.regio.nom})` : ""}. Passa el dit o el ratolí per sobre per veure'n els valors.`;
   kicker.textContent = textDelKicker(estat);
   pinta();
   pintaLesProperes(dins);
@@ -223,6 +231,7 @@ function mostraLaPagina() {
   obreLaCalculadoraSiCal();
 }
 
+mostraLaRegio(regio);
 new Dreceres();
 perId("status").prepend(iconaDeCarrega());
 activaElCombustible();

@@ -107,7 +107,7 @@ function pintaLEix(estat, { baix, alt, posicio }, mitjana) {
   const deBaix = extrem(baix, "0%");
   const deDalt = extrem(alt, "100%");
   deDalt.style.translate = "-100% 0";
-  const referencia = `${esProperes(estat) ? "Zona" : "Catalunya"} ${formataPreu(mitjana)}`;
+  const referencia = `${esProperes(estat) ? "Zona" : estat.regio.nom} ${formataPreu(mitjana)}`;
   const deLaMitjana = element("span", "cl", referencia);
   deLaMitjana.style.left = posicio(mitjana);
   eix.replaceChildren(deBaix, deDalt, deLaMitjana);

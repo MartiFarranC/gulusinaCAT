@@ -9,6 +9,10 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Afegit
 
+- Versió d'Andorra: el botó «Catalunya / Andorra» canvia tota la pàgina a les
+  benzineres d'Andorra, amb les dades oficials del Govern d'Andorra, el seu mapa, les
+  properes, la calculadora i l'històric. La pàgina recorda la versió triada.
+- Marques TotalEnergies i Elf (Dyneff) reconegudes pel rètol.
 - Accés ràpid a «Quant hi he de posar?»: botó «Quant hi poso?» a la barra de dalt,
   drecera a la icona de l'app instal·lada i adreça directa amb `#dipositSec`.
 - Els rètols de les quatre marques més barates diuen on és la benzinera més propera

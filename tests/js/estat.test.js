@@ -9,9 +9,11 @@ import {
   nomDeLaReferencia,
   textDelKicker,
 } from "../../assets/js/estat.js";
+import { REGIONS } from "../../assets/js/regio.js";
 import { estacio } from "./fabriques.js";
 
-const estatInicial = () => creaEstat({ movimentReduit: true, excloses: new Set() });
+const estatInicial = () =>
+  creaEstat({ movimentReduit: true, excloses: new Set(), regio: REGIONS.catalunya });
 
 test("d'inici es mostren els preus de reserva ordenats de més barat a més car", () => {
   const estat = estatInicial();

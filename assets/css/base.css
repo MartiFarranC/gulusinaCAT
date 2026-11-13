@@ -121,7 +121,8 @@ h3 {
   padding: 3px;
   background: var(--bg2);
 }
-.seg button {
+.seg button,
+.seg a {
   border: 0;
   background: none;
   color: var(--muted);
@@ -135,7 +136,11 @@ h3 {
     background 0.3s,
     color 0.3s;
 }
-.seg button[aria-pressed="true"] {
+.seg a {
+  text-decoration: none;
+}
+.seg button[aria-pressed="true"],
+.seg a[aria-current="page"] {
   background: var(--ink);
   color: var(--bg);
 }

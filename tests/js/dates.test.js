@@ -34,7 +34,7 @@ test("el dia local no depèn de la zona UTC", () => {
 });
 
 test("una còpia d'avui diu que s'actualitza cada mitja hora", () => {
-  const text = textDeLaCopia("30/09/2026 12:00:00", ARA);
+  const text = textDeLaCopia("30/09/2026 12:00:00", ARA, "Ministeri");
 
   assert.equal(
     text,
@@ -43,7 +43,7 @@ test("una còpia d'avui diu que s'actualitza cada mitja hora", () => {
 });
 
 test("una còpia de fa més d'un dia avisa dels dies que fa", () => {
-  const text = textDeLaCopia("28/09/2026 09:05:00", ARA);
+  const text = textDeLaCopia("28/09/2026 09:05:00", ARA, "Ministeri");
 
   assert.equal(
     text,

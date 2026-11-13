@@ -71,6 +71,32 @@ export function magatzemDelNavegador() {
   }
 }
 
+const CLAU_REGIO = "regio";
+
+/**
+ * @param {Storage | null} magatzem
+ * @returns {string | null} L'identificador de la regió que es va triar l'última vegada.
+ */
+export function llegeixLaRegio(magatzem) {
+  try {
+    return magatzem?.getItem(CLAU_REGIO) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * @param {Storage | null} magatzem
+ * @param {string} regio
+ */
+export function desaLaRegio(magatzem, regio) {
+  try {
+    magatzem?.setItem(CLAU_REGIO, regio);
+  } catch {
+    // Sense poder desar, la pàgina tornarà a obrir Catalunya si l'adreça no diu res.
+  }
+}
+
 const CLAU_COTXE = "dades-del-cotxe";
 
 /**

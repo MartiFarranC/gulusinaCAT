@@ -11,7 +11,8 @@ import { ALTRES, colorDe } from "./marques.js";
  * @property {Combustible} combustible
  * @property {Marca[]} marques Les de l'àmbit actual.
  * @property {Mitjana | null} mitjana De totes les benzineres de l'àmbit actual.
- * @property {{marques: Marca[], mitjana: Mitjana | null} | null} base Les de tot Catalunya.
+ * @property {import("./regio.js").Regio} regio
+ * @property {{marques: Marca[], mitjana: Mitjana | null} | null} base Les de tota la regió.
  * @property {import("./tipus.js").Estacio[] | null} estacions
  * @property {Map<string, import("./tipus.js").Municipi>} municipis
  * @property {"totes" | "properes"} ambit
@@ -35,7 +36,7 @@ import { ALTRES, colorDe } from "./marques.js";
 export const MARQUES_VISIBLES_A_LA_COMPARATIVA = 10;
 export const BENZINERES_PROPERES_PER_PAGINA = 10;
 
-/** Preus de reserva (finals de setembre) si no es pot carregar res. */
+/** Preus de reserva de Catalunya (finals de setembre) si no es pot carregar res. */
 const MARQUES_DE_RESERVA = [
   { id: "bonarea", nom: "bonÀrea", g95: 1.748, dsl: 1.742, data: "dada del 26-27 set." },
   { id: "esclatoil", nom: "Esclatoil", g95: 1.667, dsl: 1.683, data: "dada del 6 set." },
@@ -47,12 +48,15 @@ const MARQUES_DE_RESERVA = [
  * @param {object} entorn
  * @param {boolean} entorn.movimentReduit
  * @param {Set<string>} entorn.excloses Marques excloses desades.
+ * @param {import("./regio.js").Regio} entorn.regio
  * @returns {Estat}
  */
-export function creaEstat({ movimentReduit, excloses }) {
+export function creaEstat({ movimentReduit, excloses, regio }) {
+  const reserva = regio.teMinisteri ? MARQUES_DE_RESERVA : [];
   return {
     combustible: "g95",
-    marques: MARQUES_DE_RESERVA.map((marca) => ({ ...marca, color: colorDe(marca.id) })),
+    regio,
+    marques: reserva.map((marca) => ({ ...marca, color: colorDe(marca.id) })),
     mitjana: null,
     base: null,
     estacions: null,
@@ -86,7 +90,7 @@ export const esProperes = (estat) =>
   estat.marques !== estat.base?.marques;
 
 /** @param {Estat} estat */
-export const nomDeLaReferencia = (estat) => (esProperes(estat) ? "la zona" : "Catalunya");
+export const nomDeLaReferencia = (estat) => (esProperes(estat) ? "la zona" : estat.regio.nom);
 
 /**
  * @param {Estat} estat

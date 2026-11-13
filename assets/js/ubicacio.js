@@ -11,7 +11,7 @@ import {
   perIdDeTipus,
   urlDelMapa,
 } from "./dom.js";
-import { formataDistancia } from "./format.js";
+import { deLloc, formataDistancia } from "./format.js";
 import { distancia } from "./geo.js";
 import { buscaMunicipi, municipiMesProper, nomDeLaUbicacio } from "./proximitat.js";
 import { BENZINERES_PROPERES_PER_PAGINA } from "./estat.js";
@@ -190,7 +190,7 @@ export class PanellDUbicacio {
     this.aplicaLAmbit();
     if (mesPropera <= this.estat.radi) return;
     this.missatge(
-      `La benzinera més propera és a ${formataDistancia(mesPropera)}. Les dades són només de Catalunya: augmenta el radi o escriu un municipi.`,
+      `La benzinera més propera és a ${formataDistancia(mesPropera)}. Les dades són només ${deLloc(this.estat.regio.nom)}: augmenta el radi o escriu un municipi.`,
     );
   }
 
@@ -214,7 +214,7 @@ export class PanellDUbicacio {
     const calElGps = !this.estat.ubicacio && demanaElGps;
     if (!this.estat.estacions) {
       this.missatge(
-        "Encara no hi ha les dades de cada benzinera. Es mostren les de tot Catalunya; torna-ho a provar d'aquí a una estona.",
+        `Encara no hi ha les dades de cada benzinera. Es mostren les de tot ${this.estat.regio.nom}; torna-ho a provar d'aquí a una estona.`,
       );
     } else if (calElGps && !("geolocation" in navigator)) {
       this.missatge("Aquest navegador no pot donar la ubicació. Escriu un municipi.");

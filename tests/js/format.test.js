@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import {
+  deLloc,
   enLletres,
   formataAmbSigne,
   formataCentims,
@@ -53,4 +54,10 @@ test("els nombres petits s'escriuen en lletres i la resta en xifres", () => {
 
 test("els litres tenen un decimal amb coma", () => {
   assert.equal(formataLitres(41.56), "41,6 L");
+});
+
+test("apostrofa la preposició davant d'un lloc que comença amb vocal o hac", () => {
+  assert.equal(deLloc("Andorra"), "d'Andorra");
+  assert.equal(deLloc("Hostalric"), "d'Hostalric");
+  assert.equal(deLloc("Catalunya"), "de Catalunya");
 });

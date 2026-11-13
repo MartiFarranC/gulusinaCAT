@@ -40,8 +40,9 @@ export function diaIsoLocal(data) {
  *
  * @param {string} fecha Data del Ministeri de la còpia.
  * @param {number} ara Mil·lisegons des de l'època.
+ * @param {string} font Qui publica els preus, com «Ministeri».
  */
-export function textDeLaCopia(fecha, ara) {
+export function textDeLaCopia(fecha, ara, font) {
   const dia = diaIsoDeLaFecha(fecha);
   const hora = /(\d{1,2}):(\d{2})/.exec(fecha.slice(10));
   const hhmm = hora ? `${hora[1]?.padStart(2, "0")}:${hora[2]}` : "12:00";
@@ -50,5 +51,5 @@ export function textDeLaCopia(fecha, ara) {
     const dies = Math.floor(hores / HORES_PER_DIA);
     return `Últimes dades oficials: ${fecha.slice(0, 16)} (fa ${dies} ${dies === 1 ? "dia" : "dies"}). Els preus d'avui poden ser diferents.`;
   }
-  return `Preus oficials del Ministeri del ${fecha.slice(0, 16)} · s'actualitzen cada mitja hora`;
+  return `Preus oficials del ${font} del ${fecha.slice(0, 16)} · s'actualitzen cada mitja hora`;
 }

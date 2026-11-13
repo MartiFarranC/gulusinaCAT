@@ -2,12 +2,16 @@
 
 Pàgina web que compara el preu de la gasolina 95 i el dièsel de totes les marques de
 benzineres de Catalunya, amb les dades oficials del Ministeri per a la Transició
-Ecològica.
+Ecològica, i, amb el botó «Andorra», les d'Andorra, amb les dades que publica el Govern
+d'Andorra.
 
 Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 
 ## Funcionalitats
 
+- **Catalunya o Andorra**: el botó de dalt canvia totes les seccions (preus, mapa,
+  properes, gràfics i calculadora) a les benzineres de l'altre país. La pàgina recorda
+  l'últim triat, i l'adreça `?zona=andorra` obre directament la versió d'Andorra.
 - **Menú de dreceres** a l'esquerra per anar a cada secció (en mòbil, amb el botó
   «Menú»).
 - **Rètols de preus** amb les quatre marques més barates, la tendència respecte al
@@ -72,9 +76,12 @@ Per actualitzar les dades a mà (cal accés a Internet):
 python3 -m pip install .
 python3 -m gulusinacat preus   # preus.json, historic.json i estacions.json
 python3 -m gulusinacat anual   # anual.json
+python3 -m gulusinacat --regio andorra --directori andorra preus   # el mateix, d'Andorra
 ```
 
-Amb `--directori <camí>` els fitxers es llegeixen i es desen en un altre directori.
+Amb `--directori <camí>` els fitxers es llegeixen i es desen en un altre directori, i
+amb `--regio andorra` les dades surten del web del Govern d'Andorra en lloc del
+Ministeri.
 
 ## Configuració
 
@@ -96,6 +103,9 @@ Als workflows es corresponen amb les opcions _dies_enrere_ i _max_peticions_ de
 | _Actualitza preus_   | Cada 30 minuts, de 5:00 a 21:00 UTC | `preus.json`, `historic.json`, `estacions.json` |
 | _Històric de 5 anys_ | Cada dia a les 3:17 UTC             | `anual.json`                                    |
 
+Cada workflow també actualitza els mateixos fitxers d'Andorra al directori `andorra/`.
+Si el web del Govern d'Andorra falla, els de Catalunya es desen igualment.
+
 El servidor del Ministeri talla sovint les connexions que venen de GitHub. Les tasques
 tornen a provar-ho uns quants cops i, si no se'n surten, l'execució falla sense
 sobreescriure les dades bones. El workflow anual desa el que aconsegueix i continua a
@@ -114,6 +124,14 @@ Cada vegada que algú obre la pàgina:
 
 A sota del selector de combustible s'indica quina font s'està fent servir, i si les
 dades tenen més d'un dia.
+
+A la versió d'Andorra la pàgina només llegeix la còpia d'`andorra/preus.json`. El Govern
+d'Andorra no té API: el workflow llegeix la taula de preus del
+[seu web](https://sig.govern.ad/IPE/PreusCarburants), on també hi ha els preus de dies
+passats per a l'històric. Com que no publica on és cada benzinera, les coordenades són
+les d'OpenStreetMap, aparellades a mà a
+`src/gulusinacat/infraestructura/coordenades_andorra.py`. Una benzinera nova surt als
+preus però no al mapa fins que s'hi afegeix (el registre del workflow l'avisa).
 
 ### Marques
 
@@ -211,7 +229,7 @@ a `main` i a cada pull request.
 ├── src/gulusinacat/       # Tasques de dades (Python)
 │   ├── domini/            # Marques, estadística i resums, sense xarxa ni fitxers
 │   ├── aplicacio/         # Casos d'ús: preus d'avui i històric anual
-│   ├── infraestructura/   # API del Ministeri i fitxers JSON
+│   ├── infraestructura/   # API del Ministeri, web del Govern d'Andorra i fitxers JSON
 │   └── presentacio/       # Línia d'ordres
 ├── tests/
 │   ├── unit/              # Tests unitaris de les tasques de dades
@@ -221,7 +239,8 @@ a `main` i a cada pull request.
 ├── preus.json             # Mitjanes per marca (generat)
 ├── estacions.json         # Totes les benzineres amb coordenades (generat)
 ├── historic.json          # Una mitjana per dia (generat)
-└── anual.json             # Una mitjana per any (generat)
+├── anual.json             # Una mitjana per any (generat)
+└── andorra/               # Els mateixos quatre fitxers, d'Andorra (generats)
 ```
 
 ## Llicència

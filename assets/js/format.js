@@ -49,3 +49,9 @@ export const enLletres = (nombre) => NOMBRES_EN_LLETRES[nombre] ?? String(nombre
 
 /** @param {number} litres */
 export const formataLitres = (litres) => `${litres.toFixed(1).replace(".", ",")} L`;
+
+/**
+ * @param {string} lloc
+ * @returns {string} El lloc amb «de» davant, apostrofat davant de vocal o hac: «d'Andorra».
+ */
+export const deLloc = (lloc) => (/^[aeiouàèéíïòóúüh]/i.test(lloc) ? `d'${lloc}` : `de ${lloc}`);

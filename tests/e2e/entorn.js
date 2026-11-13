@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { test as base, expect } from "@playwright/test";
 
 const DADES = new URL("./dades/", import.meta.url);
@@ -40,11 +40,12 @@ export async function prepara(
       : ruta.abort(),
   );
   for (const nom of FITXERS_DE_DADES) {
-    await page.route(new RegExp(`/${nom.replace(".", "\\.")}\\?`), (ruta) =>
-      fitxers.includes(nom)
-        ? ruta.fulfill({ body: llegeix(nom), contentType: "application/json" })
-        : ruta.fulfill({ status: 404, body: "" }),
-    );
+    await page.route(new RegExp(`/(andorra/)?${nom.replace(".", "\\.")}\\?`), (ruta) => {
+      const fitxer = ruta.request().url().includes("/andorra/") ? `andorra/${nom}` : nom;
+      return fitxers.includes(nom) && existsSync(new URL(fitxer, DADES))
+        ? ruta.fulfill({ body: llegeix(fitxer), contentType: "application/json" })
+        : ruta.fulfill({ status: 404, body: "" });
+    });
   }
 }
 
@@ -52,10 +53,11 @@ export async function prepara(
  * Obre la pàgina i espera que hagi acabat de carregar i pintar les dades.
  *
  * @param {import("@playwright/test").Page} page
- * @param {{ambMapa?: boolean}} [opcions] Si s'espera que es pinti el mapa.
+ * @param {{ambMapa?: boolean, adreca?: string}} [opcions] Si s'espera que es pinti el mapa i
+ *   quina adreça s'obre.
  */
-export async function obre(page, { ambMapa = true } = {}) {
-  await page.goto("index.html");
+export async function obre(page, { ambMapa = true, adreca = "index.html" } = {}) {
+  await page.goto(adreca);
   await expect(page.locator("#pantallaDeCarrega")).toHaveCount(0);
   await expect(page.locator("#chips button").first()).toBeAttached();
   if (ambMapa) await expect(page.locator("#mapSvg circle").first()).toBeAttached();

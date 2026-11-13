@@ -70,9 +70,12 @@ export async function llegeixElMinisteri() {
   return { ...resum, fecha: String(resposta["Fecha"] || "") };
 }
 
-/** @returns {Promise<PreusLlegits>} La còpia de preus.json. */
-export async function llegeixLaCopia() {
-  const copia = await llegeixJson(senseCau("preus.json"), TEMPS_DELS_FITXERS_MS);
+/**
+ * @param {string} directori De la regió.
+ * @returns {Promise<PreusLlegits>} La còpia de preus.json.
+ */
+export async function llegeixLaCopia(directori) {
+  const copia = await llegeixJson(senseCau(`${directori}preus.json`), TEMPS_DELS_FITXERS_MS);
   if (!esObjecte(copia)) throw new RespostaInvalidaError("preus.json");
   return {
     marques: esObjecte(copia["marques"])
@@ -102,17 +105,23 @@ async function llegeixOpcional(fitxer, temps, llegeix) {
   }
 }
 
-/** @returns {Promise<DocumentEstacions | null>} */
-export const llegeixLesEstacions = () =>
-  llegeixOpcional("estacions.json", TEMPS_DE_LES_ESTACIONS_MS, (json) =>
+/**
+ * @param {string} directori De la regió.
+ * @returns {Promise<DocumentEstacions | null>}
+ */
+export const llegeixLesEstacions = (directori) =>
+  llegeixOpcional(`${directori}estacions.json`, TEMPS_DE_LES_ESTACIONS_MS, (json) =>
     Array.isArray(json["e"])
       ? /** @type {DocumentEstacions} */ (/** @type {unknown} */ (json))
       : null,
   );
 
-/** @returns {Promise<DiaHistoric[]>} Ordenat per data. */
-export async function llegeixLHistoric() {
-  const dies = await llegeixOpcional("historic.json", TEMPS_DELS_FITXERS_MS, (json) =>
+/**
+ * @param {string} directori De la regió.
+ * @returns {Promise<DiaHistoric[]>} Ordenat per data.
+ */
+export async function llegeixLHistoric(directori) {
+  const dies = await llegeixOpcional(`${directori}historic.json`, TEMPS_DELS_FITXERS_MS, (json) =>
     (Array.isArray(json["dies"]) ? json["dies"] : [])
       .filter(
         (d) =>
@@ -137,9 +146,12 @@ function anyHistoric(any) {
   };
 }
 
-/** @returns {Promise<{anys: AnyHistoric[], noms: Record<string, string>}>} */
-export async function llegeixLAnual() {
-  const anual = await llegeixOpcional("anual.json", TEMPS_DELS_FITXERS_MS, (json) => ({
+/**
+ * @param {string} directori De la regió.
+ * @returns {Promise<{anys: AnyHistoric[], noms: Record<string, string>}>}
+ */
+export async function llegeixLAnual(directori) {
+  const anual = await llegeixOpcional(`${directori}anual.json`, TEMPS_DELS_FITXERS_MS, (json) => ({
     anys: (Array.isArray(json["anys"]) ? json["anys"] : [])
       .filter((a) => esObjecte(a) && Number.isInteger(a["any"]))
       .map(anyHistoric)
