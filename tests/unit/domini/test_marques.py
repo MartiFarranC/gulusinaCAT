@@ -55,3 +55,10 @@ def test_els_retols_generics_no_es_converteixen_en_marca() -> None:
 
     assert set(classificacio.marques) == {ALTRES}
     assert classificacio.rotuls_agrupats == ()
+
+
+def test_reconeix_les_marques_de_les_benzineres_d_andorra() -> None:
+    classificacio = classifica(["TotalEnergies"] * 3 + ["ELF", "ELF - CEPSA", "DYNEFF"])
+
+    assert classificacio.marques == ("totalenergies",) * 3 + ("elf",) * 3
+    assert classificacio.noms == {"totalenergies": "TotalEnergies", "elf": "Elf (Dyneff)"}

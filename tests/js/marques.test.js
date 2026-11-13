@@ -50,3 +50,19 @@ test("els ròtuls genèrics van a altres encara que se'n repeteixin", () => {
 
   assert.deepEqual(ids, [ALTRES, ALTRES, ALTRES, ALTRES]);
 });
+
+test("reconeix les marques de les benzineres d'Andorra com el paquet de Python", () => {
+  const rotuls = [
+    "TotalEnergies",
+    "TOTAL ENERGIES",
+    "TotalEnergies",
+    "ELF",
+    "ELF - CEPSA",
+    "DYNEFF",
+  ];
+
+  const { ids, noms } = classificaRotuls(rotuls);
+
+  assert.deepEqual(ids, ["totalenergies", "totalenergies", "totalenergies", "elf", "elf", "elf"]);
+  assert.equal(noms["elf"], "Elf (Dyneff)");
+});

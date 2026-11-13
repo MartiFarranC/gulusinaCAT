@@ -40,6 +40,8 @@ MARQUES_CONEGUDES = (
     _coneguda("petrocat", "Petrocat", r"\bPETROCAT\b"),
     _coneguda("repsol", "Repsol", r"\bREPSOL\b"),
     _coneguda("campsa", "Campsa", r"\bCAMPSA\b"),
+    # Les Elf d'Andorra les porta Dyneff i algunes tenen el rètol «ELF - CEPSA»
+    _coneguda("elf", "Elf (Dyneff)", r"\b(ELF|DYNEFF)\b"),
     _coneguda("moeve", "Moeve (Cepsa)", r"\b(MOEVE|CEPSA)\b"),
     _coneguda("galp", "Galp", r"\bGALP\b"),
     _coneguda("bp", "BP", r"\bBP\b"),
@@ -57,6 +59,7 @@ MARQUES_CONEGUDES = (
     _coneguda("q8", "Q8", r"\bQ8\b"),
     _coneguda("tamoil", "Tamoil", r"\bTAMOIL\b"),
     _coneguda("eni", "Eni", r"\bENI\b"),
+    _coneguda("totalenergies", "TotalEnergies", r"\bTOTAL ?ENERGIES\b"),
     _coneguda("staroil", "Star Oil", r"\bSTAR ?OIL\b"),
     _coneguda("gasexpress", "GasExpress", r"\bGAS ?EXPRESS\b"),
     _coneguda("valcarce", "Valcarce", r"\bVALCARCE\b"),
