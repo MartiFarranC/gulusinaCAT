@@ -37,7 +37,8 @@ jobs:
 
   pagina:
     name: Pàgina
-    runs-on: ubuntu-latest
+    # Playwright 1.56 no sap instal·lar el navegador a Ubuntu 26.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
