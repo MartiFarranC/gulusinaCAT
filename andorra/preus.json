@@ -1,0 +1,220 @@
+{
+  "fecha": "13/11/2026 22:25:12",
+  "catalunya": {
+    "g95": 1.443,
+    "dsl": 1.654,
+    "n": 54
+  },
+  "marques": {
+    "totalenergies": {
+      "nom": "TotalEnergies",
+      "g95": 1.415,
+      "dsl": 1.644,
+      "n": 15,
+      "rang": {
+        "g95": [
+          1.415,
+          1.415
+        ],
+        "dsl": [
+          1.644,
+          1.644
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.415,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.47681,
+          "lon": 1.4908
+        },
+        "dsl": {
+          "preu": 1.644,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.47681,
+          "lon": 1.4908
+        }
+      }
+    },
+    "bp": {
+      "nom": "BP",
+      "g95": 1.434,
+      "dsl": 1.648,
+      "n": 12,
+      "rang": {
+        "g95": [
+          1.423,
+          1.455
+        ],
+        "dsl": [
+          1.643,
+          1.655
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.423,
+          "municipi": "Santa Coloma",
+          "lat": 42.49899,
+          "lon": 1.50557
+        },
+        "dsl": {
+          "preu": 1.643,
+          "municipi": "Santa Coloma",
+          "lat": 42.49899,
+          "lon": 1.50557
+        }
+      }
+    },
+    "elf": {
+      "nom": "Elf (Dyneff)",
+      "g95": 1.464,
+      "dsl": 1.663,
+      "n": 8,
+      "rang": {
+        "g95": [
+          1.464,
+          1.464
+        ],
+        "dsl": [
+          1.663,
+          1.663
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.464,
+          "municipi": "Santa Coloma",
+          "lat": 42.49621,
+          "lon": 1.49994
+        },
+        "dsl": {
+          "preu": 1.663,
+          "municipi": "Santa Coloma",
+          "lat": 42.49621,
+          "lon": 1.49994
+        }
+      }
+    },
+    "moeve": {
+      "nom": "Moeve (Cepsa)",
+      "g95": 1.464,
+      "dsl": 1.663,
+      "n": 7,
+      "rang": {
+        "g95": [
+          1.464,
+          1.464
+        ],
+        "dsl": [
+          1.663,
+          1.663
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.464,
+          "municipi": "Santa Coloma",
+          "lat": 42.49624,
+          "lon": 1.50662
+        },
+        "dsl": {
+          "preu": 1.663,
+          "municipi": "Santa Coloma",
+          "lat": 42.49624,
+          "lon": 1.50662
+        }
+      }
+    },
+    "repsol": {
+      "nom": "Repsol",
+      "g95": 1.456,
+      "dsl": 1.657,
+      "n": 5,
+      "rang": {
+        "g95": [
+          1.456,
+          1.456
+        ],
+        "dsl": [
+          1.657,
+          1.657
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.456,
+          "municipi": "Encamp",
+          "lat": 42.53349,
+          "lon": 1.58471
+        },
+        "dsl": {
+          "preu": 1.657,
+          "municipi": "Encamp",
+          "lat": 42.53349,
+          "lon": 1.58471
+        }
+      }
+    },
+    "shell": {
+      "nom": "Shell",
+      "g95": 1.46,
+      "dsl": 1.663,
+      "n": 4,
+      "rang": {
+        "g95": [
+          1.46,
+          1.46
+        ],
+        "dsl": [
+          1.663,
+          1.663
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.46,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.45503,
+          "lon": 1.48697
+        },
+        "dsl": {
+          "preu": 1.663,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.45503,
+          "lon": 1.48697
+        }
+      }
+    },
+    "altres": {
+      "nom": "Independents i altres",
+      "g95": 1.473,
+      "dsl": 1.667,
+      "n": 3,
+      "rang": {
+        "g95": [
+          1.449,
+          1.505
+        ],
+        "dsl": [
+          1.639,
+          1.698
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.449,
+          "municipi": "Andorra la Vella",
+          "lat": 42.50502,
+          "lon": 1.51526
+        },
+        "dsl": {
+          "preu": 1.639,
+          "municipi": "Andorra la Vella",
+          "lat": 42.50502,
+          "lon": 1.51526
+        }
+      }
+    }
+  }
+}
