@@ -1,14 +1,14 @@
 /** Fitxa de cada benzinera i gestos del mapa: botons, arrossegar i doble clic. */
 
-import { element, enllacExtern, perId, puntDeColor, urlDeLaRuta } from "./dom.js";
-import { formataDistancia, formataPreu } from "./format.js";
-import { desprojecta, distancia, projecta } from "./geo.js";
+import { element, enllacExtern, puntDeColor, urlDeLaRuta } from "./dom.js";
+import { formataPreu } from "./format.js";
+import { desprojecta, projecta } from "./geo.js";
 import { limitaElZoom } from "./mapa-calculs.js";
 import { colorDe } from "./marques.js";
 
 /** @typedef {import("./estat.js").Estat} Estat */
 /** @typedef {import("./tipus.js").Estacio} Estacio */
-/** @typedef {import("./mapa.js").Vista} Vista */
+/** @typedef {import("./mapa-base.js").Vista} Vista */
 
 const MARGE_FITXA_PX = 8;
 const SEPARACIO_FITXA_PX = 14;
@@ -18,23 +18,15 @@ const NO_ARROSSEGUEN = ".map-ctl,.map-pop,.map-attr,.m-tag,.m-pt";
 /**
  * @param {Estat} estat
  * @param {Estacio} estacio
+ * @param {string | null} detall Sobre la distància, si n'hi ha.
  * @returns {HTMLElement[]} Nom, preu, adreça, distància i enllaç per arribar-hi.
  */
-function contingutDeLaFitxa(estat, estacio) {
+function contingutDeLaFitxa(estat, estacio, detall) {
   const nom = element("b");
   nom.append(puntDeColor(colorDe(estacio.m)), estacio.nom);
   const preu = /** @type {number} */ (estacio[estat.combustible]);
   const adreca = [estacio.mun, estacio.adr].filter(Boolean).join(" · ");
-  const { ubicacio } = estat;
-  const lluny = ubicacio
-    ? [
-        element(
-          "span",
-          null,
-          `A ${formataDistancia(distancia(ubicacio, estacio))} ${ubicacio.gps ? "de tu" : `de ${ubicacio.nom}`}`,
-        ),
-      ]
-    : [];
+  const lluny = detall ? [element("span", null, detall)] : [];
   return [
     nom,
     element("span", "mp-preu", `${formataPreu(preu)} €/L`),
@@ -45,12 +37,16 @@ function contingutDeLaFitxa(estat, estacio) {
 }
 
 /**
- * @param {{estat: Estat, caixa: HTMLElement, fitxa: HTMLElement}} mapa
+ * @param {object} mapa
+ * @param {Estat} mapa.estat
+ * @param {HTMLElement} mapa.caixa
+ * @param {HTMLElement} mapa.fitxa
+ * @param {(estacio: Estacio) => string | null} mapa.detall
  * @param {Estacio} estacio
  * @param {[number, number]} posicio Píxels de la benzinera dins del mapa.
  */
-export function obreLaFitxa({ estat, caixa, fitxa }, estacio, [x, y]) {
-  fitxa.replaceChildren(...contingutDeLaFitxa(estat, estacio));
+export function obreLaFitxa({ estat, caixa, fitxa, detall }, estacio, [x, y]) {
+  fitxa.replaceChildren(...contingutDeLaFitxa(estat, estacio, detall(estacio)));
   fitxa.hidden = false;
   const ample = fitxa.offsetWidth;
   const alt = fitxa.offsetHeight;
@@ -121,11 +117,15 @@ class Arrossegament {
 }
 
 /**
- * @param {{caixa: HTMLElement, vista: Vista, fitxa: HTMLElement}} mapa
+ * @param {object} mapa
+ * @param {HTMLElement} mapa.caixa
+ * @param {Vista} mapa.vista
+ * @param {HTMLElement} mapa.fitxa
+ * @param {{apropa: HTMLElement, allunya: HTMLElement, centra: HTMLElement}} mapa.botons
  * @param {{dibuixa: () => void, encaixa: () => void}} accions
  */
 export function activaElsGestos(mapa, { dibuixa, encaixa }) {
-  const { caixa, vista, fitxa } = mapa;
+  const { caixa, vista, fitxa, botons } = mapa;
   const redibuixa = () => {
     fitxa.hidden = true;
     dibuixa();
@@ -134,9 +134,9 @@ export function activaElsGestos(mapa, { dibuixa, encaixa }) {
     vista.zoom = limitaElZoom(vista.zoom + nivells);
     redibuixa();
   };
-  perId("mapIn").addEventListener("click", () => apropa(1));
-  perId("mapOut").addEventListener("click", () => apropa(-1));
-  perId("mapFit").addEventListener("click", () => {
+  botons.apropa.addEventListener("click", () => apropa(1));
+  botons.allunya.addEventListener("click", () => apropa(-1));
+  botons.centra.addEventListener("click", () => {
     encaixa();
     redibuixa();
   });
