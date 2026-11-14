@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import {
   deLloc,
+  formataDurada,
   enLletres,
   formataAmbSigne,
   formataCentims,
@@ -60,4 +61,9 @@ test("apostrofa la preposició davant d'un lloc que comença amb vocal o hac", (
   assert.equal(deLloc("Andorra"), "d'Andorra");
   assert.equal(deLloc("Hostalric"), "d'Hostalric");
   assert.equal(deLloc("Catalunya"), "de Catalunya");
+});
+
+test("la durada d'una ruta es diu en minuts o en hores i minuts", () => {
+  assert.equal(formataDurada(44.6), "45 min");
+  assert.equal(formataDurada(65), "1 h 05 min");
 });

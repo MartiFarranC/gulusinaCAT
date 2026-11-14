@@ -108,6 +108,15 @@ export const urlDeLaRuta = (lat, lon) =>
   `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
 
 /**
+ * @param {{lat: number, lon: number}} origen
+ * @param {{lat: number, lon: number}} desti
+ * @param {{lat: number, lon: number}} parada
+ * @returns {string} La ruta en cotxe a Google Maps passant per la parada.
+ */
+export const urlDeLaRutaAmbParada = (origen, desti, parada) =>
+  `https://www.google.com/maps/dir/?api=1&origin=${origen.lat},${origen.lon}&destination=${desti.lat},${desti.lon}&waypoints=${parada.lat},${parada.lon}&travelmode=driving`;
+
+/**
  * Marca quin botó d'un grup està premut.
  *
  * @param {Iterable<Element>} botons

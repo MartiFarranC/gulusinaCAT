@@ -1,0 +1,71 @@
+#rutaSec .calc {
+  margin-bottom: 14px;
+}
+.ruta-entrada {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ruta-entrada input[type="search"] {
+  flex: 1;
+}
+.ruta-entrada .btn {
+  flex: none;
+  white-space: nowrap;
+}
+#rDesviacio {
+  flex: 1;
+  accent-color: var(--led);
+}
+#rDesviacioTxt {
+  font-family: "Bungee", sans-serif;
+  color: var(--led);
+  min-width: 4.6em;
+  text-align: right;
+}
+.ruta-resultat[hidden] {
+  display: none;
+}
+.ruta-resultat .diposit-resultat {
+  margin: 0 0 14px;
+}
+.ruta-resultat .diposit-detall a {
+  color: var(--ink);
+  font-weight: 700;
+}
+.ruta-resultat .diposit-euros strong {
+  white-space: nowrap;
+}
+.stm .ruta-situacio {
+  display: block;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Capes del mapa de la ruta */
+.m-ruta-vora {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+.m-ruta {
+  fill: none;
+  stroke: #1a73e8;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.m-sortida,
+.m-desti {
+  stroke: #fff;
+  stroke-width: 3;
+}
+.m-sortida {
+  fill: #2d7a4b;
+}
+.m-desti {
+  fill: #c0392b;
+}

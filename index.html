@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="assets/css/grafics.css" />
     <link rel="stylesheet" href="assets/css/diposit.css" />
     <link rel="stylesheet" href="assets/css/properes.css" />
+    <link rel="stylesheet" href="assets/css/ruta.css" />
     <link rel="stylesheet" href="assets/css/filtre.css" />
     <link rel="stylesheet" href="assets/css/mapa.css" />
     <link rel="stylesheet" href="assets/css/dreceres.css" />
@@ -89,6 +90,7 @@
           <li><a href="#preus">Les més barates</a></li>
           <li><a href="#mapSec">Mapa</a></li>
           <li><a href="#aprop">Benzineres properes</a></li>
+          <li><a href="#rutaSec">Benzineres de la ruta</a></li>
           <li><a href="#compSec">Totes les marques</a></li>
           <li><a href="#evoSec">Evolució dels preus</a></li>
           <li><a href="#dipositSec">Quant hi he de posar?</a></li>
@@ -234,6 +236,94 @@
         <p class="lead" id="apropLead"></p>
         <ol class="st" id="stList"></ol>
         <button type="button" class="btn more" id="stMore">Mostra'n més</button>
+      </section>
+
+      <section id="rutaSec">
+        <h2>Benzineres de la ruta</h2>
+        <p class="lead">
+          Digues d'on surts i on vas, per Catalunya i Andorra, i et marquem les benzineres que
+          queden a prop del camí, amb la més barata remarcada. La desviació és la distància en línia
+          recta des de la ruta; només hi surten les marques triades al filtre.
+        </p>
+        <div class="calc">
+          <div class="diposit">
+            <div class="camp ample">
+              <label for="rOrigen">D'on surts</label>
+              <div class="ruta-entrada">
+                <input
+                  id="rOrigen"
+                  type="search"
+                  placeholder="Adreça, poble o lloc"
+                  autocomplete="off"
+                  enterkeyhint="search"
+                />
+                <button type="button" class="btn" id="rAqui">Des d'on soc</button>
+              </div>
+              <ul class="diposit-resultats" id="rOrigenOpcions" hidden></ul>
+            </div>
+            <div class="camp ample">
+              <label for="rDesti">On vas</label>
+              <div class="ruta-entrada">
+                <input
+                  id="rDesti"
+                  type="search"
+                  placeholder="Adreça, poble o lloc"
+                  autocomplete="off"
+                  enterkeyhint="search"
+                />
+                <button
+                  type="button"
+                  class="btn"
+                  id="rInverteix"
+                  aria-label="Intercanvia d'on surts i on vas"
+                >
+                  ⇅
+                </button>
+              </div>
+              <ul class="diposit-resultats" id="rDestiOpcions" hidden></ul>
+            </div>
+            <div class="camp ample">
+              <label for="rDesviacio">Desviació màxima</label>
+              <div class="ruta-entrada">
+                <input id="rDesviacio" type="range" min="0.5" max="20" step="0.5" value="2" />
+                <output id="rDesviacioTxt" for="rDesviacio">2,0 km</output>
+              </div>
+            </div>
+          </div>
+          <p class="near-msg" id="rMsg" role="status">Tria d'on surts i on vas.</p>
+        </div>
+        <div class="ruta-resultat" id="rResultat" hidden>
+          <div class="diposit-resultat" id="rBarata" hidden></div>
+          <div
+            class="map"
+            id="rMapa"
+            role="region"
+            aria-label="Mapa de la ruta. La mateixa informació és a la llista de sota."
+          >
+            <div class="map-tiles" id="rMapaRajoles" aria-hidden="true"></div>
+            <svg class="map-svg" id="rMapaSvg" aria-hidden="true"></svg>
+            <div class="map-pop" id="rMapaFitxa" hidden></div>
+            <div class="map-ctl">
+              <button type="button" id="rMapaIn" aria-label="Apropa el mapa">+</button>
+              <button type="button" id="rMapaOut" aria-label="Allunya el mapa">−</button>
+              <button type="button" id="rMapaFit" aria-label="Torna a centrar el mapa">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+                </svg>
+              </button>
+            </div>
+            <div class="map-attr">
+              ©
+              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener"
+                >OpenStreetMap</a
+              >
+              · ruta d'<a href="https://project-osrm.org" target="_blank" rel="noopener">OSRM</a>
+            </div>
+          </div>
+          <ol class="st" id="rLlista"></ol>
+          <button type="button" class="btn more" id="rMes" hidden></button>
+        </div>
       </section>
 
       <section id="compSec" hidden>

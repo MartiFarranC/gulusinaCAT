@@ -38,7 +38,7 @@ const esObjecte = (valor) => typeof valor === "object" && valor !== null && !Arr
  * @param {number} temps Mil·lisegons abans d'abandonar.
  * @returns {Promise<unknown>}
  */
-async function llegeixJson(adreca, temps) {
+export async function llegeixJson(adreca, temps) {
   const control = new AbortController();
   const rellotge = setTimeout(() => control.abort(), temps);
   try {

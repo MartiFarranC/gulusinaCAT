@@ -1,6 +1,7 @@
 /** Formats de números per mostrar a la pàgina, a la manera catalana. */
 
 const ORDINALS = ["r", "n", "r", "t"];
+const MINUTS_PER_HORA = 60;
 const NOMBRES_EN_LLETRES = ["zero", "un", "dos", "tres", "quatre", "cinc"];
 
 /** @param {number} preu Euros per litre. */
@@ -55,3 +56,14 @@ export const formataLitres = (litres) => `${litres.toFixed(1).replace(".", ",")}
  * @returns {string} El lloc amb «de» davant, apostrofat davant de vocal o hac: «d'Andorra».
  */
 export const deLloc = (lloc) => (/^[aeiouàèéíïòóúüh]/i.test(lloc) ? `d'${lloc}` : `de ${lloc}`);
+
+/**
+ * @param {number} minuts
+ * @returns {string} «45 min» o «1 h 05 min».
+ */
+export function formataDurada(minuts) {
+  const total = Math.round(minuts);
+  if (total < MINUTS_PER_HORA) return `${total} min`;
+  const hores = Math.floor(total / MINUTS_PER_HORA);
+  return `${hores} h ${String(total % MINUTS_PER_HORA).padStart(2, "0")} min`;
+}

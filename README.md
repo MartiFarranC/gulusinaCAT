@@ -21,6 +21,11 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 - **Les més properes**: compara només les benzineres dins d'un radi (50 km per
   defecte, de 5 a 150 km) al voltant de la ubicació del GPS o d'un municipi.
 - **Mapa** amb totes les benzineres, o les properes amb la ubicació i el radi.
+- **Benzineres de la ruta**: tries d'on surts (una adreça, un poble o la ubicació del GPS)
+  i on vas, i surten al mapa i en una llista, en l'ordre del trajecte, totes les
+  benzineres de Catalunya i d'Andorra que queden a menys de la desviació triada (de 0,5 a
+  20 km), amb la més barata remarcada i l'enllaç a la ruta amb parada a Google Maps. Va
+  igual de Catalunya a Andorra, a l'inrevés o dins de cadascuna.
 - **Filtre de marques** per triar quines es comparen. El navegador el recorda.
 - **Gràfics** de l'evolució dels últims 30 dies i dels últims 5 anys, amb una taula
   del preu mitjà de cada any.
@@ -152,6 +157,17 @@ Ministeri directament, i un test comprova que en surt el mateix resum.
   tendència i el gràfic de 30 dies.
 - `anual.json`: el preu mitjà de cada any dels últims 5, a partir del dia 15 de cada
   mes de l'històric del Ministeri.
+
+### Ruta
+
+La ruta és la més ràpida en cotxe segons [OSRM](https://project-osrm.org) (el servidor
+públic, amb dades d'OpenStreetMap). Els llocs es busquen amb el
+[cercador d'Open-Meteo](https://open-meteo.com/en/docs/geocoding-api) i, si no és el nom
+d'un poble, com una adreça amb [Nominatim](https://nominatim.org) (una petició per segon
+com a màxim, com demana la seva norma d'ús). El navegador els crida directament: tots
+tres envien capçaleres CORS. La desviació és la distància en línia recta de cada
+benzinera a la ruta (`assets/js/ruta-calculs.js`), no el camí per carretera: anar-hi i
+tornar pot ser una mica més.
 
 ### Mapa
 

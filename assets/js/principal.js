@@ -29,6 +29,7 @@ import { agregaPerMarca, estacionsDinsDelRadi, mesProperaDeLaMarca } from "./pro
 import { regioTriada } from "./regio.js";
 import { mostraLaRegio } from "./regio-pagina.js";
 import { pintaElRetol } from "./retol.js";
+import { RutaAmbBenzineres } from "./ruta.js";
 import { tendencia } from "./tendencia.js";
 import { animaElTitol } from "./titol.js";
 import { Totems } from "./totems.js";
@@ -60,6 +61,7 @@ const filtre = new Filtre(estat, {
 const panell = new PanellDUbicacio(estat, aplicaLAmbit);
 const properes = new Properes(estat, aplicaLAmbit);
 const mapa = new Mapa(estat);
+const ruta = new RutaAmbBenzineres(estat);
 const diposit = new CalculadoraDelDiposit(estat, {
   cotxe: llegeixElCotxe(magatzem),
   desa: (cotxe) => desaElCotxe(magatzem, cotxe),
@@ -123,6 +125,7 @@ function pinta() {
   });
   comparativa.pinta(ordenades);
   pintaElRetol(estat, reals, tendenciaDe);
+  void ruta.pinta();
 }
 
 /** @param {number} quantes Benzineres dins del radi. */
