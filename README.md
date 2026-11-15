@@ -21,8 +21,10 @@ Publicada a <https://martifarranc.github.io/gulusinaCAT/>.
 - **Les més properes**: compara només les benzineres dins d'un radi (50 km per
   defecte, de 5 a 150 km) al voltant de la ubicació del GPS o d'un municipi.
 - **Mapa** amb totes les benzineres, o les properes amb la ubicació i el radi.
-- **Benzineres de la ruta**: tries d'on surts (una adreça, un poble o la ubicació del GPS)
-  i on vas, i surten al mapa i en una llista, en l'ordre del trajecte, totes les
+- **Ruta amb benzineres** (`ruta.html`, amb el botó «Ruta» o des del menú): una pàgina a
+  part, com un navegador, amb el mapa a pantalla completa i el recorregut dibuixat. Tries
+  d'on surts (una adreça, un poble o la ubicació del GPS) i on vas, i surten al mapa i en
+  una llista, en l'ordre del trajecte, totes les
   benzineres de Catalunya i d'Andorra que queden a menys de la desviació triada (de 0,5 a
   20 km), amb la més barata remarcada i l'enllaç a la ruta amb parada a Google Maps. Va
   igual de Catalunya a Andorra, a l'inrevés o dins de cadascuna.
@@ -236,7 +238,8 @@ a `main` i a cada pull request.
 │   ├── preus.yml          # Actualitza preus (cada 30 minuts)
 │   └── anual.yml          # Històric de 5 anys (cada dia)
 ├── docs/adr/              # Decisions d'arquitectura
-├── index.html             # L'estructura de la pàgina
+├── index.html             # L'estructura de la pàgina de preus
+├── ruta.html              # La pàgina de la ruta amb benzineres
 ├── assets/
 │   ├── css/               # Estils, un fitxer per part de la pàgina
 │   ├── icones/            # Logo (logo.svg) i icones generades a partir d'ell

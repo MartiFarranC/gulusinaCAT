@@ -77,6 +77,13 @@ main section {
   border-left-color: var(--led);
   background: var(--bg2);
 }
+.dreceres a.dreceres-ruta {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--led);
+}
 .dreceres-boto {
   position: fixed;
   z-index: 21;

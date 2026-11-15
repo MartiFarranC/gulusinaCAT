@@ -1,5 +1,7 @@
 /** Càlculs del mapa que no depenen del navegador. */
 
+import { desprojecta, projecta, vistaQueEncaixa } from "./geo.js";
+
 const ZOOM_MINIM = 6;
 const ZOOM_MAXIM = 17;
 const MAXIM_D_ETIQUETES = 10;
@@ -76,3 +78,28 @@ export const limitaElZoom = (zoom) => Math.max(ZOOM_MINIM, Math.min(ZOOM_MAXIM, 
  * @returns {number} El nivell enter de les rajoles que es fan servir per a aquest zoom.
  */
 export const zoomDeLesRajoles = (zoom) => Math.min(ZOOM_MAXIM, Math.round(zoom));
+
+/**
+ * @typedef {object} Rectangle En píxels dins del mapa.
+ * @property {number} esquerra
+ * @property {number} dalt
+ * @property {number} ample
+ * @property {number} alt
+ */
+
+/**
+ * La vista que encaixa els punts a la part del mapa que no queda tapada (per un panell).
+ *
+ * @param {readonly {lat: number, lon: number}[]} punts Almenys un punt.
+ * @param {{ample: number, alt: number}} mapa
+ * @param {Rectangle} lliure
+ * @returns {{zoom: number, centre: {lat: number, lon: number}}}
+ */
+export function vistaALaZonaLliure(punts, mapa, lliure) {
+  const vista = vistaQueEncaixa(punts, lliure.ample, lliure.alt);
+  const zoom = limitaElZoom(vista.zoom);
+  const centre = projecta(vista.centre.lat, vista.centre.lon, zoom);
+  const desplacamentX = lliure.esquerra + lliure.ample / 2 - mapa.ample / 2;
+  const desplacamentY = lliure.dalt + lliure.alt / 2 - mapa.alt / 2;
+  return { zoom, centre: desprojecta(centre.x - desplacamentX, centre.y - desplacamentY, zoom) };
+}

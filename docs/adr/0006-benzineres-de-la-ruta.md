@@ -24,6 +24,9 @@ El projecte `tempCat` ja fa una ruta així amb OSRM, Open-Meteo, Nominatim i Lea
   quilòmetres i no necessita cap servei més.
 - La ruta llegeix les benzineres de totes les regions, tant si la pàgina mostra Catalunya
   com Andorra, perquè una ruta pot passar per totes dues.
+- És una pàgina a part (`ruta.html`) amb el mapa a pantalla completa i un panell a sobre,
+  com un navegador, en lloc d'una secció més de la pàgina de preus. Comparteix els mòduls
+  i els estils, i les marques excloses al filtre (desades al navegador).
 
 ## Conseqüències
 

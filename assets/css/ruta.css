@@ -1,5 +1,78 @@
-#rutaSec .calc {
+/* Pàgina de la ruta: el mapa a pantalla completa i el panell a sobre, com un navegador */
+.navegacio {
+  overflow: hidden;
+}
+.nav-mapa {
+  position: fixed;
+  inset: 0;
+  height: auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.nav-panell {
+  position: fixed;
+  z-index: 3;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  left: 12px;
+  width: 400px;
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 18px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+.nav-cap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 14px;
+}
+.nav-cap h1 {
+  margin: 0;
+  font: 800 1.25rem var(--head);
+}
+.nav-tornar {
+  display: flex;
+  flex: none;
+}
+.nav-camps {
+  display: grid;
+  gap: 12px;
+}
+.nav-nota {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.nav-nota a {
+  color: var(--ink);
+}
+.ruta-opcions {
+  display: flex;
+}
+/* En pantalles estretes el panell va a dalt i el mapa queda a sota */
+@media (max-width: 700px) {
+  .nav-panell {
+    top: env(safe-area-inset-top, 0px);
+    left: 0;
+    right: 0;
+    width: auto;
+    max-height: 52dvh;
+    border-radius: 0 0 16px 16px;
+    border-width: 0 0 1px;
+    padding: 12px 14px;
+  }
+  .nav-cap {
+    margin-bottom: 10px;
+  }
+  .nav-mapa .map-ctl {
+    top: auto;
+    bottom: 28px;
+  }
 }
 .ruta-entrada {
   display: flex;
@@ -33,7 +106,13 @@
   color: var(--ink);
   font-weight: 700;
 }
+.ruta-resultat .diposit-euros {
+  font-size: 0.95rem;
+}
 .ruta-resultat .diposit-euros strong {
+  display: block;
+  margin: 2px 0 0;
+  font-size: 1.7rem;
   white-space: nowrap;
 }
 .stm .ruta-situacio {

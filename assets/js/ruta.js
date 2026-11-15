@@ -41,7 +41,7 @@ export class RutaAmbBenzineres {
     this.estat = estat;
     this.desviacio = perIdDeTipus("rDesviacio", HTMLInputElement);
     this.missatge = perId("rMsg");
-    this.mapa = new MapaDeLaRuta(estat);
+    this.mapa = new MapaDeLaRuta(estat, perId("navPanell"));
     /** @type {{ruta: Ruta, recorregut: Recorregut, origen: Lloc, desti: Lloc} | null} */
     this.actual = null;
     /** @type {Promise<Estacio[]> | null} */
@@ -64,6 +64,7 @@ export class RutaAmbBenzineres {
     perId("rInverteix").addEventListener("click", () => this.inverteix());
     this.desviacio.addEventListener("input", () => this.pinta());
     perId("rMes").addEventListener("click", () => this.pinta(true));
+    this.mapa.posaElsExtrems(null, null);
   }
 
   /** @param {string} text */
@@ -105,6 +106,7 @@ export class RutaAmbBenzineres {
     if (!origen || !desti) {
       this.actual = null;
       perId("rResultat").hidden = true;
+      this.mapa.posaElsExtrems(origen, desti);
       this.avisa(origen ? "Ara tria on vas." : "Tria d'on surts i on vas.");
       return;
     }
@@ -120,6 +122,7 @@ export class RutaAmbBenzineres {
       if (aquesta !== this.peticio) return;
       this.actual = null;
       perId("rResultat").hidden = true;
+      this.mapa.posaElsExtrems(origen, desti);
       this.avisa("No s'ha pogut calcular la ruta. Torna-ho a provar d'aquí a una estona.");
     }
   }
@@ -173,6 +176,6 @@ export class RutaAmbBenzineres {
     resum.replaceChildren(...(barata ? resumDeLaMesBarata(barata, { origen, desti, preu }) : []));
     const contingut = { trobades, barata, totes, preu };
     pintaLaLlistaDeLaRuta(perId("rLlista"), perId("rMes"), contingut);
-    this.mapa.mostra(ruta.punts, trobades, esRutaNova);
+    this.mapa.mostra({ punts: ruta.punts, origen, desti }, trobades, esRutaNova);
   }
 }

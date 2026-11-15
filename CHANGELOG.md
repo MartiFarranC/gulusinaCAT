@@ -9,9 +9,11 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Afegit
 
-- Benzineres de la ruta: amb la sortida (adreça, poble o GPS) i la destinació, calcula
-  la ruta en cotxe i mostra al mapa i en una llista les benzineres de Catalunya i
-  d'Andorra que queden a menys de la desviació triada, amb la més barata remarcada.
+- Ruta amb benzineres (`ruta.html`): una pàgina a part, com un navegador, amb el mapa a
+  pantalla completa. Amb la sortida (adreça, poble o GPS) i la destinació, dibuixa la
+  ruta en cotxe i mostra al mapa i en una llista les benzineres de Catalunya i d'Andorra
+  que queden a menys de la desviació triada, amb la més barata remarcada. S'hi arriba amb
+  el botó «Ruta», des del menú i des de la drecera de l'app instal·lada.
 - Versió d'Andorra: el botó «Catalunya / Andorra» canvia tota la pàgina a les
   benzineres d'Andorra, amb les dades oficials del Govern d'Andorra, el seu mapa, les
   properes, la calculadora i l'històric. La pàgina recorda la versió triada.

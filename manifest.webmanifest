@@ -33,6 +33,19 @@
   ],
   "shortcuts": [
     {
+      "name": "Ruta amb benzineres",
+      "short_name": "Ruta",
+      "description": "Les benzineres que queden a prop del camí i la més barata.",
+      "url": "./ruta.html",
+      "icons": [
+        {
+          "src": "assets/icones/icona-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
       "name": "Quant hi he de posar?",
       "short_name": "Quant hi poso?",
       "description": "Calcula quants diners cal demanar per omplir el dipòsit.",

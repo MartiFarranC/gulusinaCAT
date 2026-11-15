@@ -12,8 +12,11 @@ export class Dreceres {
   constructor() {
     this.menu = perId("dreceres");
     this.boto = perId("dreceresBoto");
+    const enllacos = /** @type {NodeListOf<HTMLAnchorElement>} */ (
+      this.menu.querySelectorAll("ul a")
+    );
     /** @type {Array<{enllac: HTMLAnchorElement, objectiu: HTMLElement}>} */
-    this.entrades = [...this.menu.querySelectorAll("a")].map((enllac) => ({
+    this.entrades = [...enllacos].map((enllac) => ({
       enllac,
       objectiu: perId(enllac.hash.slice(1)),
     }));

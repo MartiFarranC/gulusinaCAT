@@ -79,7 +79,8 @@
   font-size: 0.92rem;
 }
 
-/* Accés ràpid des de la barra de controls */
+/* Accessos ràpids des de la barra de controls */
+.drecera-ruta,
 .drecera-diposit {
   display: inline-flex;
   align-items: center;
@@ -91,6 +92,13 @@
   width: 12px;
   height: 16px;
   fill: var(--led);
+}
+.drecera-ruta svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--led);
+  stroke-width: 2;
 }
 
 /* Cercador de la benzinera */

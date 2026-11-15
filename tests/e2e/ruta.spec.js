@@ -1,5 +1,7 @@
 import { expect, obre, prepara, test } from "./entorn.js";
 
+const PAGINA = "ruta.html";
+
 const CORS = { "access-control-allow-origin": "*" };
 
 /** Llocs que coneix el cercador d'Open-Meteo de prova. */
@@ -92,9 +94,26 @@ test.describe("benzineres de la ruta", () => {
     await prepara(page);
   });
 
-  test("de Catalunya a Andorra marca les benzineres del camí i la més barata", async ({ page }) => {
+  test("s'hi arriba des del botó de la pàgina de preus i ja mostra el mapa", async ({ page }) => {
     await preparaElsServeis(page);
     await obre(page);
+
+    await page.getByRole("link", { name: "Ruta", exact: true }).click();
+
+    await expect(page).toHaveURL(/ruta\.html$/);
+    await expect(page.locator("#rMapaRajoles img").first()).toBeAttached();
+    await expect(page.getByRole("heading", { name: "Ruta amb benzineres" })).toBeVisible();
+  });
+
+  test("el menú de la pàgina de preus també hi porta", async ({ page }) => {
+    await obre(page);
+
+    await expect(page.locator("#dreceres a.dreceres-ruta")).toHaveAttribute("href", "ruta.html");
+  });
+
+  test("de Catalunya a Andorra marca les benzineres del camí i la més barata", async ({ page }) => {
+    await preparaElsServeis(page);
+    await page.goto(PAGINA);
 
     await tria(page, "D'on surts", "Reus");
     await expect(page.locator("#rMsg")).toHaveText("Ara tria on vas.");
@@ -119,7 +138,7 @@ test.describe("benzineres de la ruta", () => {
     page,
   }) => {
     await preparaElsServeis(page);
-    await obre(page);
+    await page.goto(PAGINA);
     await tria(page, "D'on surts", "Reus");
     await tria(page, "On vas", "Encamp");
     await expect(page.locator("#rBarata")).toContainText("1,389 €/L");
@@ -142,7 +161,7 @@ test.describe("benzineres de la ruta", () => {
 
   test("troba una adreça quan no és el nom d'un poble", async ({ page }) => {
     await preparaElsServeis(page);
-    await obre(page);
+    await page.goto(PAGINA);
 
     await page.getByLabel("D'on surts", { exact: true }).fill("Carrer Major, 1, Cervera");
 
@@ -155,7 +174,7 @@ test.describe("benzineres de la ruta", () => {
     await context.grantPermissions(["geolocation"]);
     await context.setGeolocation({ latitude: 41.155, longitude: 1.107 });
     await preparaElsServeis(page);
-    await obre(page);
+    await page.goto(PAGINA);
 
     await page.getByRole("button", { name: "Des d'on soc" }).click();
     await expect(page.getByLabel("D'on surts", { exact: true })).toHaveValue("La meva ubicació");
@@ -166,7 +185,7 @@ test.describe("benzineres de la ruta", () => {
 
   test("avisa si no es pot calcular la ruta", async ({ page }) => {
     await preparaElsServeis(page, { ruta: "falla" });
-    await obre(page);
+    await page.goto(PAGINA);
 
     await tria(page, "D'on surts", "Reus");
     await tria(page, "On vas", "Encamp");
