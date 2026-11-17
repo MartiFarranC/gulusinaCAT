@@ -1,23 +1,23 @@
 {
-  "fecha": "16/11/2026 1:49:00",
+  "fecha": "17/11/2026 4:27:50",
   "catalunya": {
-    "g95": 1.583,
-    "dsl": 1.802,
-    "n": 1447
+    "g95": 1.567,
+    "dsl": 1.793,
+    "n": 1449
   },
   "marques": {
     "repsol": {
       "nom": "Repsol",
-      "g95": 1.695,
+      "g95": 1.69,
       "dsl": 1.883,
       "n": 345,
       "rang": {
         "g95": [
           1.639,
-          1.759
+          1.749
         ],
         "dsl": [
-          1.845,
+          1.849,
           1.919
         ]
       },
@@ -38,46 +38,46 @@
     },
     "altres": {
       "nom": "Independents i altres",
-      "g95": 1.539,
-      "dsl": 1.77,
-      "n": 284,
+      "g95": 1.521,
+      "dsl": 1.76,
+      "n": 286,
       "rang": {
         "g95": [
-          1.379,
-          1.719
+          1.369,
+          1.699
         ],
         "dsl": [
-          1.657,
-          1.899
+          1.649,
+          1.898
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.299,
+          "preu": 1.279,
           "municipi": "Fornells de la Selva",
           "lat": 41.93575,
           "lon": 2.797944
         },
         "dsl": {
-          "preu": 1.599,
-          "municipi": "Fornells de la Selva",
-          "lat": 41.93575,
-          "lon": 2.797944
+          "preu": 1.589,
+          "municipi": "Cornellà de Llobregat",
+          "lat": 41.350778,
+          "lon": 2.0815
         }
       }
     },
     "moeve": {
       "nom": "Moeve (Cepsa)",
-      "g95": 1.697,
-      "dsl": 1.918,
+      "g95": 1.685,
+      "dsl": 1.907,
       "n": 104,
       "rang": {
         "g95": [
-          1.65,
-          1.759
+          1.639,
+          1.749
         ],
         "dsl": [
-          1.889,
+          1.869,
           1.959
         ]
       },
@@ -98,28 +98,28 @@
     },
     "galp": {
       "nom": "Galp",
-      "g95": 1.622,
-      "dsl": 1.829,
+      "g95": 1.608,
+      "dsl": 1.818,
       "n": 80,
       "rang": {
         "g95": [
           1.459,
-          1.739
+          1.709
         ],
         "dsl": [
-          1.739,
-          1.899
+          1.729,
+          1.889
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.319,
+          "preu": 1.309,
           "municipi": "Sant Adrià de Besòs",
           "lat": 41.429361,
           "lon": 2.227611
         },
         "dsl": {
-          "preu": 1.614,
+          "preu": 1.609,
           "municipi": "Sant Adrià de Besòs",
           "lat": 41.429361,
           "lon": 2.227611
@@ -128,88 +128,88 @@
     },
     "esclatoil": {
       "nom": "Esclatoil",
-      "g95": 1.429,
-      "dsl": 1.706,
+      "g95": 1.382,
+      "dsl": 1.682,
       "n": 74,
       "rang": {
         "g95": [
-          1.389,
-          1.529
+          1.339,
+          1.449
         ],
         "dsl": [
-          1.669,
-          1.749
+          1.639,
+          1.729
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.349,
-          "municipi": "Girona",
-          "lat": 41.959167,
-          "lon": 2.8015
+          "preu": 1.329,
+          "municipi": "Anglès",
+          "lat": 41.959111,
+          "lon": 2.634639
         },
         "dsl": {
-          "preu": 1.649,
-          "municipi": "Girona",
-          "lat": 41.959167,
-          "lon": 2.8015
+          "preu": 1.639,
+          "municipi": "Garriga (La)",
+          "lat": 41.694278,
+          "lon": 2.281972
         }
       }
     },
     "bp": {
       "nom": "BP",
-      "g95": 1.688,
-      "dsl": 1.889,
+      "g95": 1.679,
+      "dsl": 1.884,
       "n": 70,
       "rang": {
         "g95": [
           1.639,
-          1.735
+          1.725
         ],
         "dsl": [
-          1.859,
-          1.928
+          1.839,
+          1.919
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.609,
-          "municipi": "Biure",
-          "lat": 42.337,
-          "lon": 2.919667
+          "preu": 1.599,
+          "municipi": "Corçà",
+          "lat": 41.982778,
+          "lon": 3.020944
         },
         "dsl": {
-          "preu": 1.835,
-          "municipi": "Girona",
-          "lat": 41.964556,
-          "lon": 2.843611
+          "preu": 1.829,
+          "municipi": "Manresa",
+          "lat": 41.716722,
+          "lon": 1.84575
         }
       }
     },
     "bonarea": {
       "nom": "bonÀrea",
-      "g95": 1.337,
-      "dsl": 1.624,
+      "g95": 1.294,
+      "dsl": 1.594,
       "n": 51,
       "rang": {
         "g95": [
-          1.333,
-          1.339
+          1.29,
+          1.296
         ],
         "dsl": [
-          1.621,
-          1.627
+          1.59,
+          1.596
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.332,
+          "preu": 1.289,
           "municipi": "Badalona",
           "lat": 41.430306,
           "lon": 2.227389
         },
         "dsl": {
-          "preu": 1.619,
+          "preu": 1.589,
           "municipi": "Badalona",
           "lat": 41.430306,
           "lon": 2.227389
@@ -218,16 +218,16 @@
     },
     "shell": {
       "nom": "Shell",
-      "g95": 1.58,
-      "dsl": 1.783,
+      "g95": 1.57,
+      "dsl": 1.776,
       "n": 43,
       "rang": {
         "g95": [
           1.479,
-          1.689
+          1.699
         ],
         "dsl": [
-          1.699,
+          1.689,
           1.899
         ]
       },
@@ -248,38 +248,38 @@
     },
     "ballenoil": {
       "nom": "Ballenoil",
-      "g95": 1.468,
-      "dsl": 1.702,
+      "g95": 1.42,
+      "dsl": 1.671,
       "n": 37,
       "rang": {
         "g95": [
-          1.329,
-          1.629
+          1.279,
+          1.559
         ],
         "dsl": [
-          1.599,
-          1.809
+          1.589,
+          1.789
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.299,
-          "municipi": "Girona",
-          "lat": 41.951167,
-          "lon": 2.806306
+          "preu": 1.279,
+          "municipi": "Prat de Llobregat (El)",
+          "lat": 41.325611,
+          "lon": 2.087417
         },
         "dsl": {
-          "preu": 1.599,
-          "municipi": "Mataró",
-          "lat": 41.541694,
-          "lon": 2.457972
+          "preu": 1.589,
+          "municipi": "Prat de Llobregat (El)",
+          "lat": 41.325611,
+          "lon": 2.087417
         }
       }
     },
     "petrocat": {
       "nom": "Petrocat",
-      "g95": 1.631,
-      "dsl": 1.821,
+      "g95": 1.626,
+      "dsl": 1.824,
       "n": 31,
       "rang": {
         "g95": [
@@ -288,18 +288,18 @@
         ],
         "dsl": [
           1.679,
-          1.895
+          1.899
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.339,
+          "preu": 1.305,
           "municipi": "Sant Joan de Vilatorrada",
           "lat": 41.778389,
           "lon": 1.802583
         },
         "dsl": {
-          "preu": 1.629,
+          "preu": 1.595,
           "municipi": "Ripollet",
           "lat": 41.506139,
           "lon": 2.139417
@@ -308,28 +308,28 @@
     },
     "petronor": {
       "nom": "Petronor",
-      "g95": 1.674,
-      "dsl": 1.866,
+      "g95": 1.669,
+      "dsl": 1.867,
       "n": 24,
       "rang": {
         "g95": [
           1.639,
-          1.705
+          1.695
         ],
         "dsl": [
-          1.829,
-          1.905
+          1.839,
+          1.895
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.609,
+          "preu": 1.605,
           "municipi": "Organyà",
           "lat": 42.212111,
           "lon": 1.33025
         },
         "dsl": {
-          "preu": 1.829,
+          "preu": 1.839,
           "municipi": "Igualada",
           "lat": 41.580972,
           "lon": 1.608444
@@ -338,38 +338,38 @@
     },
     "q8": {
       "nom": "Q8",
-      "g95": 1.614,
-      "dsl": 1.794,
+      "g95": 1.601,
+      "dsl": 1.784,
       "n": 24,
       "rang": {
         "g95": [
-          1.529,
+          1.519,
           1.696
         ],
         "dsl": [
-          1.73,
-          1.859
+          1.729,
+          1.839
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.459,
+          "preu": 1.449,
           "municipi": "Granollers",
           "lat": 41.611528,
           "lon": 2.302694
         },
         "dsl": {
           "preu": 1.699,
-          "municipi": "Hospitalet de Llobregat (L')",
-          "lat": 41.366111,
-          "lon": 2.113778
+          "municipi": "Granollers",
+          "lat": 41.611528,
+          "lon": 2.302694
         }
       }
     },
     "meroil": {
       "nom": "Meroil",
-      "g95": 1.541,
-      "dsl": 1.784,
+      "g95": 1.529,
+      "dsl": 1.776,
       "n": 21,
       "rang": {
         "g95": [
@@ -377,13 +377,13 @@
           1.759
         ],
         "dsl": [
-          1.669,
+          1.679,
           1.919
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.348,
+          "preu": 1.328,
           "municipi": "Hospitalet de Llobregat (L')",
           "lat": 41.354639,
           "lon": 2.108722
@@ -398,28 +398,28 @@
     },
     "tamoil": {
       "nom": "Tamoil",
-      "g95": 1.396,
-      "dsl": 1.663,
+      "g95": 1.394,
+      "dsl": 1.666,
       "n": 18,
       "rang": {
         "g95": [
-          1.319,
-          1.489
+          1.299,
+          1.499
         ],
         "dsl": [
           1.599,
-          1.699
+          1.729
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.299,
+          "preu": 1.289,
           "municipi": "Hospitalet de Llobregat (L')",
           "lat": 41.358306,
           "lon": 2.107944
         },
         "dsl": {
-          "preu": 1.599,
+          "preu": 1.589,
           "municipi": "Hospitalet de Llobregat (L')",
           "lat": 41.358306,
           "lon": 2.107944
@@ -428,16 +428,16 @@
     },
     "carrefour": {
       "nom": "Carrefour",
-      "g95": 1.6,
-      "dsl": 1.822,
+      "g95": 1.58,
+      "dsl": 1.801,
       "n": 17,
       "rang": {
         "g95": [
-          1.529,
-          1.659
+          1.509,
+          1.639
         ],
         "dsl": [
-          1.769,
+          1.739,
           1.859
         ]
       },
@@ -449,10 +449,10 @@
           "lon": 1.616917
         },
         "dsl": {
-          "preu": 1.749,
-          "municipi": "Igualada",
-          "lat": 41.590056,
-          "lon": 1.616917
+          "preu": 1.719,
+          "municipi": "Castelldefels",
+          "lat": 41.280639,
+          "lon": 1.985528
         }
       }
     },
@@ -475,8 +475,8 @@
         "g95": {
           "preu": 1.469,
           "municipi": "Igualada",
-          "lat": 41.576,
-          "lon": 1.61375
+          "lat": 41.589056,
+          "lon": 1.622333
         },
         "dsl": {
           "preu": 1.709,
@@ -488,58 +488,58 @@
     },
     "nieves": {
       "nom": "Nieves",
-      "g95": 1.518,
-      "dsl": 1.764,
+      "g95": 1.514,
+      "dsl": 1.759,
       "n": 15,
       "rang": {
         "g95": [
-          1.333,
+          1.29,
           1.644
         ],
         "dsl": [
-          1.621,
+          1.59,
           1.899
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.333,
+          "preu": 1.29,
           "municipi": "Olesa de Montserrat",
-          "lat": 41.541444,
-          "lon": 1.900222
+          "lat": 41.545472,
+          "lon": 1.882222
         },
         "dsl": {
-          "preu": 1.621,
+          "preu": 1.59,
           "municipi": "Olesa de Montserrat",
-          "lat": 41.541444,
-          "lon": 1.900222
+          "lat": 41.545472,
+          "lon": 1.882222
         }
       }
     },
     "petroprix": {
       "nom": "Petroprix",
-      "g95": 1.409,
-      "dsl": 1.66,
+      "g95": 1.379,
+      "dsl": 1.642,
       "n": 15,
       "rang": {
         "g95": [
-          1.369,
+          1.295,
           1.469
         ],
         "dsl": [
-          1.599,
-          1.719
+          1.595,
+          1.699
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.337,
-          "municipi": "Mollerussa",
-          "lat": 41.621556,
-          "lon": 0.890389
+          "preu": 1.279,
+          "municipi": "Castellar del Vallès",
+          "lat": 41.59925,
+          "lon": 2.086417
         },
         "dsl": {
-          "preu": 1.599,
+          "preu": 1.589,
           "municipi": "Castellar del Vallès",
           "lat": 41.59925,
           "lon": 2.086417
@@ -548,28 +548,28 @@
     },
     "petrolisind": {
       "nom": "Petrolis Independents",
-      "g95": 1.456,
-      "dsl": 1.704,
+      "g95": 1.416,
+      "dsl": 1.678,
       "n": 12,
       "rang": {
         "g95": [
-          1.338,
-          1.609
+          1.294,
+          1.599
         ],
         "dsl": [
-          1.625,
-          1.789
+          1.594,
+          1.799
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.335,
+          "preu": 1.292,
           "municipi": "Tàrrega",
           "lat": 41.651917,
           "lon": 1.149417
         },
         "dsl": {
-          "preu": 1.623,
+          "preu": 1.592,
           "municipi": "Tàrrega",
           "lat": 41.651917,
           "lon": 1.149417
@@ -578,28 +578,28 @@
     },
     "plenoil": {
       "nom": "Plenergy (Plenoil)",
-      "g95": 1.334,
-      "dsl": 1.625,
+      "g95": 1.309,
+      "dsl": 1.605,
       "n": 10,
       "rang": {
         "g95": [
-          1.299,
-          1.379
+          1.289,
+          1.359
         ],
         "dsl": [
-          1.599,
-          1.659
+          1.589,
+          1.639
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.299,
+          "preu": 1.279,
           "municipi": "Castellar del Vallès",
           "lat": 41.613889,
           "lon": 2.082944
         },
         "dsl": {
-          "preu": 1.599,
+          "preu": 1.589,
           "municipi": "Castellar del Vallès",
           "lat": 41.613889,
           "lon": 2.082944
@@ -608,13 +608,13 @@
     },
     "autonet": {
       "nom": "Autonet & Oil",
-      "g95": 1.492,
-      "dsl": 1.731,
+      "g95": 1.462,
+      "dsl": 1.715,
       "n": 9,
       "rang": {
         "g95": [
-          1.419,
-          1.549
+          1.409,
+          1.499
         ],
         "dsl": [
           1.689,
@@ -623,16 +623,16 @@
       },
       "barata": {
         "g95": {
-          "preu": 1.409,
-          "municipi": "Molins de Rei",
-          "lat": 41.395417,
-          "lon": 2.030139
+          "preu": 1.399,
+          "municipi": "Mataró",
+          "lat": 41.535694,
+          "lon": 2.429111
         },
         "dsl": {
-          "preu": 1.659,
-          "municipi": "Molins de Rei",
-          "lat": 41.395417,
-          "lon": 2.030139
+          "preu": 1.599,
+          "municipi": "Mataró",
+          "lat": 41.535694,
+          "lon": 2.429111
         }
       }
     },
@@ -668,28 +668,28 @@
     },
     "campsa": {
       "nom": "Campsa",
-      "g95": 1.572,
-      "dsl": 1.797,
+      "g95": 1.551,
+      "dsl": 1.789,
       "n": 9,
       "rang": {
         "g95": [
-          1.345,
-          1.749
+          1.315,
+          1.669
         ],
         "dsl": [
-          1.629,
-          1.919
+          1.655,
+          1.899
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.335,
+          "preu": 1.299,
           "municipi": "Gavà",
           "lat": 41.295167,
           "lon": 2.012306
         },
         "dsl": {
-          "preu": 1.625,
+          "preu": 1.599,
           "municipi": "Gavà",
           "lat": 41.295167,
           "lon": 2.012306
@@ -745,74 +745,74 @@
         "g95": {
           "preu": 1.299,
           "municipi": "Sarrià de Ter",
-          "lat": 42.020139,
-          "lon": 2.823472
+          "lat": 42.020111,
+          "lon": 2.8235
         },
         "dsl": {
           "preu": 1.599,
           "municipi": "Sarrià de Ter",
-          "lat": 42.020139,
-          "lon": 2.823472
+          "lat": 42.020111,
+          "lon": 2.8235
         }
       }
     },
     "gm-oil": {
       "nom": "GM Oil",
-      "g95": 1.4,
-      "dsl": 1.673,
+      "g95": 1.373,
+      "dsl": 1.648,
       "n": 7,
       "rang": {
         "g95": [
-          1.359,
-          1.449
-        ],
-        "dsl": [
-          1.649,
-          1.689
-        ]
-      },
-      "barata": {
-        "g95": {
-          "preu": 1.359,
-          "municipi": "Manresa",
-          "lat": 41.741111,
-          "lon": 1.844472
-        },
-        "dsl": {
-          "preu": 1.639,
-          "municipi": "Tarragona",
-          "lat": 41.115472,
-          "lon": 1.229361
-        }
-      }
-    },
-    "alcampo": {
-      "nom": "Alcampo",
-      "g95": 1.366,
-      "dsl": 1.653,
-      "n": 7,
-      "rang": {
-        "g95": [
-          1.319,
+          1.329,
           1.399
         ],
         "dsl": [
-          1.619,
+          1.609,
           1.689
         ]
       },
       "barata": {
         "g95": {
           "preu": 1.299,
-          "municipi": "Reus",
-          "lat": 41.145583,
-          "lon": 1.098806
+          "municipi": "Girona",
+          "lat": 41.9625,
+          "lon": 2.800278
         },
         "dsl": {
-          "preu": 1.618,
-          "municipi": "Sant Adrià de Besòs",
-          "lat": 41.427806,
-          "lon": 2.228556
+          "preu": 1.609,
+          "municipi": "Mataró",
+          "lat": 41.530333,
+          "lon": 2.423528
+        }
+      }
+    },
+    "alcampo": {
+      "nom": "Alcampo",
+      "g95": 1.346,
+      "dsl": 1.638,
+      "n": 7,
+      "rang": {
+        "g95": [
+          1.289,
+          1.399
+        ],
+        "dsl": [
+          1.595,
+          1.689
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.282,
+          "municipi": "Sant Boi de Llobregat",
+          "lat": 41.331556,
+          "lon": 2.054444
+        },
+        "dsl": {
+          "preu": 1.587,
+          "municipi": "Sant Boi de Llobregat",
+          "lat": 41.331556,
+          "lon": 2.054444
         }
       }
     },
@@ -878,73 +878,43 @@
     },
     "evolution": {
       "nom": "Evolution",
-      "g95": 1.462,
-      "dsl": 1.717,
+      "g95": 1.418,
+      "dsl": 1.696,
       "n": 5,
       "rang": {
         "g95": [
-          1.438,
+          1.378,
           1.518
         ],
         "dsl": [
-          1.697,
+          1.676,
           1.746
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.438,
+          "preu": 1.378,
+          "municipi": "Barcelona",
+          "lat": 41.397389,
+          "lon": 2.193083
+        },
+        "dsl": {
+          "preu": 1.676,
           "municipi": "Badalona",
           "lat": 41.436889,
           "lon": 2.238417
-        },
-        "dsl": {
-          "preu": 1.697,
-          "municipi": "Badalona",
-          "lat": 41.436889,
-          "lon": 2.238417
-        }
-      }
-    },
-    "benzoil": {
-      "nom": "Benzoil",
-      "g95": 1.499,
-      "dsl": 1.745,
-      "n": 5,
-      "rang": {
-        "g95": [
-          1.379,
-          1.709
-        ],
-        "dsl": [
-          1.669,
-          1.899
-        ]
-      },
-      "barata": {
-        "g95": {
-          "preu": 1.379,
-          "municipi": "Terrassa",
-          "lat": 41.551722,
-          "lon": 2.025361
-        },
-        "dsl": {
-          "preu": 1.669,
-          "municipi": "Terrassa",
-          "lat": 41.551722,
-          "lon": 2.025361
         }
       }
     },
     "petrolowcost": {
       "nom": "Petrolowcost",
-      "g95": 1.507,
+      "g95": 1.483,
       "dsl": 1.739,
       "n": 5,
       "rang": {
         "g95": [
-          1.479,
-          1.559
+          1.439,
+          1.549
         ],
         "dsl": [
           1.729,
@@ -953,7 +923,7 @@
       },
       "barata": {
         "g95": {
-          "preu": 1.479,
+          "preu": 1.439,
           "municipi": "Terrassa",
           "lat": 41.557472,
           "lon": 2.035333
@@ -966,30 +936,60 @@
         }
       }
     },
-    "avia": {
-      "nom": "Avia",
-      "g95": 1.531,
-      "dsl": 1.759,
+    "benzoil": {
+      "nom": "Benzoil",
+      "g95": 1.466,
+      "dsl": 1.726,
       "n": 5,
       "rang": {
         "g95": [
-          1.459,
-          1.629
+          1.374,
+          1.649
         ],
         "dsl": [
-          1.719,
+          1.664,
+          1.879
+        ]
+      },
+      "barata": {
+        "g95": {
+          "preu": 1.374,
+          "municipi": "Terrassa",
+          "lat": 41.551722,
+          "lon": 2.025361
+        },
+        "dsl": {
+          "preu": 1.664,
+          "municipi": "Terrassa",
+          "lat": 41.551722,
+          "lon": 2.025361
+        }
+      }
+    },
+    "avia": {
+      "nom": "Avia",
+      "g95": 1.509,
+      "dsl": 1.749,
+      "n": 5,
+      "rang": {
+        "g95": [
+          1.419,
+          1.599
+        ],
+        "dsl": [
+          1.699,
           1.849
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.459,
+          "preu": 1.419,
           "municipi": "Manresa",
           "lat": 41.724111,
           "lon": 1.849
         },
         "dsl": {
-          "preu": 1.719,
+          "preu": 1.699,
           "municipi": "Manresa",
           "lat": 41.724111,
           "lon": 1.849
@@ -1059,7 +1059,7 @@
     "oilprix": {
       "nom": "Oilprix",
       "g95": 1.458,
-      "dsl": 1.724,
+      "dsl": 1.728,
       "n": 4,
       "rang": {
         "g95": [
@@ -1088,28 +1088,28 @@
     },
     "zona-diesel": {
       "nom": "Zona Diesel",
-      "g95": 1.456,
-      "dsl": 1.694,
+      "g95": 1.431,
+      "dsl": 1.679,
       "n": 4,
       "rang": {
         "g95": [
-          1.349,
+          1.299,
           1.539
         ],
         "dsl": [
-          1.639,
+          1.619,
           1.739
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.349,
+          "preu": 1.299,
           "municipi": "Vic",
           "lat": 41.947278,
           "lon": 2.271167
         },
         "dsl": {
-          "preu": 1.639,
+          "preu": 1.619,
           "municipi": "Vic",
           "lat": 41.947278,
           "lon": 2.271167
@@ -1118,17 +1118,17 @@
     },
     "icor-energia": {
       "nom": "Icor Energia",
-      "g95": 1.469,
-      "dsl": 1.739,
+      "g95": 1.459,
+      "dsl": 1.774,
       "n": 4,
       "rang": {
         "g95": [
           1.429,
-          1.509
+          1.479
         ],
         "dsl": [
-          1.739,
-          1.739
+          1.749,
+          1.789
         ]
       },
       "barata": {
@@ -1139,10 +1139,10 @@
           "lon": 1.236056
         },
         "dsl": {
-          "preu": 1.739,
-          "municipi": "Alcover",
-          "lat": 41.256167,
-          "lon": 1.169056
+          "preu": 1.749,
+          "municipi": "Valls",
+          "lat": 41.274528,
+          "lon": 1.236056
         }
       }
     },
@@ -1178,17 +1178,17 @@
     },
     "confort-auto": {
       "nom": "Confort Auto",
-      "g95": 1.615,
-      "dsl": 1.772,
+      "g95": 1.605,
+      "dsl": 1.765,
       "n": 3,
       "rang": {
         "g95": [
           1.544,
-          1.679
+          1.658
         ],
         "dsl": [
           1.688,
-          1.838
+          1.828
         ]
       },
       "barata": {
@@ -1238,28 +1238,28 @@
     },
     "sorligo": {
       "nom": "Sorligo",
-      "g95": 1.452,
-      "dsl": 1.704,
+      "g95": 1.444,
+      "dsl": 1.693,
       "n": 3,
       "rang": {
         "g95": [
-          1.439,
-          1.459
+          1.427,
+          1.453
         ],
         "dsl": [
-          1.693,
-          1.709
+          1.682,
+          1.699
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.439,
+          "preu": 1.427,
           "municipi": "Granollers",
           "lat": 41.569806,
           "lon": 2.268639
         },
         "dsl": {
-          "preu": 1.693,
+          "preu": 1.682,
           "municipi": "Granollers",
           "lat": 41.569806,
           "lon": 2.268639
@@ -1269,7 +1269,7 @@
     "vilalta": {
       "nom": "Vilalta",
       "g95": 1.594,
-      "dsl": 1.739,
+      "dsl": 1.722,
       "n": 3,
       "rang": {
         "g95": [
@@ -1277,7 +1277,7 @@
           1.689
         ],
         "dsl": [
-          1.719,
+          1.699,
           1.759
         ]
       },
@@ -1289,7 +1289,7 @@
           "lon": 1.698917
         },
         "dsl": {
-          "preu": 1.719,
+          "preu": 1.699,
           "municipi": "Reus",
           "lat": 41.144333,
           "lon": 1.107444
@@ -1298,58 +1298,58 @@
     },
     "vilacarburants": {
       "nom": "Vilacarburants",
-      "g95": 1.469,
-      "dsl": 1.731,
+      "g95": 1.4,
+      "dsl": 1.693,
       "n": 3,
       "rang": {
         "g95": [
-          1.439,
-          1.498
+          1.365,
+          1.47
         ],
         "dsl": [
-          1.699,
-          1.758
+          1.66,
+          1.76
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.439,
-          "municipi": "Sant Fost de Campsentelles",
-          "lat": 41.530333,
-          "lon": 2.221806
+          "preu": 1.365,
+          "municipi": "Lliçà de Vall",
+          "lat": 41.5735,
+          "lon": 2.211
         },
         "dsl": {
-          "preu": 1.699,
-          "municipi": "Sant Fost de Campsentelles",
-          "lat": 41.530333,
-          "lon": 2.221806
+          "preu": 1.66,
+          "municipi": "Lliçà de Vall",
+          "lat": 41.5735,
+          "lon": 2.211
         }
       }
     },
     "feixas-aulet": {
       "nom": "Feixas Aulet",
-      "g95": 1.379,
-      "dsl": 1.672,
+      "g95": 1.332,
+      "dsl": 1.652,
       "n": 3,
       "rang": {
         "g95": [
-          1.359,
-          1.419
+          1.319,
+          1.359
         ],
         "dsl": [
-          1.649,
-          1.719
+          1.639,
+          1.679
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.359,
+          "preu": 1.319,
           "municipi": "Manlleu",
           "lat": 42.004306,
           "lon": 2.296472
         },
         "dsl": {
-          "preu": 1.649,
+          "preu": 1.639,
           "municipi": "Manlleu",
           "lat": 42.004306,
           "lon": 2.296472
@@ -1388,28 +1388,28 @@
     },
     "pandora-energy": {
       "nom": "Pandora Energy",
-      "g95": 1.375,
-      "dsl": 1.665,
+      "g95": 1.355,
+      "dsl": 1.652,
       "n": 3,
       "rang": {
         "g95": [
-          1.328,
+          1.288,
           1.399
         ],
         "dsl": [
-          1.598,
+          1.588,
           1.699
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.328,
+          "preu": 1.288,
           "municipi": "Pallejà",
           "lat": 41.433194,
           "lon": 1.994139
         },
         "dsl": {
-          "preu": 1.598,
+          "preu": 1.588,
           "municipi": "Pallejà",
           "lat": 41.433194,
           "lon": 1.994139
@@ -1418,77 +1418,77 @@
     },
     "supeco": {
       "nom": "Supeco",
-      "g95": 1.406,
-      "dsl": 1.699,
+      "g95": 1.372,
+      "dsl": 1.676,
       "n": 3,
       "rang": {
         "g95": [
-          1.379,
-          1.439
+          1.349,
+          1.399
         ],
         "dsl": [
-          1.669,
-          1.739
+          1.639,
+          1.729
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.379,
-          "municipi": "Terrassa",
-          "lat": 41.579944,
-          "lon": 2.035
+          "preu": 1.349,
+          "municipi": "Vic",
+          "lat": 41.929611,
+          "lon": 2.266389
         },
         "dsl": {
-          "preu": 1.669,
-          "municipi": "Terrassa",
-          "lat": 41.579944,
-          "lon": 2.035
+          "preu": 1.639,
+          "municipi": "Vic",
+          "lat": 41.929611,
+          "lon": 2.266389
         }
       }
     },
     "valcarce": {
       "nom": "Valcarce",
-      "g95": 1.716,
-      "dsl": 1.929,
+      "g95": 1.666,
+      "dsl": 1.892,
       "n": 3,
       "rang": {
         "g95": [
-          1.669,
-          1.739
+          1.659,
+          1.669
         ],
         "dsl": [
-          1.909,
-          1.939
+          1.889,
+          1.899
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.669,
+          "preu": 1.659,
           "municipi": "Jonquera (La)",
           "lat": 42.400556,
           "lon": 2.878639
         },
         "dsl": {
-          "preu": 1.909,
-          "municipi": "Jonquera (La)",
-          "lat": 42.400556,
-          "lon": 2.878639
+          "preu": 1.889,
+          "municipi": "Alfés",
+          "lat": 41.541306,
+          "lon": 0.639222
         }
       }
     },
     "petrolis": {
       "nom": "Petrolis",
-      "g95": 1.574,
-      "dsl": 1.796,
+      "g95": 1.576,
+      "dsl": 1.791,
       "n": 3,
       "rang": {
         "g95": [
           1.459,
-          1.665
+          1.669
         ],
         "dsl": [
           1.699,
-          1.889
+          1.875
         ]
       },
       "barata": {
@@ -1539,7 +1539,7 @@
     "arrossaires": {
       "nom": "Arrossaires",
       "g95": 1.393,
-      "dsl": 1.624,
+      "dsl": 1.594,
       "n": 3,
       "rang": {
         "g95": [
@@ -1547,8 +1547,8 @@
           1.393
         ],
         "dsl": [
-          1.624,
-          1.624
+          1.594,
+          1.594
         ]
       },
       "barata": {
@@ -1559,7 +1559,7 @@
           "lon": 0.722667
         },
         "dsl": {
-          "preu": 1.624,
+          "preu": 1.594,
           "municipi": "Camarles",
           "lat": 40.768167,
           "lon": 0.663861
