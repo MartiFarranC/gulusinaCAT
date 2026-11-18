@@ -1,7 +1,7 @@
 {
-  "fecha": "18/11/2026 03:46:17",
+  "fecha": "18/11/2026 14:34:00",
   "catalunya": {
-    "g95": 1.421,
+    "g95": 1.42,
     "dsl": 1.643,
     "n": 54
   },
@@ -188,28 +188,28 @@
     },
     "altres": {
       "nom": "Independents i altres",
-      "g95": 1.459,
-      "dsl": 1.659,
+      "g95": 1.446,
+      "dsl": 1.656,
       "n": 3,
       "rang": {
         "g95": [
-          1.423,
+          1.409,
           1.505
         ],
         "dsl": [
-          1.639,
+          1.629,
           1.698
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.423,
-          "municipi": "Sant Julià de Lòria",
-          "lat": 42.4551,
-          "lon": 1.48636
+          "preu": 1.409,
+          "municipi": "Andorra la Vella",
+          "lat": 42.50502,
+          "lon": 1.51526
         },
         "dsl": {
-          "preu": 1.639,
+          "preu": 1.629,
           "municipi": "Andorra la Vella",
           "lat": 42.50502,
           "lon": 1.51526
