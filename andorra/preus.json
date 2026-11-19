@@ -1,8 +1,8 @@
 {
-  "fecha": "19/11/2026 03:19:50",
+  "fecha": "19/11/2026 15:00:54",
   "catalunya": {
-    "g95": 1.417,
-    "dsl": 1.641,
+    "g95": 1.396,
+    "dsl": 1.629,
     "n": 54
   },
   "marques": {
@@ -38,58 +38,58 @@
     },
     "bp": {
       "nom": "BP",
-      "g95": 1.421,
-      "dsl": 1.641,
+      "g95": 1.394,
+      "dsl": 1.627,
       "n": 12,
       "rang": {
         "g95": [
-          1.415,
-          1.423
+          1.382,
+          1.415
         ],
         "dsl": [
-          1.635,
-          1.643
+          1.622,
+          1.635
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.415,
-          "municipi": "Canillo",
-          "lat": 42.57958,
-          "lon": 1.64006
+          "preu": 1.382,
+          "municipi": "Santa Coloma",
+          "lat": 42.49899,
+          "lon": 1.50557
         },
         "dsl": {
-          "preu": 1.635,
-          "municipi": "Canillo",
-          "lat": 42.57958,
-          "lon": 1.64006
+          "preu": 1.622,
+          "municipi": "Santa Coloma",
+          "lat": 42.49899,
+          "lon": 1.50557
         }
       }
     },
     "elf": {
       "nom": "Elf (Dyneff)",
-      "g95": 1.423,
-      "dsl": 1.641,
+      "g95": 1.382,
+      "dsl": 1.618,
       "n": 8,
       "rang": {
         "g95": [
-          1.423,
-          1.423
+          1.382,
+          1.382
         ],
         "dsl": [
-          1.641,
-          1.641
+          1.618,
+          1.618
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.423,
+          "preu": 1.382,
           "municipi": "Santa Coloma",
           "lat": 42.49621,
           "lon": 1.49994
         },
         "dsl": {
-          "preu": 1.641,
+          "preu": 1.618,
           "municipi": "Santa Coloma",
           "lat": 42.49621,
           "lon": 1.49994
@@ -98,28 +98,28 @@
     },
     "moeve": {
       "nom": "Moeve (Cepsa)",
-      "g95": 1.423,
-      "dsl": 1.641,
+      "g95": 1.382,
+      "dsl": 1.618,
       "n": 7,
       "rang": {
         "g95": [
-          1.423,
-          1.423
+          1.382,
+          1.382
         ],
         "dsl": [
-          1.641,
-          1.641
+          1.618,
+          1.618
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.423,
+          "preu": 1.382,
           "municipi": "Santa Coloma",
           "lat": 42.49624,
           "lon": 1.50662
         },
         "dsl": {
-          "preu": 1.641,
+          "preu": 1.618,
           "municipi": "Santa Coloma",
           "lat": 42.49624,
           "lon": 1.50662
@@ -128,28 +128,28 @@
     },
     "repsol": {
       "nom": "Repsol",
-      "g95": 1.415,
-      "dsl": 1.644,
+      "g95": 1.381,
+      "dsl": 1.617,
       "n": 5,
       "rang": {
         "g95": [
-          1.415,
-          1.415
+          1.381,
+          1.381
         ],
         "dsl": [
-          1.644,
-          1.644
+          1.617,
+          1.617
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.415,
+          "preu": 1.381,
           "municipi": "Encamp",
           "lat": 42.53349,
           "lon": 1.58471
         },
         "dsl": {
-          "preu": 1.644,
+          "preu": 1.617,
           "municipi": "Encamp",
           "lat": 42.53349,
           "lon": 1.58471
@@ -188,31 +188,31 @@
     },
     "altres": {
       "nom": "Independents i altres",
-      "g95": 1.439,
-      "dsl": 1.652,
+      "g95": 1.425,
+      "dsl": 1.644,
       "n": 3,
       "rang": {
         "g95": [
-          1.409,
+          1.382,
           1.484
         ],
         "dsl": [
-          1.629,
+          1.618,
           1.685
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.409,
-          "municipi": "Andorra la Vella",
-          "lat": 42.50502,
-          "lon": 1.51526
+          "preu": 1.382,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.4551,
+          "lon": 1.48636
         },
         "dsl": {
-          "preu": 1.629,
-          "municipi": "Andorra la Vella",
-          "lat": 42.50502,
-          "lon": 1.51526
+          "preu": 1.618,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.4551,
+          "lon": 1.48636
         }
       }
     }
