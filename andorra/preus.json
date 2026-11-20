@@ -1,8 +1,8 @@
 {
-  "fecha": "20/11/2026 03:04:29",
+  "fecha": "20/11/2026 14:43:29",
   "catalunya": {
-    "g95": 1.387,
-    "dsl": 1.622,
+    "g95": 1.383,
+    "dsl": 1.62,
     "n": 54
   },
   "marques": {
@@ -38,31 +38,31 @@
     },
     "bp": {
       "nom": "BP",
-      "g95": 1.394,
-      "dsl": 1.627,
+      "g95": 1.38,
+      "dsl": 1.62,
       "n": 12,
       "rang": {
         "g95": [
-          1.382,
-          1.415
+          1.375,
+          1.382
         ],
         "dsl": [
-          1.622,
-          1.635
+          1.615,
+          1.622
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.382,
-          "municipi": "Santa Coloma",
-          "lat": 42.49899,
-          "lon": 1.50557
+          "preu": 1.375,
+          "municipi": "Canillo",
+          "lat": 42.57958,
+          "lon": 1.64006
         },
         "dsl": {
-          "preu": 1.622,
-          "municipi": "Santa Coloma",
-          "lat": 42.49899,
-          "lon": 1.50557
+          "preu": 1.615,
+          "municipi": "Canillo",
+          "lat": 42.57958,
+          "lon": 1.64006
         }
       }
     },
@@ -188,31 +188,31 @@
     },
     "altres": {
       "nom": "Independents i altres",
-      "g95": 1.425,
-      "dsl": 1.644,
+      "g95": 1.412,
+      "dsl": 1.634,
       "n": 3,
       "rang": {
         "g95": [
-          1.382,
+          1.369,
           1.484
         ],
         "dsl": [
-          1.618,
+          1.599,
           1.685
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.382,
-          "municipi": "Sant Julià de Lòria",
-          "lat": 42.4551,
-          "lon": 1.48636
+          "preu": 1.369,
+          "municipi": "Andorra la Vella",
+          "lat": 42.50502,
+          "lon": 1.51526
         },
         "dsl": {
-          "preu": 1.618,
-          "municipi": "Sant Julià de Lòria",
-          "lat": 42.4551,
-          "lon": 1.48636
+          "preu": 1.599,
+          "municipi": "Andorra la Vella",
+          "lat": 42.50502,
+          "lon": 1.51526
         }
       }
     }
