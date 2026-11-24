@@ -63,6 +63,7 @@ const mapa = new Mapa(estat);
 const diposit = new CalculadoraDelDiposit(estat, {
   cotxe: llegeixElCotxe(magatzem),
   desa: (cotxe) => desaElCotxe(magatzem, cotxe),
+  ubica: () => ubicaLesMesBarates(),
 });
 
 /** @param {Marca} marca */
@@ -77,7 +78,7 @@ function tendenciaDe(marca) {
   return tendencia({ id: marca.id, preu: preuDe(estat, marca) }, context);
 }
 
-/** Demana el GPS per trobar la benzinera més propera de les marques més barates. */
+/** Demana el GPS per trobar la benzinera més propera (de les marques més barates i per a la calculadora). */
 async function ubicaLesMesBarates() {
   estat.peticioDelGps = "buscant";
   pinta();

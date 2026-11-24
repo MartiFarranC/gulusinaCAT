@@ -14,6 +14,7 @@ import { NOM_DEL_COMBUSTIBLE } from "./estat.js";
  * @typedef {object} AccionsDeLaCalculadora
  * @property {DadesDesadesDelCotxe} cotxe Dades desades l'última vegada.
  * @property {(cotxe: DadesDesadesDelCotxe) => void} desa
+ * @property {() => Promise<void>} ubica Demana la ubicació del GPS.
  */
 
 /**
@@ -72,11 +73,22 @@ export class CalculadoraDelDiposit {
     });
   }
 
-  /** Porta a la calculadora i deixa el cursor a l'autonomia, que és el que canvia cada vegada. */
+  /**
+   * Porta a la calculadora i deixa el cursor a l'autonomia, que és el que canvia cada vegada.
+   * Si encara no se sap on ets, ho demana per triar la benzinera més propera.
+   */
   enfoca() {
     const moviment = this.estat.movimentReduit ? "auto" : "smooth";
     perId("dipositSec").scrollIntoView({ behavior: moviment, block: "start" });
     this.km.focus({ preventScroll: true });
+    if (!this.estat.ubicacio && this.estat.peticioDelGps !== "buscant") void this.ubica();
+  }
+
+  async ubica() {
+    const ubicacio = this.accions.ubica();
+    this.calcula();
+    await ubicacio;
+    this.pinta();
   }
 
   desaElCotxe() {
@@ -125,10 +137,20 @@ export class CalculadoraDelDiposit {
   benzineraTriada() {
     const estacio = this.cercador.triada;
     if (!this.estat.estacions) return this.avisa("Encara no hi ha les dades de cada benzinera.");
-    if (!estacio) return this.avisa("Busca i tria la benzinera on ets.");
+    if (!estacio) return this.avisa(this.textSenseBenzinera());
     if (this.preu(estacio)) return estacio;
     const combustible = NOM_DEL_COMBUSTIBLE[this.estat.combustible].toLowerCase();
     return this.avisa(`${estacio.nom} de ${estacio.mun} no té ${combustible}. Tria'n una altra.`);
+  }
+
+  /** @returns {string} Què cal fer mentre no hi ha cap benzinera triada. */
+  textSenseBenzinera() {
+    const { peticioDelGps } = this.estat;
+    if (peticioDelGps === "buscant") return "Buscant la benzinera més propera a on ets…";
+    if (peticioDelGps === "fallada") {
+      return "No s'ha pogut saber on ets. Busca i tria la benzinera on ets.";
+    }
+    return "Busca i tria la benzinera on ets.";
   }
 
   calcula() {

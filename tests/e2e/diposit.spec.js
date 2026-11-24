@@ -79,4 +79,27 @@ test.describe("quant hi he de posar", () => {
     await expect(page.locator("#dConsum")).toHaveValue("5.5");
     await expect(page.locator("#dDiposit")).toHaveValue("42");
   });
+
+  test("el botó «Quant hi poso?» tria la benzinera més propera d'on ets", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["geolocation"]);
+    await context.setGeolocation({ latitude: 41.156, longitude: 1.108 });
+
+    await page.getByRole("link", { name: "Quant hi poso?" }).click();
+    await page.locator("#dKm").fill("100");
+
+    await expect(page.locator("#dTriada")).toContainText("Repsol · Reus");
+    await expect(page.locator("#dEuros")).toHaveText("65 €");
+  });
+
+  test("si no pot saber on ets, ho diu i deixa buscar la benzinera", async ({ page }) => {
+    await page.getByRole("link", { name: "Quant hi poso?" }).click();
+    await page.locator("#dKm").fill("100");
+
+    await expect(page.locator("#dAvis")).toHaveText(
+      "No s'ha pogut saber on ets. Busca i tria la benzinera on ets.",
+    );
+  });
 });

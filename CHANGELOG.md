@@ -51,6 +51,8 @@ projecte fa servir [Semantic Versioning](https://semver.org/lang/ca/).
 
 ### Canviat
 
+- El botó «Quant hi poso?» (i la drecera de l'app) demana on ets si encara no se sap i
+  tria directament la benzinera més propera a la calculadora.
 - En entrar només es veu la gota que s'omple fins que han arribat totes les dades
   (preus, benzineres i històrics); llavors apareix la pàgina sencera, ja pintada.
   Si alguna dada triga més de 20 segons, es mostra igualment i la resta arriba després.
