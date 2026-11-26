@@ -1,35 +1,35 @@
 {
-  "fecha": "26/11/2026 04:24:36",
+  "fecha": "26/11/2026 15:35:53",
   "catalunya": {
-    "g95": 1.372,
-    "dsl": 1.61,
+    "g95": 1.342,
+    "dsl": 1.578,
     "n": 54
   },
   "marques": {
     "totalenergies": {
       "nom": "TotalEnergies",
-      "g95": 1.383,
-      "dsl": 1.62,
+      "g95": 1.342,
+      "dsl": 1.575,
       "n": 15,
       "rang": {
         "g95": [
-          1.383,
-          1.383
+          1.342,
+          1.342
         ],
         "dsl": [
-          1.62,
-          1.62
+          1.575,
+          1.575
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.383,
+          "preu": 1.342,
           "municipi": "Sant Julià de Lòria",
           "lat": 42.47681,
           "lon": 1.4908
         },
         "dsl": {
-          "preu": 1.62,
+          "preu": 1.575,
           "municipi": "Sant Julià de Lòria",
           "lat": 42.47681,
           "lon": 1.4908
@@ -38,58 +38,58 @@
     },
     "bp": {
       "nom": "BP",
-      "g95": 1.35,
-      "dsl": 1.59,
+      "g95": 1.337,
+      "dsl": 1.577,
       "n": 12,
       "rang": {
         "g95": [
-          1.337,
-          1.375
+          1.335,
+          1.337
         ],
         "dsl": [
-          1.577,
-          1.615
+          1.575,
+          1.577
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.337,
-          "municipi": "Santa Coloma",
-          "lat": 42.49899,
-          "lon": 1.50557
+          "preu": 1.335,
+          "municipi": "Canillo",
+          "lat": 42.57958,
+          "lon": 1.64006
         },
         "dsl": {
-          "preu": 1.577,
-          "municipi": "Santa Coloma",
-          "lat": 42.49899,
-          "lon": 1.50557
+          "preu": 1.575,
+          "municipi": "Canillo",
+          "lat": 42.57958,
+          "lon": 1.64006
         }
       }
     },
     "elf": {
       "nom": "Elf (Dyneff)",
-      "g95": 1.382,
-      "dsl": 1.618,
+      "g95": 1.34,
+      "dsl": 1.577,
       "n": 8,
       "rang": {
         "g95": [
-          1.382,
-          1.382
+          1.34,
+          1.34
         ],
         "dsl": [
-          1.618,
-          1.618
+          1.577,
+          1.577
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.382,
+          "preu": 1.34,
           "municipi": "Santa Coloma",
           "lat": 42.49621,
           "lon": 1.49994
         },
         "dsl": {
-          "preu": 1.618,
+          "preu": 1.577,
           "municipi": "Santa Coloma",
           "lat": 42.49621,
           "lon": 1.49994
@@ -98,28 +98,28 @@
     },
     "moeve": {
       "nom": "Moeve (Cepsa)",
-      "g95": 1.382,
-      "dsl": 1.618,
+      "g95": 1.34,
+      "dsl": 1.577,
       "n": 7,
       "rang": {
         "g95": [
-          1.382,
-          1.382
+          1.34,
+          1.34
         ],
         "dsl": [
-          1.618,
-          1.618
+          1.577,
+          1.577
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.382,
+          "preu": 1.34,
           "municipi": "Santa Coloma",
           "lat": 42.49624,
           "lon": 1.50662
         },
         "dsl": {
-          "preu": 1.618,
+          "preu": 1.577,
           "municipi": "Santa Coloma",
           "lat": 42.49624,
           "lon": 1.50662
@@ -128,28 +128,28 @@
     },
     "repsol": {
       "nom": "Repsol",
-      "g95": 1.381,
-      "dsl": 1.617,
+      "g95": 1.336,
+      "dsl": 1.576,
       "n": 5,
       "rang": {
         "g95": [
-          1.381,
-          1.381
+          1.336,
+          1.336
         ],
         "dsl": [
-          1.617,
-          1.617
+          1.576,
+          1.576
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.381,
+          "preu": 1.336,
           "municipi": "Encamp",
           "lat": 42.53349,
           "lon": 1.58471
         },
         "dsl": {
-          "preu": 1.617,
+          "preu": 1.576,
           "municipi": "Encamp",
           "lat": 42.53349,
           "lon": 1.58471
@@ -188,31 +188,31 @@
     },
     "altres": {
       "nom": "Independents i altres",
-      "g95": 1.395,
-      "dsl": 1.628,
+      "g95": 1.381,
+      "dsl": 1.615,
       "n": 3,
       "rang": {
         "g95": [
-          1.369,
+          1.34,
           1.435
         ],
         "dsl": [
-          1.599,
+          1.577,
           1.668
         ]
       },
       "barata": {
         "g95": {
-          "preu": 1.369,
-          "municipi": "Andorra la Vella",
-          "lat": 42.50502,
-          "lon": 1.51526
+          "preu": 1.34,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.4551,
+          "lon": 1.48636
         },
         "dsl": {
-          "preu": 1.599,
-          "municipi": "Andorra la Vella",
-          "lat": 42.50502,
-          "lon": 1.51526
+          "preu": 1.577,
+          "municipi": "Sant Julià de Lòria",
+          "lat": 42.4551,
+          "lon": 1.48636
         }
       }
     }
